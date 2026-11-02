@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#07164b">
 <title>SCANTY MD BOT — Pair Your Device</title>
+
 <style>
 *{box-sizing:border-box}
 :root{color-scheme:dark}
@@ -48,7 +50,6 @@ h2{margin:0 0 8px}
 }
 .mode small{display:block;color:#a9bce5;font-size:15px;font-weight:500;margin-top:8px}
 .mode.active{border:3px solid #258aff;box-shadow:0 0 0 5px rgba(37,138,255,.15),0 0 24px rgba(37,138,255,.28)}
-.mode:disabled{opacity:.48;cursor:not-allowed}
 label{display:block;font-weight:800;font-size:16px;margin:0 0 10px}
 input{
   width:100%;padding:19px 18px;border-radius:20px;
@@ -86,6 +87,18 @@ table{width:100%;border-collapse:collapse;min-width:420px}
 th,td{text-align:left;padding:12px 8px;border-bottom:1px solid rgba(154,181,255,.2);font-size:13px}
 .table-wrap{overflow-x:auto}
 .note{font-size:13px;line-height:1.5;color:#9fb4df;margin-top:18px}
+.qr-box{
+  margin-top:20px;padding:22px 15px;text-align:center;
+  border-radius:20px;border:1px solid rgba(63,155,255,.55);
+  background:rgba(3,15,54,.7)
+}
+#qrCode{
+  display:flex;justify-content:center;align-items:center;
+  min-height:260px;margin:18px auto;padding:12px;
+  background:#fff;border-radius:12px;width:fit-content;max-width:100%
+}
+#qrCode img,#qrCode canvas{display:block;max-width:100%;height:auto}
+.qr-status{min-height:25px;color:#c7d9ff;line-height:1.5;margin:12px 0}
 @media(max-width:550px){
   body{padding:12px 10px 32px}.container{margin:8px auto}
   .card{padding:22px 19px;border-radius:25px}
@@ -95,8 +108,10 @@ th,td{text-align:left;padding:12px 8px;border-bottom:1px solid rgba(154,181,255,
 }
 </style>
 </head>
+
 <body>
 <div class="container">
+
   <header class="card brand">
     <h1>SCANTY <span class="accent">MD BOT</span></h1>
     <p class="muted">WhatsApp Automation Platform</p>
@@ -113,37 +128,83 @@ th,td{text-align:left;padding:12px 8px;border-bottom:1px solid rgba(154,181,255,
   </section>
 
   <section id="pairingArea" class="hidden">
+
     <div class="card hero">
       <div class="hero-copy">
         <div class="eyebrow">WhatsApp</div>
         <h2>Pair your device</h2>
-        <p>Use a one-time pairing code to link your WhatsApp account to SCANTY MD BOT.</p>
+        <p>Connect your WhatsApp account to SCANTY MD BOT using a QR code or a one-time pairing code.</p>
       </div>
     </div>
 
     <div class="card">
       <h2>Connect your device</h2>
       <p class="subtitle">Choose how you want to link WhatsApp</p>
+
       <div class="mode-tabs">
-        <button class="mode" disabled title="QR connection is not configured yet">
-          QR Code<small>Not available yet</small>
+        <button id="qrModeButton" class="mode" type="button" onclick="selectPairingMode('qr')">
+          QR Code
+          <small>Scan with WhatsApp</small>
         </button>
-        <button class="mode active" type="button">
-          Pairing Code<small>One-time code</small>
+
+        <button id="phoneModeButton" class="mode active" type="button" onclick="selectPairingMode('phone')">
+          Pairing Code
+          <small>One-time code</small>
         </button>
       </div>
-      <label for="phoneNumber">Phone number (with country code, digits only)</label>
-      <input id="phoneNumber" type="tel" inputmode="numeric" autocomplete="tel"
-        placeholder="e.g. 233XXXXXXXXX" maxlength="15">
-      <button id="pairButton" class="primary" onclick="connectWhatsApp()">🔑 Generate pairing code</button>
-      <p id="pairMessage" class="muted" role="status" aria-live="polite"></p>
-      <div id="pairCodeBox" class="code-box hidden">
-        <span class="muted">YOUR WHATSAPP PAIRING CODE</span>
-        <strong id="pairCode"></strong>
-        <button class="secondary" onclick="copyPairingCode()">Copy pairing code</button>
-        <p class="note">Open WhatsApp on your phone → Linked devices → Link a device → Link with phone number instead. Enter the code shown above.</p>
+
+      <!-- PHONE NUMBER PAIRING -->
+      <div id="phonePanel">
+        <label for="phoneNumber">Phone number (with country code, digits only)</label>
+        <input id="phoneNumber" type="tel" inputmode="numeric" autocomplete="tel"
+          placeholder="e.g. 233XXXXXXXXX" maxlength="15">
+
+        <button id="pairButton" class="primary" onclick="connectWhatsApp()">
+          🔑 Generate pairing code
+        </button>
+
+        <p id="pairMessage" class="muted" role="status" aria-live="polite"></p>
+
+        <div id="pairCodeBox" class="code-box hidden">
+          <span class="muted">YOUR WHATSAPP PAIRING CODE</span>
+          <strong id="pairCode"></strong>
+          <button class="secondary" onclick="copyPairingCode()">Copy pairing code</button>
+          <p class="note">
+            Open WhatsApp on your phone → Linked devices → Link a device →
+            Link with phone number instead. Enter the code shown above.
+          </p>
+        </div>
       </div>
-      <p class="note">Only connect a WhatsApp account that you own or are authorized to use. Baileys is an unofficial WhatsApp Web library; WhatsApp may restrict accounts using unofficial clients.</p>
+
+      <!-- QR CODE PAIRING -->
+      <div id="qrPanel" class="hidden">
+        <p class="muted">
+          Generate a QR code and scan it using WhatsApp on the phone you want to connect.
+        </p>
+
+        <button id="qrButton" class="primary" onclick="startQrPairing()">
+          📷 Generate WhatsApp QR Code
+        </button>
+
+        <p id="qrStatus" class="qr-status" role="status" aria-live="polite">
+          Tap the button to generate your QR code.
+        </p>
+
+        <div id="qrBox" class="qr-box hidden">
+          <span class="muted">SCAN THIS QR CODE WITH WHATSAPP</span>
+          <div id="qrCode"></div>
+          <p class="note">
+            On your phone, open WhatsApp → Settings → Linked devices →
+            Link a device. Scan the QR code above.
+          </p>
+        </div>
+      </div>
+
+      <p class="note">
+        Only connect a WhatsApp account that you own or are authorized to use.
+        Baileys is an unofficial WhatsApp Web library; WhatsApp may restrict
+        accounts using unofficial clients.
+      </p>
     </div>
 
     <div class="card">
@@ -163,6 +224,7 @@ th,td{text-align:left;padding:12px 8px;border-bottom:1px solid rgba(154,181,255,
       <button class="primary" onclick="logout()">Logout</button>
       <p id="adminMessage" class="muted"></p>
     </div>
+
     <div class="card">
       <h2>Platform Statistics</h2>
       <div class="stats">
@@ -171,6 +233,7 @@ th,td{text-align:left;padding:12px 8px;border-bottom:1px solid rgba(154,181,255,
         <div class="stat"><strong id="totalAdmins">—</strong><span>Administrators</span></div>
       </div>
     </div>
+
     <div class="card">
       <h2>Registered Users</h2>
       <div class="table-wrap">
@@ -181,12 +244,22 @@ th,td{text-align:left;padding:12px 8px;border-bottom:1px solid rgba(154,181,255,
       </div>
     </div>
   </section>
+
 </div>
+
+<!-- QR rendering library. The QR contents are rendered locally in the browser. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <script>
 const API = 'https://scanty-md-bot.onrender.com';
 const $ = id => document.getElementById(id);
+
 let token = sessionStorage.getItem('scanty_token');
+
+let qrPollTimer = null;
+let qrStartedAt = 0;
+let lastQrValue = '';
+let qrPolling = false;
 
 async function api(path, options = {}) {
   const response = await fetch(API + path, {
@@ -197,40 +270,66 @@ async function api(path, options = {}) {
       ...(options.headers || {})
     }
   });
+
   const data = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(data.error || 'Request failed');
+
+  if (!response.ok) {
+    const error = new Error(data.error || 'Request failed');
+    error.status = response.status;
+    throw error;
+  }
+
   return data;
 }
 
+/* AUTHENTICATION */
+
 async function login() {
   $('message').textContent = 'Logging in...';
+
   try {
     const data = await api('/api/auth/login', {
       method: 'POST',
-      body: JSON.stringify({ email: $('email').value.trim(), password: $('password').value })
+      body: JSON.stringify({
+        email: $('email').value.trim(),
+        password: $('password').value
+      })
     });
+
     token = data.token;
     sessionStorage.setItem('scanty_token', token);
     await loadAccount();
-  } catch (error) { $('message').textContent = error.message; }
+
+  } catch (error) {
+    $('message').textContent = error.message;
+  }
 }
 
 async function register() {
   $('message').textContent = 'Creating account...';
+
   try {
     const data = await api('/api/auth/register', {
       method: 'POST',
-      body: JSON.stringify({ email: $('email').value.trim(), password: $('password').value })
+      body: JSON.stringify({
+        email: $('email').value.trim(),
+        password: $('password').value
+      })
     });
+
     token = data.token;
     sessionStorage.setItem('scanty_token', token);
     await loadAccount();
-  } catch (error) { $('message').textContent = error.message; }
+
+  } catch (error) {
+    $('message').textContent = error.message;
+  }
 }
 
 async function loadAccount() {
   try {
     const data = await api('/api/auth/me');
+
     $('auth').classList.add('hidden');
     $('pairingArea').classList.remove('hidden');
     $('userEmail').textContent = data.user.email;
@@ -240,22 +339,40 @@ async function loadAccount() {
       $('adminEmail').textContent = data.user.email;
       await loadAdmin();
     }
+
   } catch (error) {
     logout();
     $('message').textContent = error.message;
   }
 }
 
+/* PAIRING MODE TABS */
+
+function selectPairingMode(mode) {
+  const qrSelected = mode === 'qr';
+
+  $('qrModeButton').classList.toggle('active', qrSelected);
+  $('phoneModeButton').classList.toggle('active', !qrSelected);
+
+  $('qrPanel').classList.toggle('hidden', !qrSelected);
+  $('phonePanel').classList.toggle('hidden', qrSelected);
+}
+
+/* PHONE NUMBER PAIRING — EXISTING FUNCTION */
+
 async function connectWhatsApp() {
   const phoneNumber = $('phoneNumber').value.replace(/\D/g, '');
+
   if (!/^\d{10,15}$/.test(phoneNumber)) {
-    $('pairMessage').textContent = 'Enter a valid phone number with country code, using 10–15 digits.';
+    $('pairMessage').textContent =
+      'Enter a valid phone number with country code, using 10–15 digits.';
     return;
   }
 
   const button = $('pairButton');
   button.disabled = true;
   button.textContent = 'Generating pairing code...';
+
   $('pairMessage').textContent = 'Contacting your WhatsApp session...';
   $('pairCodeBox').classList.add('hidden');
   $('pairCode').textContent = '';
@@ -265,12 +382,19 @@ async function connectWhatsApp() {
       method: 'POST',
       body: JSON.stringify({ phoneNumber })
     });
-    if (!data.pairingCode) throw new Error(data.error || 'The server did not return a pairing code.');
+
+    if (!data.pairingCode) {
+      throw new Error(data.error || 'The server did not return a pairing code.');
+    }
+
     $('pairCode').textContent = data.pairingCode;
     $('pairCodeBox').classList.remove('hidden');
-    $('pairMessage').textContent = data.message || 'Pairing code generated. Enter it in WhatsApp Linked devices.';
+    $('pairMessage').textContent =
+      data.message || 'Pairing code generated. Enter it in WhatsApp Linked devices.';
+
   } catch (error) {
     $('pairMessage').textContent = error.message;
+
   } finally {
     button.disabled = false;
     button.textContent = '🔑 Generate pairing code';
@@ -280,23 +404,168 @@ async function connectWhatsApp() {
 async function copyPairingCode() {
   const code = $('pairCode').textContent;
   if (!code) return;
+
   try {
     await navigator.clipboard.writeText(code);
     $('pairMessage').textContent = 'Pairing code copied.';
+
   } catch {
     $('pairMessage').textContent = 'Select the code and copy it manually.';
   }
 }
 
+/* QR CODE PAIRING */
+
+function stopQrPolling() {
+  if (qrPollTimer) {
+    clearTimeout(qrPollTimer);
+    qrPollTimer = null;
+  }
+
+  qrPolling = false;
+}
+
+function clearQrDisplay() {
+  $('qrCode').replaceChildren();
+  $('qrBox').classList.add('hidden');
+  lastQrValue = '';
+}
+
+function renderQrCode(qrValue) {
+  if (!qrValue || qrValue === lastQrValue) return;
+
+  if (typeof QRCode === 'undefined') {
+    throw new Error('QR generator could not load. Refresh the page and try again.');
+  }
+
+  $('qrCode').replaceChildren();
+
+  new QRCode($('qrCode'), {
+    text: qrValue,
+    width: 240,
+    height: 240,
+    colorDark: '#07164b',
+    colorLight: '#ffffff',
+    correctLevel: QRCode.CorrectLevel.M
+  });
+
+  lastQrValue = qrValue;
+  $('qrBox').classList.remove('hidden');
+}
+
+async function startQrPairing() {
+  stopQrPolling();
+  clearQrDisplay();
+
+  const button = $('qrButton');
+  button.disabled = true;
+  button.textContent = 'Starting WhatsApp session...';
+
+  $('qrStatus').textContent = 'Starting your QR session. Please wait...';
+
+  qrStartedAt = Date.now();
+
+  try {
+    await api('/api/whatsapp/qr', {
+      method: 'POST',
+      body: JSON.stringify({})
+    });
+
+    $('qrStatus').textContent =
+      'WhatsApp session started. Waiting for your QR code...';
+
+    qrPolling = true;
+    pollQrStatus();
+
+  } catch (error) {
+    $('qrStatus').textContent = 'QR pairing error: ' + error.message;
+    button.disabled = false;
+    button.textContent = '📷 Try QR Pairing Again';
+  }
+}
+
+async function pollQrStatus() {
+  if (!qrPolling || !token) return;
+
+  try {
+    const data = await api('/api/whatsapp/qr');
+
+    const status = String(data.status || '').toLowerCase();
+
+    if (data.qr && status !== 'connected') {
+      renderQrCode(data.qr);
+      $('qrStatus').textContent =
+        'QR code ready. Open WhatsApp → Linked devices → Link a device and scan it.';
+    }
+
+    if (status === 'connected') {
+      stopQrPolling();
+      clearQrDisplay();
+
+      $('qrStatus').textContent = '✅ WhatsApp connected successfully!';
+      $('qrButton').disabled = false;
+      $('qrButton').textContent = '📷 Generate Another QR Code';
+      return;
+    }
+
+    if (status === 'disconnected') {
+      const elapsed = Date.now() - qrStartedAt;
+
+      if (elapsed > 15000) {
+        stopQrPolling();
+        clearQrDisplay();
+
+        $('qrStatus').textContent =
+          'WhatsApp session disconnected. Please try generating a new QR code.';
+
+        $('qrButton').disabled = false;
+        $('qrButton').textContent = '📷 Try QR Pairing Again';
+        return;
+      }
+    }
+
+    if (Date.now() - qrStartedAt > 120000) {
+      stopQrPolling();
+
+      $('qrStatus').textContent =
+        'QR request timed out. Please generate a new QR code.';
+
+      $('qrButton').disabled = false;
+      $('qrButton').textContent = '📷 Try QR Pairing Again';
+      return;
+    }
+
+    qrPollTimer = setTimeout(pollQrStatus, 1500);
+
+  } catch (error) {
+    stopQrPolling();
+
+    $('qrStatus').textContent = 'QR pairing error: ' + error.message;
+    $('qrButton').disabled = false;
+    $('qrButton').textContent = '📷 Try QR Pairing Again';
+
+    if (error.status === 401 || error.status === 403) {
+      $('qrStatus').textContent =
+        'Your login session has expired. Please log in again.';
+    }
+  }
+}
+
+/* ADMIN DASHBOARD */
+
 async function loadAdmin() {
   $('adminMessage').textContent = 'Loading administrator data...';
+
   try {
     const [statsData, usersData] = await Promise.all([
-      api('/api/admin/stats'), api('/api/admin/users')
+      api('/api/admin/stats'),
+      api('/api/admin/users')
     ]);
+
     $('totalUsers').textContent = statsData.stats.total_users;
     $('totalMembers').textContent = statsData.stats.total_members;
     $('totalAdmins').textContent = statsData.stats.total_admins;
+
     const table = $('usersTable');
     table.replaceChildren();
 
@@ -309,22 +578,41 @@ async function loadAdmin() {
 
     usersData.users.forEach(user => {
       const row = table.insertRow();
-      [user.email, user.role, new Date(user.created_at).toLocaleDateString()].forEach(value => {
+
+      [
+        user.email,
+        user.role,
+        new Date(user.created_at).toLocaleDateString()
+      ].forEach(value => {
         const cell = row.insertCell();
         cell.textContent = value ?? '';
       });
     });
+
     $('adminMessage').textContent = 'Dashboard updated successfully.';
-  } catch (error) { $('adminMessage').textContent = error.message; }
+
+  } catch (error) {
+    $('adminMessage').textContent = error.message;
+  }
 }
 
+/* LOGOUT */
+
 function logout() {
+  stopQrPolling();
+  clearQrDisplay();
+
   sessionStorage.removeItem('scanty_token');
   token = null;
+
   location.reload();
 }
 
-if (token) loadAccount();
+/* RESTORE LOGIN SESSION */
+
+if (token) {
+  loadAccount();
+}
 </script>
 </body>
 </html>
