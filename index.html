@@ -1,134 +1,275 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#09090d">
-  <title>SCANTY MD BOT</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#09090d">
+<title>SCANTY MD BOT — Dashboard</title>
 
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: #09090d;
-      color: white;
-      font-family: Arial, sans-serif;
-      display: grid;
-      place-items: center;
-      padding: 20px;
-    }
-    .card {
-      width: 100%;
-      max-width: 420px;
-      padding: 30px;
-      background: #15151d;
-      border: 1px solid #292936;
-      border-radius: 18px;
-    }
-    h1 { text-align: center; letter-spacing: 2px; }
-    .accent { color: #ff3155; }
-    p { color: #aaa; text-align: center; }
-    input, button {
-      width: 100%;
-      padding: 15px;
-      margin-top: 14px;
-      border-radius: 9px;
-      font-size: 16px;
-    }
-    input {
-      background: #09090d;
-      border: 1px solid #353541;
-      color: white;
-    }
-    button {
-      border: 0;
-      background: #ff3155;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .secondary { background: #292936; }
-    #message { min-height: 24px; font-size: 14px; }
-    #dashboard { display: none; }
-  </style>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;background:#09090d;color:#fff;
+  font-family:Arial,sans-serif;padding:20px
+}
+.container{max-width:1000px;margin:30px auto}
+.card{
+  background:#15151d;border:1px solid #30303c;
+  border-radius:18px;padding:25px;margin-bottom:20px
+}
+h1{text-align:center;letter-spacing:2px}
+.accent{color:#ff3155}
+h2{margin-top:0}
+input{
+  width:100%;padding:15px;margin:10px 0;
+  border-radius:9px;background:#09090d;
+  border:1px solid #444;color:white;font-size:16px
+}
+button{
+  border:0;border-radius:9px;padding:14px;
+  background:#ff3155;color:white;
+  font-size:15px;font-weight:bold;cursor:pointer
+}
+.full{width:100%;margin-top:10px}
+.secondary{background:#30303c}
+.stats{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:12px
+}
+.stat{
+  background:#22222d;padding:20px;
+  border-radius:12px;text-align:center
+}
+.stat strong{display:block;font-size:27px;color:#ff3155}
+.stat span{font-size:13px;color:#bbb}
+.hidden{display:none}
+table{width:100%;border-collapse:collapse}
+th,td{
+  text-align:left;padding:12px 8px;
+  border-bottom:1px solid #383844;font-size:13px
+}
+.table-wrap{overflow-x:auto}
+#message{color:#ff758d;text-align:center;min-height:22px}
+.muted{color:#aaa}
+@media(max-width:550px){
+  .stats{grid-template-columns:1fr}
+  .card{padding:19px}
+}
+</style>
 </head>
 
 <body>
-  <main class="card">
-    <h1>SCANTY <span class="accent">MD BOT</span></h1>
-    <p>Your personal WhatsApp bot dashboard</p>
+<div class="container">
 
-    <section id="auth">
-      <input id="email" type="email" placeholder="Email address">
-      <input id="password" type="password" placeholder="Password">
+<header class="card">
+  <h1>SCANTY <span class="accent">MD BOT</span></h1>
+  <p class="muted" style="text-align:center">
+    WhatsApp Automation Platform
+  </p>
+</header>
 
-      <button onclick="register()">Create Account</button>
-      <button class="secondary" onclick="login()">Login</button>
-      <p id="message"></p>
-    </section>
+<section id="auth" class="card">
+  <h2>Welcome Back</h2>
+  <input id="email" type="email" placeholder="Email address">
+  <input id="password" type="password" placeholder="Password">
+  <button class="full" onclick="login()">Login</button>
+  <button class="full secondary" onclick="register()">Create Account</button>
+  <p id="message"></p>
+</section>
 
-    <section id="dashboard">
-      <h2>Welcome!</h2>
-      <p id="account"></p>
-      <p>Your private dashboard is ready.</p>
-      <button class="secondary" onclick="logout()">Logout</button>
-    </section>
-  </main>
+<section id="userDashboard" class="hidden">
+  <div class="card">
+    <h2>My Dashboard</h2>
+    <p id="userEmail" class="muted"></p>
+    <p>Your personal SCANTY MD BOT account.</p>
+    <p>WhatsApp connection: <span class="accent">Not connected</span></p>
+    <p class="muted">WhatsApp pairing will be added in a later step.</p>
+    <button class="full" onclick="logout()">Logout</button>
+  </div>
+</section>
 
-  <script>
-    const API = 'https://scanty-md-bot.onrender.com';
+<section id="adminDashboard" class="hidden">
+  <div class="card">
+    <h2>Administrator Panel</h2>
+    <p id="adminEmail" class="muted"></p>
+    <p class="accent">Administrator access granted</p>
+    <button class="full secondary" onclick="loadAdmin()">Refresh Dashboard</button>
+    <button class="full" onclick="logout()">Logout</button>
+    <p id="adminMessage" class="muted"></p>
+  </div>
 
-    const message = document.getElementById('message');
+  <div class="card">
+    <h2>Platform Statistics</h2>
+    <div class="stats">
+      <div class="stat">
+        <strong id="totalUsers">—</strong>
+        <span>Total Accounts</span>
+      </div>
+      <div class="stat">
+        <strong id="totalMembers">—</strong>
+        <span>Normal Users</span>
+      </div>
+      <div class="stat">
+        <strong id="totalAdmins">—</strong>
+        <span>Administrators</span>
+      </div>
+    </div>
+  </div>
 
-    async function request(path, body) {
-      const response = await fetch(API + path, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
+  <div class="card">
+    <h2>Registered Users</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Joined</th>
+          </tr>
+        </thead>
+        <tbody id="usersTable">
+          <tr><td colspan="3">Loading users...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<script>
+const API = 'https://scanty-md-bot.onrender.com';
+
+const $ = id => document.getElementById(id);
+let token = sessionStorage.getItem('scanty_token');
+
+async function api(path, options = {}) {
+  const response = await fetch(API + path, {
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: 'Bearer ' + token } : {}),
+      ...(options.headers || {})
+    }
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.error || 'Request failed');
+  }
+
+  return data;
+}
+
+async function login() {
+  $('message').textContent = 'Logging in...';
+
+  try {
+    const data = await api('/api/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({
+        email: $('email').value,
+        password: $('password').value
+      })
+    });
+
+    token = data.token;
+    sessionStorage.setItem('scanty_token', token);
+    await loadAccount();
+  } catch (error) {
+    $('message').textContent = error.message;
+  }
+}
+
+async function register() {
+  $('message').textContent = 'Creating account...';
+
+  try {
+    const data = await api('/api/auth/register', {
+      method: 'POST',
+      body: JSON.stringify({
+        email: $('email').value,
+        password: $('password').value
+      })
+    });
+
+    token = data.token;
+    sessionStorage.setItem('scanty_token', token);
+    await loadAccount();
+  } catch (error) {
+    $('message').textContent = error.message;
+  }
+}
+
+async function loadAccount() {
+  try {
+    const data = await api('/api/auth/me');
+    $('auth').classList.add('hidden');
+
+    if (data.user.role === 'admin') {
+      $('adminDashboard').classList.remove('hidden');
+      $('adminEmail').textContent = data.user.email;
+      await loadAdmin();
+    } else {
+      $('userDashboard').classList.remove('hidden');
+      $('userEmail').textContent = data.user.email;
+    }
+  } catch (error) {
+    logout();
+    $('message').textContent = error.message;
+  }
+}
+
+async function loadAdmin() {
+  $('adminMessage').textContent = 'Loading administrator data...';
+
+  try {
+    const [statsData, usersData] = await Promise.all([
+      api('/api/admin/stats'),
+      api('/api/admin/users')
+    ]);
+
+    $('totalUsers').textContent = statsData.stats.total_users;
+    $('totalMembers').textContent = statsData.stats.total_members;
+    $('totalAdmins').textContent = statsData.stats.total_admins;
+
+    const table = $('usersTable');
+    table.replaceChildren();
+
+    if (!usersData.users.length) {
+      const row = table.insertRow();
+      const cell = row.insertCell();
+      cell.colSpan = 3;
+      cell.textContent = 'No users registered yet.';
+    }
+
+    usersData.users.forEach(user => {
+      const row = table.insertRow();
+
+      [user.email, user.role,
+       new Date(user.created_at).toLocaleDateString()
+      ].forEach(value => {
+        const cell = row.insertCell();
+        cell.textContent = value;
       });
+    });
 
-      const data = await response.json();
+    $('adminMessage').textContent = 'Dashboard updated successfully.';
+  } catch (error) {
+    $('adminMessage').textContent = error.message;
+  }
+}
 
-      if (!response.ok) throw new Error(data.error || 'Request failed');
+function logout() {
+  sessionStorage.removeItem('scanty_token');
+  token = null;
+  location.reload();
+}
 
-      return data;
-    }
-
-    async function register() {
-      await authenticate('/api/auth/register');
-    }
-
-    async function login() {
-      await authenticate('/api/auth/login');
-    }
-
-    async function authenticate(path) {
-      message.textContent = 'Please wait...';
-
-      try {
-        const data = await request(path, {
-          email: document.getElementById('email').value,
-          password: document.getElementById('password').value
-        });
-
-        sessionStorage.setItem('scanty_token', data.token);
-        showDashboard(data.user.email);
-      } catch (error) {
-        message.textContent = error.message;
-      }
-    }
-
-    function showDashboard(email) {
-      document.getElementById('auth').style.display = 'none';
-      document.getElementById('dashboard').style.display = 'block';
-      document.getElementById('account').textContent = email;
-    }
-
-    function logout() {
-      sessionStorage.removeItem('scanty_token');
-      location.reload();
-    }
-  </script>
+if (token) {
+  loadAccount();
+}
+</script>
 </body>
 </html>
