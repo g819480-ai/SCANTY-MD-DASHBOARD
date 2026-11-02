@@ -1,0 +1,9 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "scanty-md-dashboard",
+  "compatibility_date": "2026-11-02",
+  "assets": {
+    "directory": "./",
+    "binding": "ASSETS"
+  }
+}
