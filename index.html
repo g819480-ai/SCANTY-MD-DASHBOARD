@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -211,7 +210,19 @@ a{color:#8dc7ff}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
-const API = 'https://scanty-md-bot-4a229e21f038.herokuapp.com';
+const DEFAULT_API = 'https://scanty-md-bot-4a229e21f038.herokuapp.com';
+
+function getApiBase() {
+ const fromWindow = typeof window !== 'undefined' && window.SCANTY_API_URL;
+ const fromStorage = typeof localStorage !== 'undefined' ? localStorage.getItem('scanty_api_url') : null;
+ const fromQuery = new URLSearchParams(window.location.search).get('api');
+ const raw = fromWindow || fromStorage || fromQuery || DEFAULT_API;
+
+ if (!raw || typeof raw !== 'string') return DEFAULT_API;
+ return raw.trim().replace(/\/+$/, '');
+}
+
+const API = getApiBase();
 const $ = id => document.getElementById(id);
 const isAdminPage = location.pathname.replace(/\/+$/, '') === '/admin';
 
@@ -220,6 +231,22 @@ let adminToken = sessionStorage.getItem('scanty_admin_token');
 let qrPollTimer = null;
 let qrStartedAt = 0;
 let lastQrValue = '';
+
+function normalizeQrValue(value) {
+ if (!value) return '';
+
+ if (typeof value === 'string') return value.trim();
+ if (typeof value === 'object') {
+   if (typeof value.data === 'string' && value.data.trim()) return value.data.trim();
+   if (typeof value.qr === 'string' && value.qr.trim()) return value.qr.trim();
+   if (typeof value.toString === 'function' && value.toString() !== '[object Object]') {
+     const asString = value.toString().trim();
+     if (asString) return asString;
+   }
+ }
+
+ return String(value).trim();
+}
 
 async function request(path, options = {}, authToken = null) {
  const response = await fetch(API + path, {
@@ -230,12 +257,20 @@ async function request(path, options = {}, authToken = null) {
    ...(options.headers || {})
   }
  });
- const data = await response.json().catch(() => ({}));
+
+ let data = {};
+ try {
+  data = await response.json();
+ } catch {
+  data = {};
+ }
+
  if (!response.ok) {
   const error = new Error(data.error || 'Request failed.');
   error.status = response.status;
   throw error;
  }
+
  return data;
 }
 
@@ -243,7 +278,6 @@ async function request(path, options = {}, authToken = null) {
 async function ensureGuestSession() {
  if (guestToken) {
   try {
-   // Verify that the saved token is still valid.
    await request('/api/whatsapp/qr', {}, guestToken);
    $('sessionMessage').textContent = 'Your private pairing session is ready.';
    return;
@@ -342,19 +376,20 @@ function clearQrDisplay() {
 }
 
 function renderQr(qrValue) {
- if (!qrValue || qrValue === lastQrValue) return;
+ const normalized = normalizeQrValue(qrValue);
+ if (!normalized || normalized === lastQrValue) return;
  if (typeof QRCode === 'undefined') throw new Error('QR generator failed to load. Refresh and try again.');
 
  $('qrCode').replaceChildren();
  new QRCode($('qrCode'), {
-  text:qrValue,
+  text: normalized,
   width:240,
   height:240,
   colorDark:'#07164b',
   colorLight:'#ffffff',
   correctLevel:QRCode.CorrectLevel.M
  });
- lastQrValue = qrValue;
+ lastQrValue = normalized;
  $('qrBox').classList.remove('hidden');
 }
 
@@ -392,9 +427,10 @@ async function pollQrStatus() {
  try {
   const data = await request('/api/whatsapp/qr', {}, guestToken);
   const status = String(data.status || '').toLowerCase();
+  const qrValue = normalizeQrValue(data.qr);
 
-  if (data.qr && status !== 'connected') {
-   renderQr(data.qr);
+  if (qrValue && status !== 'connected') {
+   renderQr(qrValue);
    $('qrStatus').textContent = 'QR code ready. Scan it using WhatsApp → Linked devices → Link a device.';
   }
 
