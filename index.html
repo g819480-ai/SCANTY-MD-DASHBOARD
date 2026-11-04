@@ -13,864 +13,1043 @@
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-*{box-sizing:border-box}
-
-:root{
- color-scheme:dark;
- --black:#000000;
- --panel:#0c0c0f;
- --panel2:#160709;
- --red:#ff1e27;
- --deep:#800a0d;
- --cyan:#00d2ff;
- --blue:#005f87;
- --silver:#a7a9ac;
- --muted:#89939e;
- --mono:"Roboto Mono",monospace;
- --display:"Orbitron",monospace;
+:root {
+  color-scheme: dark;
+  --black:#000;
+  --panel:#09090c;
+  --red:#ff1e27;
+  --deep:#800a0d;
+  --cyan:#00d2ff;
+  --silver:#c4c8ce;
+  --muted:#89939e;
+  --mono:"Roboto Mono",monospace;
+  --display:"Orbitron",monospace;
 }
 
-html{
- min-height:100%;
- background:#000;
- scroll-behavior:smooth;
+* {box-sizing:border-box}
+
+html,body {
+  min-height:100%;
+  margin:0;
+  background:#000;
+  color:#f4f5f7;
+  font-family:var(--mono);
 }
 
-body{
- margin:0;
- min-height:100vh;
- padding:18px 13px 42px;
- color:#f4f5f7;
- font-family:var(--mono);
- letter-spacing:.025em;
- background:
-  linear-gradient(rgba(0,0,0,.65),rgba(0,0,0,.78)),
-  radial-gradient(ellipse at 50% 0%,rgba(128,10,13,.28),transparent 43%),
-  radial-gradient(ellipse at 92% 70%,rgba(0,95,135,.10),transparent 36%),
-  url("https://images.unsplash.com/photo-1485827404703-89b55fcc595e") center/cover fixed,
-  #000;
- overflow-x:hidden;
+body {
+  padding:18px 13px 42px;
+  letter-spacing:.025em;
+  overflow-x:hidden;
+  background:
+    radial-gradient(ellipse at 50% 0%,rgba(128,10,13,.25),transparent 45%),
+    radial-gradient(ellipse at 90% 75%,rgba(0,95,135,.10),transparent 35%),
+    #000;
 }
 
-body:before{
- content:"";
- position:fixed;
- inset:0;
- pointer-events:none;
- z-index:0;
- opacity:.025;
- background-image:
-  linear-gradient(rgba(0,210,255,.8) 1px,transparent 1px),
-  linear-gradient(90deg,rgba(0,210,255,.8) 1px,transparent 1px);
- background-size:44px 44px;
+body:before {
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  opacity:.025;
+  background-image:
+    linear-gradient(rgba(0,210,255,.8) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,210,255,.8) 1px,transparent 1px);
+  background-size:44px 44px;
 }
 
-body:after{
- content:"";
- position:fixed;
- inset:0;
- pointer-events:none;
- z-index:0;
- opacity:.18;
- background:
-  repeating-linear-gradient(
-   0deg,
-   transparent 0 3px,
-   rgba(255,255,255,.014) 4px
+body:after {
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  opacity:.12;
+  background:repeating-linear-gradient(
+    0deg,transparent 0 3px,rgba(255,255,255,.025) 4px
   );
 }
 
-.container{
- position:relative;
- z-index:1;
- width:100%;
- max-width:980px;
- margin:10px auto;
+.container {
+  position:relative;
+  z-index:1;
+  width:100%;
+  max-width:980px;
+  margin:10px auto;
 }
 
-.card{
- position:relative;
- isolation:isolate;
- overflow:hidden;
- margin:0 0 18px;
- padding:23px;
- background:linear-gradient(
-  145deg,
-  rgba(20,20,23,.96),
-  rgba(5,5,7,.97) 60%,
-  rgba(24,5,8,.96)
- );
- border:1px solid rgba(0,210,255,.23);
- border-radius:5px;
- box-shadow:
-  inset 0 1px 0 rgba(255,255,255,.07),
-  0 0 0 1px rgba(255,30,39,.07),
-  0 14px 42px rgba(0,0,0,.7),
-  0 0 22px rgba(128,10,13,.12);
- clip-path:polygon(
-  0 0,
-  calc(100% - 14px) 0,
-  100% 14px,
-  100% 100%,
-  14px 100%,
-  0 calc(100% - 14px)
- );
+.card {
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  margin:0 0 18px;
+  padding:23px;
+  background:linear-gradient(145deg,#171719,#050507 65%,#190608);
+  border:1px solid rgba(0,210,255,.23);
+  border-radius:5px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.07),
+    0 0 0 1px rgba(255,30,39,.07),
+    0 14px 42px rgba(0,0,0,.7),
+    0 0 22px rgba(128,10,13,.12);
+  clip-path:polygon(
+    0 0,calc(100% - 14px) 0,100% 14px,
+    100% 100%,14px 100%,0 calc(100% - 14px)
+  );
 }
 
-.card:before{
- content:"";
- position:absolute;
- inset:0;
- z-index:-1;
- pointer-events:none;
- border-top:1px solid rgba(255,30,39,.35);
- background:linear-gradient(
-  110deg,
-  rgba(255,30,39,.055),
-  transparent 28%,
-  transparent 72%,
-  rgba(0,210,255,.035)
- );
+.card:before {
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  border-top:1px solid rgba(255,30,39,.35);
+  background:linear-gradient(
+    110deg,rgba(255,30,39,.055),transparent 35%,
+    transparent 70%,rgba(0,210,255,.035)
+  );
 }
 
-.brand{
- text-align:center;
- padding:20px;
- border-color:rgba(255,30,39,.5);
- background:linear-gradient(
-  110deg,
-  rgba(8,8,9,.96),
-  rgba(22,7,9,.96) 50%,
-  rgba(8,9,11,.96)
- );
+.brand {
+  text-align:center;
+  padding:20px;
+  border-color:rgba(255,30,39,.5);
+  background:linear-gradient(110deg,#080809,#160709 50%,#08090b);
 }
 
-.brand h1{
- margin:0;
- font-family:var(--display);
- font-size:clamp(23px,4vw,34px);
- font-weight:900;
- letter-spacing:.17em;
- text-shadow:0 0 16px rgba(255,30,39,.5);
+.brand h1 {
+  margin:0;
+  font-family:var(--display);
+  font-size:clamp(23px,4vw,34px);
+  font-weight:900;
+  letter-spacing:.17em;
+  text-shadow:0 0 16px rgba(255,30,39,.5);
 }
 
-.brand p{
- margin:9px 0 0;
- font-size:10px;
- letter-spacing:.22em;
+.brand p {
+  margin:9px 0 0;
+  font-size:10px;
+  letter-spacing:.22em;
 }
 
-.accent{
- color:var(--red);
- text-shadow:0 0 12px rgba(255,30,39,.65);
+.accent {
+  color:var(--red);
+  text-shadow:0 0 12px rgba(255,30,39,.65);
 }
 
-.muted{color:var(--muted)}
+.muted {color:var(--muted)}
 
-h2{
- margin:0 0 12px;
- font-family:var(--display);
- font-size:16px;
- letter-spacing:.1em;
- text-transform:uppercase;
+h2 {
+  margin:0 0 12px;
+  font-family:var(--display);
+  font-size:16px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
 }
 
-.subtitle,.hero p{
- color:#aab2bd;
- line-height:1.7;
- font-size:13px;
+.subtitle,.hero p {
+  color:#aab2bd;
+  line-height:1.7;
+  font-size:13px;
 }
 
-.hero{padding:29px 25px}
+.hero {padding:29px 25px}
 
-.hero .eyebrow{
- color:var(--cyan);
- font-size:10px;
- font-weight:700;
- letter-spacing:.25em;
+.hero .eyebrow,.eyebrow {
+  color:var(--cyan);
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.25em;
 }
 
-.hero h2{
- margin:14px 0;
- font-size:clamp(24px,5vw,36px);
- text-shadow:0 0 18px rgba(255,30,39,.2);
+.hero h2 {
+  margin:14px 0;
+  font-size:clamp(24px,5vw,36px);
 }
 
-.hero p{max-width:720px}
+.hero p {max-width:720px}
 
-.mode-tabs{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:12px;
- margin:22px 0;
+.mode-tabs {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin:22px 0;
 }
 
-.mode{
- min-height:82px;
- padding:12px;
- border:1px solid rgba(0,210,255,.25);
- border-radius:3px;
- background:linear-gradient(135deg,#101216,#08090b);
- color:#f4f5f7;
- font:700 13px var(--mono);
- letter-spacing:.08em;
- transition:.18s;
+.mode {
+  min-height:82px;
+  padding:12px;
+  border:1px solid rgba(0,210,255,.25);
+  border-radius:3px;
+  background:linear-gradient(135deg,#101216,#08090b);
+  color:#f4f5f7;
+  font:700 13px var(--mono);
+  letter-spacing:.08em;
 }
 
-.mode small{
- display:block;
- margin-top:8px;
- color:#8c96a2;
- font-size:10px;
- font-weight:400;
+.mode small {
+  display:block;
+  margin-top:8px;
+  color:#8c96a2;
+  font-size:10px;
+  font-weight:400;
 }
 
-.mode:hover,.mode.active{
- border-color:var(--red);
- color:#ff646a;
- box-shadow:
-  inset 0 0 18px rgba(255,30,39,.1),
-  0 0 17px rgba(255,30,39,.2);
+.mode:hover,.mode.active {
+  border-color:var(--red);
+  color:#ff646a;
+  box-shadow:inset 0 0 18px rgba(255,30,39,.1),0 0 17px rgba(255,30,39,.2);
 }
 
-label{
- display:block;
- margin:0 0 10px;
- color:#c4ccd4;
- font-size:11px;
- font-weight:700;
- letter-spacing:.12em;
- text-transform:uppercase;
+label {
+  display:block;
+  margin:0 0 10px;
+  color:#c4ccd4;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.12em;
+  text-transform:uppercase;
 }
 
-input{
- width:100%;
- margin-bottom:14px;
- padding:14px;
- border:1px solid rgba(0,210,255,.25);
- border-radius:3px;
- outline:none;
- background:#050608;
- color:#fff;
- font:14px var(--mono);
+input {
+  width:100%;
+  margin-bottom:14px;
+  padding:14px;
+  border:1px solid rgba(0,210,255,.25);
+  border-radius:3px;
+  outline:none;
+  background:#050608;
+  color:#fff;
+  font:14px var(--mono);
 }
 
-input:focus{
- border-color:var(--red);
- box-shadow:0 0 14px rgba(255,30,39,.16);
+input:focus {
+  border-color:var(--red);
+  box-shadow:0 0 14px rgba(255,30,39,.16);
 }
 
-input::placeholder{color:#626b75}
+input::placeholder {color:#626b75}
 
-button{font-family:var(--mono);cursor:pointer}
-
-.primary{
- width:100%;
- margin-top:12px;
- padding:15px 12px;
- border:1px solid #ff4249;
- border-radius:3px;
- background:linear-gradient(
-  100deg,
-  #790b10,
-  #d3131c 58%,
-  #7c080d
- );
- box-shadow:
-  inset 0 1px 0 rgba(255,255,255,.16),
-  0 0 18px rgba(255,30,39,.18);
- color:#fff;
- font-size:12px;
- font-weight:700;
- letter-spacing:.14em;
- text-transform:uppercase;
- transition:.18s;
+button {
+  font-family:var(--mono);
+  cursor:pointer;
 }
 
-.primary:hover{
- filter:brightness(1.18);
- box-shadow:0 0 22px rgba(255,30,39,.32);
+.primary {
+  width:100%;
+  margin-top:12px;
+  padding:15px 12px;
+  border:1px solid #ff4249;
+  border-radius:3px;
+  background:linear-gradient(100deg,#790b10,#d3131c 58%,#7c080d);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.16),0 0 18px rgba(255,30,39,.18);
+  color:#fff;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  transition:.18s;
 }
 
-.primary:disabled{
- opacity:.55;
- cursor:wait;
+.primary:hover {
+  filter:brightness(1.18);
+  box-shadow:0 0 22px rgba(255,30,39,.32);
 }
 
-.secondary{
- padding:11px 15px;
- border:1px solid rgba(0,210,255,.35);
- border-radius:3px;
- background:#071116;
- color:#bcefff;
- font-weight:700;
- letter-spacing:.07em;
+.primary:disabled {
+  opacity:.55;
+  cursor:wait;
 }
 
-.hidden{display:none!important}
-
-.message{
- min-height:23px;
- margin-top:13px;
- color:#b8dce5;
- font-size:11px;
- line-height:1.6;
+.secondary {
+  padding:11px 15px;
+  border:1px solid rgba(0,210,255,.35);
+  border-radius:3px;
+  background:#071116;
+  color:#bcefff;
+  font-weight:700;
+  letter-spacing:.07em;
 }
 
-.code-box,.qr-box{
- margin-top:18px;
- padding:19px;
- border:1px solid rgba(0,210,255,.42);
- border-radius:4px;
- background:linear-gradient(
-  145deg,
-  rgba(0,25,34,.55),
-  rgba(5,6,8,.92)
- );
- box-shadow:inset 0 0 22px rgba(0,210,255,.04);
- text-align:center;
+.hidden {display:none!important}
+
+.message {
+  min-height:23px;
+  margin-top:13px;
+  color:#b8dce5;
+  font-size:11px;
+  line-height:1.6;
 }
 
-.code-box strong{
- display:block;
- margin:14px 0;
- color:var(--red);
- font-size:30px;
- letter-spacing:6px;
- text-shadow:0 0 14px rgba(255,30,39,.5);
- overflow-wrap:anywhere;
+.code-box,.qr-box {
+  margin-top:18px;
+  padding:19px;
+  border:1px solid rgba(0,210,255,.42);
+  border-radius:4px;
+  background:linear-gradient(145deg,rgba(0,25,34,.55),rgba(5,6,8,.92));
+  text-align:center;
 }
 
-#qrCode{
- display:flex;
- justify-content:center;
- align-items:center;
- width:fit-content;
- max-width:100%;
- min-height:250px;
- margin:18px auto;
- padding:12px;
- border-radius:3px;
- background:#fff;
+.code-box strong {
+  display:block;
+  margin:14px 0;
+  color:var(--red);
+  font-size:30px;
+  letter-spacing:6px;
+  text-shadow:0 0 14px rgba(255,30,39,.5);
+  overflow-wrap:anywhere;
 }
 
-#qrCode img,#qrCode canvas{
- display:block;
- max-width:100%;
- height:auto;
+#qrCode {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  width:fit-content;
+  max-width:100%;
+  min-height:250px;
+  margin:18px auto;
+  padding:12px;
+  border-radius:3px;
+  background:#fff;
 }
 
-.note{
- margin-top:16px;
- color:#818b97;
- font-size:10px;
- line-height:1.7;
+#qrCode img,#qrCode canvas {
+  display:block;
+  max-width:100%;
+  height:auto;
 }
 
-.stats{
- display:grid;
- grid-template-columns:repeat(3,1fr);
- gap:10px;
+.note {
+  margin-top:16px;
+  color:#818b97;
+  font-size:10px;
+  line-height:1.7;
 }
 
-.stat{
- padding:16px 9px;
- border:1px solid rgba(255,30,39,.22);
- border-radius:3px;
- background:linear-gradient(
-  145deg,
-  rgba(22,8,10,.8),
-  rgba(4,7,10,.9)
- );
- text-align:center;
+.stats {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
 }
 
-.stat strong{
- display:block;
- color:var(--red);
- font-size:25px;
- text-shadow:0 0 12px rgba(255,30,39,.35);
+.stat {
+  padding:16px 9px;
+  border:1px solid rgba(255,30,39,.22);
+  border-radius:3px;
+  background:linear-gradient(145deg,rgba(22,8,10,.8),rgba(4,7,10,.9));
+  text-align:center;
 }
 
-.stat span{
- color:#9ca6b0;
- font-size:10px;
- letter-spacing:.12em;
- text-transform:uppercase;
+.stat strong {
+  display:block;
+  color:var(--red);
+  font-size:25px;
+  text-shadow:0 0 12px rgba(255,30,39,.35);
 }
 
-.table-wrap{overflow-x:auto}
-
-table{
- width:100%;
- min-width:380px;
- border-collapse:collapse;
+.stat span {
+  color:#9ca6b0;
+  font-size:10px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
 }
 
-th,td{
- padding:12px 8px;
- border-bottom:1px solid rgba(0,210,255,.14);
- font-size:11px;
- text-align:left;
+.table-wrap {overflow-x:auto}
+
+table {
+  width:100%;
+  min-width:380px;
+  border-collapse:collapse;
 }
 
-th{
- color:var(--cyan);
- letter-spacing:.1em;
- text-transform:uppercase;
+th,td {
+  padding:12px 8px;
+  border-bottom:1px solid rgba(0,210,255,.14);
+  font-size:11px;
+  text-align:left;
 }
 
-td{color:#c4cbd2}
-
-a{color:var(--cyan)}
-
-.core-orbit{
- position:relative;
- display:grid;
- place-items:center;
- width:184px;
- height:184px;
- margin:20px auto 4px;
- border:1px solid rgba(0,210,255,.28);
- border-radius:50%;
- background:radial-gradient(
-  circle,
-  rgba(128,10,13,.24),
-  rgba(0,0,0,.85) 62%
- );
- box-shadow:
-  0 0 22px rgba(255,30,39,.12),
-  inset 0 0 24px rgba(0,210,255,.08);
+th {
+  color:var(--cyan);
+  letter-spacing:.1em;
+  text-transform:uppercase;
 }
 
-.core-orbit:before,.core-orbit:after{
- position:absolute;
- inset:12px;
- border:1px dashed rgba(255,30,39,.5);
- border-radius:50%;
- content:"";
- animation:orbit 22s linear infinite;
+td {color:#c4cbd2}
+a {color:var(--cyan)}
+
+.live-dot {
+  display:inline-block;
+  width:6px;
+  height:6px;
+  margin-right:7px;
+  border-radius:50%;
+  background:#ff2730;
+  box-shadow:0 0 9px #ff2730;
+  animation:pulse 1.5s infinite;
 }
 
-.core-orbit:after{
- inset:28px;
- border:1px solid rgba(0,210,255,.32);
- animation-direction:reverse;
- animation-duration:15s;
+.hud-divider {
+  height:1px;
+  margin:18px 0;
+  background:linear-gradient(90deg,transparent,var(--red),var(--cyan),transparent);
+  opacity:.5;
 }
 
-.core-center{
- z-index:2;
- display:grid;
- place-items:center;
- width:74px;
- height:74px;
- border:1px solid var(--red);
- border-radius:50%;
- background:radial-gradient(circle,#2b080b,#050506 70%);
- box-shadow:0 0 24px rgba(255,30,39,.32);
- color:var(--red);
- font-family:var(--display);
- font-size:25px;
- font-weight:900;
- text-shadow:0 0 12px var(--red);
+/* ROBOT CORE */
+.robot-stage {
+  position:relative;
+  display:grid;
+  place-items:center;
+  width:270px;
+  height:270px;
+  max-width:100%;
+  margin:18px auto 0;
+  border:1px solid rgba(255,30,39,.35);
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(255,30,39,.13),transparent 68%);
+  box-shadow:0 0 35px rgba(255,30,39,.14),inset 0 0 25px rgba(0,210,255,.06);
 }
 
-.core-node{
- position:absolute;
- width:8px;
- height:8px;
- border-radius:50%;
- background:var(--cyan);
- box-shadow:0 0 12px var(--cyan);
+.robot-stage:before,.robot-stage:after {
+  content:"";
+  position:absolute;
+  inset:8px;
+  border:1px dashed rgba(255,30,39,.65);
+  border-radius:50%;
+  animation:spin 18s linear infinite;
 }
 
-.core-node.n1{top:18px;left:50%}
-.core-node.n2{
- top:50%;
- right:18px;
- background:var(--red);
- box-shadow:0 0 12px var(--red);
-}
-.core-node.n3{bottom:18px;left:50%}
-.core-node.n4{
- top:50%;
- left:18px;
- background:var(--red);
- box-shadow:0 0 12px var(--red);
+.robot-stage:after {
+  inset:23px;
+  border-color:rgba(0,210,255,.55);
+  animation-direction:reverse;
+  animation-duration:13s;
 }
 
-.core-readout{
- text-align:center;
- margin-top:12px;
- color:#8c9aa6;
- font-size:9px;
- letter-spacing:.2em;
+.robot {
+  position:relative;
+  width:148px;
+  height:170px;
+  z-index:2;
+  filter:drop-shadow(0 0 18px rgba(255,20,30,.35));
+  animation:robotFloat 4s ease-in-out infinite;
 }
 
-.live-dot{
- display:inline-block;
- width:6px;
- height:6px;
- margin-right:7px;
- border-radius:50%;
- background:#ff2730;
- box-shadow:0 0 9px #ff2730;
- animation:pulse 1.5s infinite;
+.robot-head {
+  position:absolute;
+  top:7px;
+  left:25px;
+  width:98px;
+  height:88px;
+  border:3px solid #ff4b50;
+  border-radius:28px 28px 20px 20px;
+  background:
+    linear-gradient(135deg,#ff7777 0%,#c20d18 25%,#69060b 65%,#ed2931 100%);
+  box-shadow:
+    inset 0 5px 8px rgba(255,255,255,.28),
+    inset 0 -8px 12px rgba(0,0,0,.55),
+    0 0 22px rgba(255,30,39,.55);
 }
 
-.hud-divider{
- height:1px;
- margin:18px 0;
- background:linear-gradient(
-  90deg,
-  transparent,
-  var(--red),
-  var(--cyan),
-  transparent
- );
- opacity:.5;
+.robot-head:before {
+  content:"";
+  position:absolute;
+  top:10px;
+  left:10px;
+  right:10px;
+  height:8px;
+  border-radius:10px;
+  background:linear-gradient(90deg,#777,#fff,#777);
+  opacity:.7;
 }
 
-@keyframes orbit{
- to{transform:rotate(360deg)}
+.robot-face {
+  position:absolute;
+  top:32px;
+  left:12px;
+  right:12px;
+  height:29px;
+  display:flex;
+  align-items:center;
+  justify-content:space-around;
+  border:1px solid rgba(255,255,255,.22);
+  border-radius:8px;
+  background:#160306;
+  box-shadow:inset 0 0 12px #000;
 }
 
-@keyframes pulse{
- 50%{opacity:.25;box-shadow:0 0 2px #ff2730}
+.robot-eye {
+  position:relative;
+  width:23px;
+  height:9px;
+  border-radius:50%;
+  background:#fff;
+  box-shadow:0 0 6px #fff,0 0 13px #ff1e27,0 0 24px #ff1e27;
+  animation:eyePulse .9s infinite alternate;
 }
 
-@media(max-width:550px){
- body{padding:10px 9px 30px}
- .card{padding:19px 16px}
- .hero{padding:24px 18px}
- .mode{font-size:11px}
- .stats{grid-template-columns:1fr}
- .core-orbit{width:160px;height:160px}
- .brand h1{letter-spacing:.11em}
+.robot-eye:after {
+  content:"";
+  position:absolute;
+  left:50%;
+  top:-9px;
+  width:2px;
+  height:27px;
+  background:#ffeff0;
+  box-shadow:0 0 8px #ff1e27,0 0 15px #ff1e27;
+  transform:rotate(30deg);
 }
 
-@media(prefers-reduced-motion:reduce){
- *,*:before,*:after{
-  animation-duration:.01ms!important;
-  animation-iteration-count:1!important;
-  scroll-behavior:auto!important;
- }
+.robot-jaw {
+  position:absolute;
+  bottom:7px;
+  left:30px;
+  width:34px;
+  height:10px;
+  border:1px solid #ff8a8d;
+  border-radius:2px 2px 8px 8px;
+  background:#30070a;
+}
+
+.robot-ear {
+  position:absolute;
+  top:32px;
+  width:15px;
+  height:30px;
+  border:2px solid #ff7377;
+  background:linear-gradient(90deg,#76070c,#e51c27);
+  box-shadow:0 0 10px rgba(255,30,39,.55);
+}
+
+.robot-ear.left {left:-13px}
+.robot-ear.right {right:-13px}
+
+.robot-neck {
+  position:absolute;
+  top:93px;
+  left:58px;
+  width:32px;
+  height:18px;
+  border-left:5px solid #b7bcc3;
+  border-right:5px solid #b7bcc3;
+  background:#4b090d;
+}
+
+.robot-body {
+  position:absolute;
+  left:13px;
+  bottom:0;
+  width:122px;
+  height:67px;
+  border:3px solid #e83a40;
+  border-radius:22px 22px 13px 13px;
+  background:linear-gradient(135deg,#f34b50,#8b080e 45%,#3b0508 80%,#db1a24);
+  box-shadow:
+    inset 0 5px 8px rgba(255,255,255,.2),
+    inset 0 -8px 12px rgba(0,0,0,.5),
+    0 0 18px rgba(255,30,39,.3);
+}
+
+.robot-core {
+  position:absolute;
+  top:14px;
+  left:43px;
+  width:30px;
+  height:30px;
+  border:3px solid #ffb3b5;
+  border-radius:50%;
+  background:radial-gradient(circle,#fff 0%,#ff5258 28%,#7b050a 70%);
+  box-shadow:0 0 9px #fff,0 0 19px #ff1e27,0 0 30px #ff1e27;
+  animation:corePulse 1.3s infinite alternate;
+}
+
+.robot-shoulder {
+  position:absolute;
+  top:8px;
+  width:17px;
+  height:34px;
+  border:2px solid #c7cbd0;
+  border-radius:8px;
+  background:linear-gradient(90deg,#555,#eee,#7b080d);
+}
+
+.robot-shoulder.left {left:-13px}
+.robot-shoulder.right {right:-13px}
+
+.lightning {
+  position:absolute;
+  z-index:3;
+  width:3px;
+  height:38px;
+  background:#fff;
+  opacity:0;
+  box-shadow:0 0 7px #fff,0 0 15px #ff1e27,0 0 24px #ff1e27;
+  animation:lightningFlash 2.2s infinite;
+}
+
+.lightning.one {top:48px;left:43px;transform:rotate(35deg)}
+.lightning.two {top:29px;right:40px;transform:rotate(-32deg);animation-delay:.7s}
+.lightning.three {bottom:40px;left:20px;transform:rotate(-25deg);animation-delay:1.2s}
+
+.robot-readout {
+  margin-top:12px;
+  text-align:center;
+  color:#aab2bd;
+  font-size:9px;
+  letter-spacing:.2em;
+}
+
+/* FULL SCREEN OPENING INTRO */
+#scantyIntro {
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at center,rgba(115,0,8,.3),transparent 42%),
+    #000;
+  transition:opacity .8s ease,visibility .8s ease;
+}
+
+#scantyIntro.hide {
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+
+.intro-grid {
+  position:absolute;
+  inset:0;
+  opacity:.13;
+  background-image:
+    linear-gradient(rgba(255,30,39,.4) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,30,39,.4) 1px,transparent 1px);
+  background-size:38px 38px;
+  mask-image:radial-gradient(circle,#000,transparent 75%);
+}
+
+.intro-flash {
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:#ff1e27;
+  opacity:0;
+  animation:introFlash 4s ease-out;
+}
+
+.intro-content {
+  position:relative;
+  z-index:2;
+  width:min(90%,520px);
+  text-align:center;
+}
+
+.intro-ring {
+  position:relative;
+  display:grid;
+  place-items:center;
+  width:220px;
+  height:220px;
+  margin:0 auto 30px;
+  border:2px solid rgba(255,30,39,.8);
+  border-radius:50%;
+  box-shadow:0 0 25px rgba(255,30,39,.35),inset 0 0 25px rgba(255,30,39,.14);
+  animation:introSpin 7s linear infinite;
+}
+
+.intro-ring:before,.intro-ring:after {
+  content:"";
+  position:absolute;
+  inset:13px;
+  border:1px dashed #ff454c;
+  border-radius:50%;
+  animation:introSpin 9s linear infinite reverse;
+}
+
+.intro-ring:after {
+  inset:28px;
+  border:1px solid rgba(0,210,255,.7);
+  animation-duration:5s;
+}
+
+.intro-logo {
+  position:relative;
+  z-index:2;
+  color:#ff3038;
+  font:900 70px var(--display);
+  text-shadow:0 0 12px #ff1e27,0 0 35px #ff1e27;
+  animation:logoPulse 1.2s infinite alternate;
+}
+
+.intro-title {
+  margin:0;
+  font:900 clamp(23px,6vw,38px) var(--display);
+  letter-spacing:.13em;
+  text-shadow:0 0 20px rgba(255,30,39,.65);
+}
+
+.intro-title span {color:#ff252e}
+
+.intro-subtitle {
+  margin:13px 0 24px;
+  color:#9aa4ae;
+  font-size:10px;
+  letter-spacing:.28em;
+}
+
+.intro-progress {
+  width:min(300px,85%);
+  height:4px;
+  margin:0 auto;
+  overflow:hidden;
+  background:#251014;
+  border:1px solid #671018;
+}
+
+.intro-progress span {
+  display:block;
+  width:0;
+  height:100%;
+  background:#ff1e27;
+  box-shadow:0 0 14px #ff1e27;
+  animation:bootProgress 3.3s ease forwards;
+}
+
+.intro-status {
+  margin-top:13px;
+  color:#ff646a;
+  font-size:9px;
+  letter-spacing:.2em;
+}
+
+@keyframes spin {to{transform:rotate(360deg)}}
+@keyframes pulse {
+  50% {opacity:.25;box-shadow:0 0 2px #ff2730}
+}
+@keyframes robotFloat {
+  0%,100% {transform:translateY(0)}
+  50% {transform:translateY(-7px)}
+}
+@keyframes eyePulse {
+  from {opacity:.7;box-shadow:0 0 5px #fff,0 0 12px #ff1e27}
+  to {opacity:1;box-shadow:0 0 10px #fff,0 0 25px #ff1e27}
+}
+@keyframes corePulse {
+  to {transform:scale(1.12);filter:brightness(1.5)}
+}
+@keyframes lightningFlash {
+  0%,80%,100% {opacity:0}
+  82%,86% {opacity:1}
+  84% {opacity:.2}
+}
+@keyframes introSpin {to{transform:rotate(360deg)}}
+@keyframes logoPulse {
+  to {filter:brightness(1.6);transform:scale(1.04)}
+}
+@keyframes bootProgress {to{width:100%}}
+@keyframes introFlash {
+  0%,15%,100% {opacity:0}
+  16% {opacity:.22}
+  18% {opacity:0}
+  55% {opacity:.08}
+  57% {opacity:0}
+}
+
+@media(max-width:550px) {
+  body {padding:10px 9px 30px}
+  .card {padding:19px 16px}
+  .hero {padding:24px 18px}
+  .mode {font-size:11px}
+  .stats {grid-template-columns:1fr}
+  .brand h1 {letter-spacing:.11em}
+  .robot-stage {width:235px;height:235px;transform:scale(.92)}
+}
+
+@media(prefers-reduced-motion:reduce) {
+  *,*:before,*:after {
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    scroll-behavior:auto!important;
+  }
 }
 </style>
 </head>
 
 <body>
+
+<!-- OPENING INTRO: VISUAL ANIMATION ONLY -->
+<div id="scantyIntro">
+  <div class="intro-grid"></div>
+  <div class="intro-flash"></div>
+
+  <div class="intro-content">
+    <div class="intro-ring">
+      <div class="intro-logo">S</div>
+    </div>
+
+    <h1 class="intro-title">SCANTY <span>MD BOT</span></h1>
+    <p class="intro-subtitle">ONYX COMMAND // ROBOTIC SYSTEM</p>
+
+    <div class="intro-progress"><span></span></div>
+    <div class="intro-status" id="introStatus">INITIALIZING COMMAND INTERFACE...</div>
+  </div>
+</div>
+
 <div class="container">
 
 <header class="card brand">
- <h1>SCANTY <span class="accent">MD BOT</span></h1>
- <p class="muted">
-  <span class="live-dot"></span>
-  TACTICAL WHATSAPP AUTOMATION SYSTEM
- </p>
+  <h1>SCANTY <span class="accent">MD BOT</span></h1>
+  <p class="muted">
+    <span class="live-dot"></span>
+    TACTICAL WHATSAPP AUTOMATION SYSTEM
+  </p>
 
- <div class="core-orbit" aria-label="SCANTY robotic command core">
-  <span class="core-node n1"></span>
-  <span class="core-node n2"></span>
-  <span class="core-node n3"></span>
-  <span class="core-node n4"></span>
-  <div class="core-center">N</div>
- </div>
+  <div class="robot-stage" aria-label="Red SCANTY robotic core">
+    <div class="robot">
+      <div class="robot-head">
+        <div class="robot-ear left"></div>
+        <div class="robot-ear right"></div>
+        <div class="robot-face">
+          <span class="robot-eye"></span>
+          <span class="robot-eye"></span>
+        </div>
+        <div class="robot-jaw"></div>
+      </div>
 
- <div class="core-readout">
-  SCANTY CORE // ONYX COMMAND INTERFACE
- </div>
+      <div class="robot-neck"></div>
+
+      <div class="robot-body">
+        <div class="robot-shoulder left"></div>
+        <div class="robot-shoulder right"></div>
+        <div class="robot-core"></div>
+      </div>
+
+      <i class="lightning one"></i>
+      <i class="lightning two"></i>
+      <i class="lightning three"></i>
+    </div>
+  </div>
+
+  <div class="robot-readout">
+    SCANTY CORE // RED ENERGY SYSTEM ONLINE
+  </div>
 </header>
 
 <main id="publicPage">
 
 <section class="card hero">
- <div class="eyebrow">
-  SYSTEM ACCESS // AUTHORIZED PAIRING
- </div>
+  <div class="eyebrow">SYSTEM ACCESS // AUTHORIZED PAIRING</div>
+  <h2>Connect your <span class="accent">WhatsApp</span></h2>
 
- <h2>Connect your <span class="accent">WhatsApp</span></h2>
+  <p>
+    Link your WhatsApp account using a QR code or a one-time pairing code.
+    Your private pairing session is isolated from other users.
+  </p>
 
- <p>
-  Link your WhatsApp account using a QR code or a one-time pairing code.
-  Your private pairing session is isolated from other users.
- </p>
+  <div class="hud-divider"></div>
 
- <div class="hud-divider"></div>
-
- <div class="core-readout">
-  <span class="live-dot"></span>
-  PAIRING GATEWAY STANDBY
- </div>
+  <div class="robot-readout">
+    <span class="live-dot"></span>
+    PAIRING GATEWAY STANDBY
+  </div>
 </section>
 
 <section class="card">
+  <h2>01 // Select connection protocol</h2>
 
- <h2>01 // Select connection protocol</h2>
+  <p class="subtitle">Choose your preferred pairing method.</p>
 
- <p class="subtitle">
-  Choose your preferred secure pairing method.
- </p>
+  <div class="mode-tabs">
+    <button id="qrModeButton" class="mode" type="button" onclick="selectMode('qr')">
+      QR CODE
+      <small>Optical device link</small>
+    </button>
 
- <div class="mode-tabs">
-  <button
-   id="qrModeButton"
-   class="mode"
-   type="button"
-   onclick="selectMode('qr')">
-   QR CODE
-   <small>Optical device link</small>
-  </button>
-
-  <button
-   id="phoneModeButton"
-   class="mode active"
-   type="button"
-   onclick="selectMode('phone')">
-   PAIRING CODE
-   <small>Phone-number link</small>
-  </button>
- </div>
-
- <div id="phonePanel">
-  <label for="phoneNumber">
-   Phone number with country code
-  </label>
-
-  <input
-   id="phoneNumber"
-   type="tel"
-   inputmode="numeric"
-   autocomplete="tel"
-   placeholder="Example: 233XXXXXXXXX"
-   maxlength="15">
-
-  <button
-   id="pairButton"
-   class="primary"
-   onclick="connectWhatsApp()">
-   Generate pairing code
-  </button>
-
-  <p
-   id="pairMessage"
-   class="message"
-   role="status"
-   aria-live="polite">
-  </p>
-
-  <div id="pairCodeBox" class="code-box hidden">
-   <span class="muted">YOUR WHATSAPP PAIRING CODE</span>
-
-   <strong id="pairCode"></strong>
-
-   <button
-    class="secondary"
-    onclick="copyPairingCode()">
-    Copy pairing code
-   </button>
-
-   <p class="note">
-    Open WhatsApp → Linked devices → Link a device →
-    Link with phone number instead. Enter the code above.
-   </p>
+    <button id="phoneModeButton" class="mode active" type="button" onclick="selectMode('phone')">
+      PAIRING CODE
+      <small>Phone-number link</small>
+    </button>
   </div>
- </div>
 
- <div id="qrPanel" class="hidden">
-  <p class="muted">
-   Generate a QR code and scan it using WhatsApp on the phone you want to connect.
-  </p>
+  <div id="phonePanel">
+    <label for="phoneNumber">Phone number with country code</label>
 
-  <button
-   id="qrButton"
-   class="primary"
-   onclick="startQrPairing()">
-   Generate WhatsApp QR code
-  </button>
+    <input
+      id="phoneNumber"
+      type="tel"
+      inputmode="numeric"
+      autocomplete="tel"
+      placeholder="Example: 233XXXXXXXXX"
+      maxlength="15">
 
-  <p
-   id="qrStatus"
-   class="message"
-   role="status"
-   aria-live="polite">
-   Tap the button to generate your QR code.
-  </p>
+    <button id="pairButton" class="primary" onclick="connectWhatsApp()">
+      Generate pairing code
+    </button>
 
-  <div id="qrBox" class="qr-box hidden">
-   <span class="muted">SCAN THIS QR CODE WITH WHATSAPP</span>
+    <p id="pairMessage" class="message" role="status" aria-live="polite"></p>
 
-   <div id="qrCode"></div>
+    <div id="pairCodeBox" class="code-box hidden">
+      <span class="muted">YOUR WHATSAPP PAIRING CODE</span>
+      <strong id="pairCode"></strong>
 
-   <p class="note">
-    Open WhatsApp → Settings → Linked devices →
-    Link a device. Scan the QR code.
-   </p>
+      <button class="secondary" onclick="copyPairingCode()">
+        Copy pairing code
+      </button>
+
+      <p class="note">
+        Open WhatsApp → Linked devices → Link a device →
+        Link with phone number instead. Enter the code above.
+      </p>
+    </div>
   </div>
- </div>
 
- <p id="sessionMessage" class="note">
-  Preparing your private pairing session...
- </p>
+  <div id="qrPanel" class="hidden">
+    <p class="muted">
+      Generate a QR code and scan it using WhatsApp on the phone you want to connect.
+    </p>
 
- <p class="note">
-  Only connect a WhatsApp account that you own or are authorized to use.
-  Baileys is an unofficial WhatsApp Web library; WhatsApp may restrict
-  accounts using unofficial clients.
- </p>
+    <button id="qrButton" class="primary" onclick="startQrPairing()">
+      Generate WhatsApp QR code
+    </button>
 
+    <p id="qrStatus" class="message" role="status" aria-live="polite">
+      Tap the button to generate your QR code.
+    </p>
+
+    <div id="qrBox" class="qr-box hidden">
+      <span class="muted">SCAN THIS QR CODE WITH WHATSAPP</span>
+      <div id="qrCode"></div>
+
+      <p class="note">
+        Open WhatsApp → Settings → Linked devices →
+        Link a device. Scan the QR code.
+      </p>
+    </div>
+  </div>
+
+  <p id="sessionMessage" class="note">
+    Preparing your private pairing session...
+  </p>
+
+  <p class="note">
+    Only connect a WhatsApp account that you own or are authorized to use.
+    Baileys is an unofficial WhatsApp Web library; WhatsApp may restrict
+    accounts using unofficial clients.
+  </p>
 </section>
 
 <footer class="card">
- <p class="muted">SCANTY MD BOT // ONYX COMMAND SYSTEM</p>
- <p class="note"><a href="/admin">Administrator login</a></p>
+  <p class="muted">SCANTY MD BOT // ONYX COMMAND SYSTEM</p>
+  <p class="note"><a href="/admin">Administrator login</a></p>
 </footer>
 
 </main>
 
 <main id="adminPage" class="hidden">
 
- <section id="adminLogin" class="card">
+  <section id="adminLogin" class="card">
+    <div class="eyebrow">RESTRICTED ACCESS // ADMINISTRATOR</div>
+    <h2>Command authorization</h2>
 
-  <div class="eyebrow">
-   RESTRICTED ACCESS // ADMINISTRATOR
-  </div>
+    <p class="muted">
+      This control room is reserved for the SCANTY MD BOT administrator.
+    </p>
 
-  <h2>Command authorization</h2>
+    <form id="adminLoginForm">
+      <label for="adminEmailInput">Administrator email</label>
 
-  <p class="muted">
-   This control room is reserved for the SCANTY MD BOT administrator.
-  </p>
+      <input
+        id="adminEmailInput"
+        type="email"
+        autocomplete="username"
+        required
+        placeholder="Admin email">
 
-  <form id="adminLoginForm">
+      <label for="adminPasswordInput">Password</label>
 
-   <label for="adminEmailInput">Administrator email</label>
+      <input
+        id="adminPasswordInput"
+        type="password"
+        autocomplete="current-password"
+        required
+        placeholder="Administrator password">
 
-   <input
-    id="adminEmailInput"
-    type="email"
-    autocomplete="username"
-    required
-    placeholder="Admin email">
+      <button id="adminLoginButton" class="primary" type="submit">
+        Authenticate administrator
+      </button>
+    </form>
 
-   <label for="adminPasswordInput">Password</label>
+    <p id="adminLoginMessage" class="message" role="status"></p>
+    <p class="note"><a href="/">Return to pairing gateway</a></p>
+  </section>
 
-   <input
-    id="adminPasswordInput"
-    type="password"
-    autocomplete="current-password"
-    required
-    placeholder="Administrator password">
+  <section id="adminDashboard" class="hidden">
 
-   <button
-    id="adminLoginButton"
-    class="primary"
-    type="submit">
-    Authenticate administrator
-   </button>
+    <div class="card">
+      <div class="eyebrow">COMMAND CENTRE // LIVE</div>
+      <h2>Administrator command deck</h2>
 
-  </form>
+      <p id="adminIdentity" class="muted"></p>
 
-  <p
-   id="adminLoginMessage"
-   class="message"
-   role="status">
-  </p>
+      <p><span class="live-dot"></span> ADMINISTRATOR ACCESS GRANTED</p>
 
-  <p class="note">
-   <a href="/">Return to pairing gateway</a>
-  </p>
+      <button class="secondary" style="width:100%" onclick="loadAdmin()">
+        Refresh telemetry
+      </button>
 
- </section>
+      <button class="primary" onclick="adminLogout()">Logout</button>
 
- <section id="adminDashboard" class="hidden">
-
-  <div class="card">
-
-   <div class="eyebrow">
-    COMMAND CENTRE // LIVE
-   </div>
-
-   <h2>Administrator command deck</h2>
-
-   <p id="adminIdentity" class="muted"></p>
-
-   <p>
-    <span class="live-dot"></span>
-    ADMINISTRATOR ACCESS GRANTED
-   </p>
-
-   <button
-    class="secondary"
-    style="width:100%"
-    onclick="loadAdmin()">
-    Refresh telemetry
-   </button>
-
-   <button
-    class="primary"
-    onclick="adminLogout()">
-    Logout
-   </button>
-
-   <p id="adminMessage" class="message"></p>
-
-  </div>
-
-  <div class="card">
-
-   <h2>Platform telemetry</h2>
-
-   <div class="stats">
-
-    <div class="stat">
-     <strong id="totalUsers">—</strong>
-     <span>Total accounts</span>
+      <p id="adminMessage" class="message"></p>
     </div>
 
-    <div class="stat">
-     <strong id="totalMembers">—</strong>
-     <span>Normal users</span>
+    <div class="card">
+      <h2>Platform telemetry</h2>
+
+      <div class="stats">
+        <div class="stat">
+          <strong id="totalUsers">—</strong>
+          <span>Total accounts</span>
+        </div>
+
+        <div class="stat">
+          <strong id="totalMembers">—</strong>
+          <span>Normal users</span>
+        </div>
+
+        <div class="stat">
+          <strong id="totalAdmins">—</strong>
+          <span>Administrators</span>
+        </div>
+      </div>
     </div>
 
-    <div class="stat">
-     <strong id="totalAdmins">—</strong>
-     <span>Administrators</span>
+    <div class="card">
+      <h2>Registered users // database feed</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Joined</th>
+            </tr>
+          </thead>
+
+          <tbody id="usersTable">
+            <tr><td colspan="3">Awaiting telemetry...</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
-   </div>
-
-  </div>
-
-  <div class="card">
-
-   <h2>Registered users // database feed</h2>
-
-   <div class="table-wrap">
-
-    <table>
-     <thead>
-      <tr>
-       <th>Email</th>
-       <th>Role</th>
-       <th>Joined</th>
-      </tr>
-     </thead>
-
-     <tbody id="usersTable">
-      <tr>
-       <td colspan="3">Awaiting telemetry...</td>
-      </tr>
-     </tbody>
-    </table>
-
-   </div>
-
-  </div>
-
- </section>
-
+  </section>
 </main>
 
 </div>
@@ -881,541 +1060,450 @@ a{color:var(--cyan)}
 'use strict';
 
 const API = 'https://scanty-md-bot.onrender.com';
-
 const $ = id => document.getElementById(id);
 
 const isAdminPage =
- location.pathname.replace(/\/+$/, '') === '/admin';
+  location.pathname.replace(/\/+$/, '') === '/admin';
 
-let guestToken =
- sessionStorage.getItem('scanty_guest_token');
-
-let adminToken =
- sessionStorage.getItem('scanty_admin_token');
+let guestToken = sessionStorage.getItem('scanty_guest_token');
+let adminToken = sessionStorage.getItem('scanty_admin_token');
 
 let qrPollTimer = null;
 let qrStartedAt = 0;
 let lastQrValue = '';
 
+/* OPENING INTRO */
+(function runOpeningIntro() {
+  const intro = $('scantyIntro');
+  const status = $('introStatus');
+
+  const messages = [
+    'INITIALIZING COMMAND INTERFACE...',
+    'POWERING RED ENERGY CORE...',
+    'CALIBRATING ROBOTIC SYSTEM...',
+    'ONYX COMMAND READY...'
+  ];
+
+  let index = 0;
+
+  const statusTimer = setInterval(() => {
+    index++;
+
+    if (index < messages.length) {
+      status.textContent = messages[index];
+    } else {
+      clearInterval(statusTimer);
+    }
+  }, 800);
+
+  setTimeout(() => {
+    intro.classList.add('hide');
+  }, 3900);
+})();
+
 async function request(path, options = {}, authToken = null) {
+  const response = await fetch(API + path, {
+    ...options,
+    headers: {
+      'Content-Type':'application/json',
+      ...(authToken ? {Authorization:'Bearer ' + authToken} : {}),
+      ...(options.headers || {})
+    }
+  });
 
- const response = await fetch(API + path, {
-  ...options,
-  headers: {
-   'Content-Type':'application/json',
-   ...(authToken
-    ? {Authorization:'Bearer ' + authToken}
-    : {}),
-   ...(options.headers || {})
+  const data = await response.json().catch(() => ({}));
+
+  if (!response.ok) {
+    const error = new Error(data.error || 'Request failed.');
+    error.status = response.status;
+    throw error;
   }
- });
 
- const data = await response.json().catch(() => ({}));
-
- if (!response.ok) {
-  const error = new Error(data.error || 'Request failed.');
-  error.status = response.status;
-  throw error;
- }
-
- return data;
+  return data;
 }
 
+/* PRIVATE GUEST SESSION */
 async function ensureGuestSession() {
+  if (guestToken) {
+    try {
+      await request('/api/whatsapp/qr', {}, guestToken);
+      $('sessionMessage').textContent =
+        'Private pairing session verified and ready.';
+      return;
+    } catch {
+      sessionStorage.removeItem('scanty_guest_token');
+      guestToken = null;
+    }
+  }
 
- if (guestToken) {
+  $('sessionMessage').textContent =
+    'Creating your private pairing session...';
+
   try {
-   await request('/api/whatsapp/qr', {}, guestToken);
+    const data = await request(
+      '/api/public/session',
+      {method:'POST',body:JSON.stringify({})}
+    );
 
-   $('sessionMessage').textContent =
-    'Private pairing session verified and ready.';
+    if (!data.token) {
+      throw new Error('The server did not return a session token.');
+    }
 
-   return;
+    guestToken = data.token;
 
-  } catch {
-   sessionStorage.removeItem('scanty_guest_token');
-   guestToken = null;
+    sessionStorage.setItem('scanty_guest_token',guestToken);
+
+    $('sessionMessage').textContent =
+      'Private session ready. Select a pairing protocol.';
+  } catch (error) {
+    $('sessionMessage').textContent =
+      'Could not prepare your session: ' + error.message;
+
+    $('pairButton').disabled = true;
+    $('qrButton').disabled = true;
   }
- }
-
- $('sessionMessage').textContent =
-  'Creating your private pairing session...';
-
- try {
-
-  const data = await request(
-   '/api/public/session',
-   {
-    method:'POST',
-    body:JSON.stringify({})
-   }
-  );
-
-  if (!data.token) {
-   throw new Error('The server did not return a session token.');
-  }
-
-  guestToken = data.token;
-
-  sessionStorage.setItem(
-   'scanty_guest_token',
-   guestToken
-  );
-
-  $('sessionMessage').textContent =
-   'Private session ready. Select a pairing protocol.';
-
- } catch (error) {
-
-  $('sessionMessage').textContent =
-   'Could not prepare your session: ' + error.message;
-
-  $('pairButton').disabled = true;
-  $('qrButton').disabled = true;
- }
 }
 
+/* PAIRING MODE */
 function selectMode(mode) {
+  const qr = mode === 'qr';
 
- const qr = mode === 'qr';
+  $('qrModeButton').classList.toggle('active',qr);
+  $('phoneModeButton').classList.toggle('active',!qr);
 
- $('qrModeButton').classList.toggle('active', qr);
- $('phoneModeButton').classList.toggle('active', !qr);
-
- $('qrPanel').classList.toggle('hidden', !qr);
- $('phonePanel').classList.toggle('hidden', qr);
+  $('qrPanel').classList.toggle('hidden',!qr);
+  $('phonePanel').classList.toggle('hidden',qr);
 }
 
+/* PAIRING CODE */
 async function connectWhatsApp() {
-
- if (!guestToken) {
-  $('pairMessage').textContent =
-   'Your pairing session is not ready. Refresh the page.';
-  return;
- }
-
- const phoneNumber =
-  $('phoneNumber').value.replace(/\D/g, '');
-
- if (!/^\d{10,15}$/.test(phoneNumber)) {
-  $('pairMessage').textContent =
-   'Enter your phone number with country code, using 10–15 digits.';
-  return;
- }
-
- const button = $('pairButton');
-
- button.disabled = true;
- button.textContent = 'Generating code...';
-
- $('pairMessage').textContent = 'Contacting WhatsApp...';
-
- $('pairCodeBox').classList.add('hidden');
-
- try {
-
-  const data = await request(
-   '/api/whatsapp/pair',
-   {
-    method:'POST',
-    body:JSON.stringify({phoneNumber})
-   },
-   guestToken
-  );
-
-  if (!data.pairingCode) {
-   throw new Error('The server did not return a pairing code.');
+  if (!guestToken) {
+    $('pairMessage').textContent =
+      'Your pairing session is not ready. Refresh the page.';
+    return;
   }
 
-  $('pairCode').textContent = data.pairingCode;
-  $('pairCodeBox').classList.remove('hidden');
+  const phoneNumber = $('phoneNumber').value.replace(/\D/g,'');
 
-  $('pairMessage').textContent =
-   data.message ||
-   'Pairing code generated. Enter it in WhatsApp Linked devices.';
+  if (!/^\d{10,15}$/.test(phoneNumber)) {
+    $('pairMessage').textContent =
+      'Enter your phone number with country code, using 10–15 digits.';
+    return;
+  }
 
- } catch (error) {
+  const button = $('pairButton');
 
-  $('pairMessage').textContent = error.message;
+  button.disabled = true;
+  button.textContent = 'Generating code...';
 
- } finally {
+  $('pairMessage').textContent = 'Contacting WhatsApp...';
+  $('pairCodeBox').classList.add('hidden');
 
-  button.disabled = false;
-  button.textContent = 'Generate pairing code';
+  try {
+    const data = await request(
+      '/api/whatsapp/pair',
+      {
+        method:'POST',
+        body:JSON.stringify({phoneNumber})
+      },
+      guestToken
+    );
 
- }
+    if (!data.pairingCode) {
+      throw new Error('The server did not return a pairing code.');
+    }
+
+    $('pairCode').textContent = data.pairingCode;
+    $('pairCodeBox').classList.remove('hidden');
+
+    $('pairMessage').textContent =
+      data.message ||
+      'Pairing code generated. Enter it in WhatsApp Linked devices.';
+  } catch (error) {
+    $('pairMessage').textContent = error.message;
+  } finally {
+    button.disabled = false;
+    button.textContent = 'Generate pairing code';
+  }
 }
 
 async function copyPairingCode() {
+  const code = $('pairCode').textContent;
+  if (!code) return;
 
- const code = $('pairCode').textContent;
-
- if (!code) return;
-
- try {
-
-  await navigator.clipboard.writeText(code);
-
-  $('pairMessage').textContent =
-   'Pairing code copied.';
-
- } catch {
-
-  $('pairMessage').textContent =
-   'Select the code and copy it manually.';
-
- }
+  try {
+    await navigator.clipboard.writeText(code);
+    $('pairMessage').textContent = 'Pairing code copied.';
+  } catch {
+    $('pairMessage').textContent =
+      'Select the code and copy it manually.';
+  }
 }
 
+/* QR CODE */
 function stopQrPolling() {
-
- if (qrPollTimer) clearTimeout(qrPollTimer);
-
- qrPollTimer = null;
+  if (qrPollTimer) clearTimeout(qrPollTimer);
+  qrPollTimer = null;
 }
 
 function clearQrDisplay() {
-
- $('qrCode').replaceChildren();
-
- $('qrBox').classList.add('hidden');
-
- lastQrValue = '';
+  $('qrCode').replaceChildren();
+  $('qrBox').classList.add('hidden');
+  lastQrValue = '';
 }
 
 function renderQr(qrValue) {
+  if (!qrValue || qrValue === lastQrValue) return;
 
- if (!qrValue || qrValue === lastQrValue) return;
+  if (typeof QRCode === 'undefined') {
+    throw new Error('QR generator failed to load. Refresh and try again.');
+  }
 
- if (typeof QRCode === 'undefined') {
-  throw new Error('QR generator failed to load. Refresh and try again.');
- }
+  $('qrCode').replaceChildren();
 
- $('qrCode').replaceChildren();
+  new QRCode($('qrCode'), {
+    text:qrValue,
+    width:240,
+    height:240,
+    colorDark:'#000000',
+    colorLight:'#ffffff',
+    correctLevel:QRCode.CorrectLevel.M
+  });
 
- new QRCode($('qrCode'), {
-  text:qrValue,
-  width:240,
-  height:240,
-  colorDark:'#000000',
-  colorLight:'#ffffff',
-  correctLevel:QRCode.CorrectLevel.M
- });
-
- lastQrValue = qrValue;
-
- $('qrBox').classList.remove('hidden');
+  lastQrValue = qrValue;
+  $('qrBox').classList.remove('hidden');
 }
 
 async function startQrPairing() {
+  if (!guestToken) {
+    $('qrStatus').textContent =
+      'Your pairing session is not ready. Refresh the page.';
+    return;
+  }
 
- if (!guestToken) {
-  $('qrStatus').textContent =
-   'Your pairing session is not ready. Refresh the page.';
-  return;
- }
+  stopQrPolling();
+  clearQrDisplay();
 
- stopQrPolling();
- clearQrDisplay();
+  qrStartedAt = Date.now();
 
- qrStartedAt = Date.now();
+  const button = $('qrButton');
 
- const button = $('qrButton');
-
- button.disabled = true;
- button.textContent = 'Starting WhatsApp...';
-
- $('qrStatus').textContent =
-  'Starting your QR session. Please wait...';
-
- try {
-
-  await request(
-   '/api/whatsapp/qr',
-   {
-    method:'POST',
-    body:JSON.stringify({})
-   },
-   guestToken
-  );
+  button.disabled = true;
+  button.textContent = 'Starting WhatsApp...';
 
   $('qrStatus').textContent =
-   'Waiting for WhatsApp to provide a QR code...';
+    'Starting your QR session. Please wait...';
 
-  pollQrStatus();
+  try {
+    await request(
+      '/api/whatsapp/qr',
+      {
+        method:'POST',
+        body:JSON.stringify({})
+      },
+      guestToken
+    );
 
- } catch (error) {
+    $('qrStatus').textContent =
+      'Waiting for WhatsApp to provide a QR code...';
 
-  $('qrStatus').textContent =
-   'QR pairing error: ' + error.message;
-
-  button.disabled = false;
-  button.textContent = 'Try QR pairing again';
-
- }
+    pollQrStatus();
+  } catch (error) {
+    $('qrStatus').textContent = 'QR pairing error: ' + error.message;
+    button.disabled = false;
+    button.textContent = 'Try QR pairing again';
+  }
 }
 
 async function pollQrStatus() {
+  try {
+    const data = await request('/api/whatsapp/qr',{},guestToken);
+    const status = String(data.status || '').toLowerCase();
 
- try {
+    if (data.qr && status !== 'connected') {
+      renderQr(data.qr);
 
-  const data = await request(
-   '/api/whatsapp/qr',
-   {},
-   guestToken
-  );
+      $('qrStatus').textContent =
+        'QR code ready. Scan it using WhatsApp → Linked devices → Link a device.';
+    }
 
-  const status =
-   String(data.status || '').toLowerCase();
+    if (status === 'connected') {
+      stopQrPolling();
+      clearQrDisplay();
 
-  if (data.qr && status !== 'connected') {
+      $('qrStatus').textContent = 'WhatsApp connected successfully!';
+      $('qrButton').disabled = false;
+      $('qrButton').textContent = 'Generate another QR code';
+      return;
+    }
 
-   renderQr(data.qr);
+    if (
+      status === 'disconnected' &&
+      Date.now() - qrStartedAt > 15000
+    ) {
+      stopQrPolling();
+      clearQrDisplay();
 
-   $('qrStatus').textContent =
-    'QR code ready. Scan it using WhatsApp → Linked devices → Link a device.';
+      $('qrStatus').textContent =
+        'WhatsApp disconnected. Try generating a new QR code.';
 
+      $('qrButton').disabled = false;
+      $('qrButton').textContent = 'Try QR pairing again';
+      return;
+    }
+
+    if (Date.now() - qrStartedAt > 120000) {
+      stopQrPolling();
+
+      $('qrStatus').textContent =
+        'QR request timed out. Please try again.';
+
+      $('qrButton').disabled = false;
+      $('qrButton').textContent = 'Try QR pairing again';
+      return;
+    }
+
+    qrPollTimer = setTimeout(pollQrStatus,1500);
+  } catch (error) {
+    stopQrPolling();
+
+    $('qrStatus').textContent = 'QR pairing error: ' + error.message;
+    $('qrButton').disabled = false;
+    $('qrButton').textContent = 'Try QR pairing again';
   }
-
-  if (status === 'connected') {
-
-   stopQrPolling();
-   clearQrDisplay();
-
-   $('qrStatus').textContent =
-    'WhatsApp connected successfully!';
-
-   $('qrButton').disabled = false;
-   $('qrButton').textContent =
-    'Generate another QR code';
-
-   return;
-  }
-
-  if (
-   status === 'disconnected' &&
-   Date.now() - qrStartedAt > 15000
-  ) {
-
-   stopQrPolling();
-   clearQrDisplay();
-
-   $('qrStatus').textContent =
-    'WhatsApp disconnected. Try generating a new QR code.';
-
-   $('qrButton').disabled = false;
-   $('qrButton').textContent =
-    'Try QR pairing again';
-
-   return;
-  }
-
-  if (Date.now() - qrStartedAt > 120000) {
-
-   stopQrPolling();
-
-   $('qrStatus').textContent =
-    'QR request timed out. Please try again.';
-
-   $('qrButton').disabled = false;
-   $('qrButton').textContent =
-    'Try QR pairing again';
-
-   return;
-  }
-
-  qrPollTimer = setTimeout(pollQrStatus, 1500);
-
- } catch (error) {
-
-  stopQrPolling();
-
-  $('qrStatus').textContent =
-   'QR pairing error: ' + error.message;
-
-  $('qrButton').disabled = false;
-  $('qrButton').textContent =
-   'Try QR pairing again';
-
- }
 }
 
+/* ADMIN LOGIN */
 async function adminLogin(event) {
-
- event.preventDefault();
-
- $('adminLoginMessage').textContent =
-  'Checking administrator credentials...';
-
- $('adminLoginButton').disabled = true;
-
- try {
-
-  const data = await request(
-   '/api/auth/login',
-   {
-    method:'POST',
-    body:JSON.stringify({
-     email:$('adminEmailInput').value.trim(),
-     password:$('adminPasswordInput').value
-    })
-   }
-  );
-
-  if (!data.token) {
-   throw new Error('The server did not return an authentication token.');
-  }
-
-  adminToken = data.token;
-
-  sessionStorage.setItem(
-   'scanty_admin_token',
-   adminToken
-  );
-
-  await verifyAdmin();
-
- } catch (error) {
+  event.preventDefault();
 
   $('adminLoginMessage').textContent =
-   error.message;
+    'Checking administrator credentials...';
 
- } finally {
+  $('adminLoginButton').disabled = true;
 
-  $('adminLoginButton').disabled = false;
+  try {
+    const data = await request(
+      '/api/auth/login',
+      {
+        method:'POST',
+        body:JSON.stringify({
+          email:$('adminEmailInput').value.trim(),
+          password:$('adminPasswordInput').value
+        })
+      }
+    );
 
- }
+    if (!data.token) {
+      throw new Error('The server did not return an authentication token.');
+    }
+
+    adminToken = data.token;
+
+    sessionStorage.setItem('scanty_admin_token',adminToken);
+
+    await verifyAdmin();
+  } catch (error) {
+    $('adminLoginMessage').textContent = error.message;
+  } finally {
+    $('adminLoginButton').disabled = false;
+  }
 }
 
 async function verifyAdmin() {
+  try {
+    const data = await request('/api/auth/me',{},adminToken);
 
- try {
+    if (!data.user || data.user.role !== 'admin') {
+      throw new Error('Administrator access required.');
+    }
 
-  const data = await request(
-   '/api/auth/me',
-   {},
-   adminToken
-  );
+    $('adminLogin').classList.add('hidden');
+    $('adminDashboard').classList.remove('hidden');
 
-  if (!data.user || data.user.role !== 'admin') {
-   throw new Error('Administrator access required.');
+    $('adminIdentity').textContent =
+      'Signed in as ' + data.user.email;
+
+    await loadAdmin();
+  } catch (error) {
+    sessionStorage.removeItem('scanty_admin_token');
+    adminToken = null;
+
+    $('adminLogin').classList.remove('hidden');
+    $('adminDashboard').classList.add('hidden');
+
+    $('adminLoginMessage').textContent = error.message;
   }
-
-  $('adminLogin').classList.add('hidden');
-  $('adminDashboard').classList.remove('hidden');
-
-  $('adminIdentity').textContent =
-   'Signed in as ' + data.user.email;
-
-  await loadAdmin();
-
- } catch (error) {
-
-  sessionStorage.removeItem('scanty_admin_token');
-
-  adminToken = null;
-
-  $('adminLogin').classList.remove('hidden');
-  $('adminDashboard').classList.add('hidden');
-
-  $('adminLoginMessage').textContent =
-   error.message;
-
- }
 }
 
 async function loadAdmin() {
+  $('adminMessage').textContent = 'Loading platform telemetry...';
 
- $('adminMessage').textContent =
-  'Loading platform telemetry...';
+  try {
+    const [statsData,usersData] = await Promise.all([
+      request('/api/admin/stats',{},adminToken),
+      request('/api/admin/users',{},adminToken)
+    ]);
 
- try {
+    $('totalUsers').textContent =
+      statsData.stats.total_users;
 
-  const [statsData, usersData] = await Promise.all([
-   request('/api/admin/stats', {}, adminToken),
-   request('/api/admin/users', {}, adminToken)
-  ]);
+    $('totalMembers').textContent =
+      statsData.stats.total_members;
 
-  $('totalUsers').textContent =
-   statsData.stats.total_users;
+    $('totalAdmins').textContent =
+      statsData.stats.total_admins;
 
-  $('totalMembers').textContent =
-   statsData.stats.total_members;
+    const table = $('usersTable');
+    table.replaceChildren();
 
-  $('totalAdmins').textContent =
-   statsData.stats.total_admins;
+    if (!usersData.users.length) {
+      const row = table.insertRow();
+      const cell = row.insertCell();
 
-  const table = $('usersTable');
+      cell.colSpan = 3;
+      cell.textContent = 'No users registered yet.';
+    }
 
-  table.replaceChildren();
+    usersData.users.forEach(user => {
+      const row = table.insertRow();
 
-  if (!usersData.users.length) {
+      [
+        user.email,
+        user.role,
+        new Date(user.created_at).toLocaleDateString()
+      ].forEach(value => {
+        const cell = row.insertCell();
+        cell.textContent = value ?? '';
+      });
+    });
 
-   const row = table.insertRow();
-   const cell = row.insertCell();
-
-   cell.colSpan = 3;
-   cell.textContent = 'No users registered yet.';
-
+    $('adminMessage').textContent =
+      'Telemetry refreshed successfully.';
+  } catch (error) {
+    $('adminMessage').textContent = error.message;
   }
-
-  usersData.users.forEach(user => {
-
-   const row = table.insertRow();
-
-   [
-    user.email,
-    user.role,
-    new Date(user.created_at).toLocaleDateString()
-   ].forEach(value => {
-
-    const cell = row.insertCell();
-
-    cell.textContent = value ?? '';
-
-   });
-
-  });
-
-  $('adminMessage').textContent =
-   'Telemetry refreshed successfully.';
-
- } catch (error) {
-
-  $('adminMessage').textContent =
-   error.message;
-
- }
 }
 
 function adminLogout() {
-
- sessionStorage.removeItem('scanty_admin_token');
-
- adminToken = null;
-
- location.reload();
+  sessionStorage.removeItem('scanty_admin_token');
+  adminToken = null;
+  location.reload();
 }
 
+/* PAGE INITIALIZATION */
 if (isAdminPage) {
+  $('publicPage').classList.add('hidden');
+  $('adminPage').classList.remove('hidden');
 
- $('publicPage').classList.add('hidden');
- $('adminPage').classList.remove('hidden');
+  $('adminLoginForm').addEventListener('submit',adminLogin);
 
- $('adminLoginForm').addEventListener(
-  'submit',
-  adminLogin
- );
-
- if (adminToken) verifyAdmin();
-
+  if (adminToken) verifyAdmin();
 } else {
+  $('adminPage').classList.add('hidden');
+  $('publicPage').classList.remove('hidden');
 
- $('adminPage').classList.add('hidden');
- $('publicPage').classList.remove('hidden');
-
- ensureGuestSession();
-
+  ensureGuestSession();
 }
 </script>
 
