@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,457 +7,1417 @@
 <meta name="theme-color" content="#000000">
 <meta name="description" content="SCANTY MD BOT robotic WhatsApp command interface">
 <title>SCANTY MD BOT | ONYX COMMAND</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Roboto+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
 *{box-sizing:border-box}
-:root{color-scheme:dark;--black:#000;--panel:#0c0c0f;--panel2:#160709;--red:#ff1e27;--deep:#800a0d;--cyan:#00d2ff;--blue:#005f87;--silver:#a7a9ac;--muted:#89939e;--mono:"Roboto Mono",monospace;--display:"Orbitron",monospace}
-html{min-height:100%;background:#000;scroll-behavior:smooth}
-body{margin:0;min-height:100vh;padding:18px 13px 42px;color:#f4f5f7;font-family:var(--mono);letter-spacing:.025em;background:radial-gradient(ellipse at 50% 0%,rgba(128,10,13,.2),transparent 43%),radial-gradient(ellipse at 92% 70%,rgba(0,95,135,.07),transparent 36%),#000;overflow-x:hidden}
-body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.018;background-image:linear-gradient(rgba(0,210,255,.8) 1px,transparent 1px),linear-gradient(90deg,rgba(0,210,255,.8) 1px,transparent 1px);background-size:44px 44px}
-body:after{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.18;background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(255,255,255,.014) 4px)}
-.container{position:relative;z-index:1;width:100%;max-width:980px;margin:10px auto}
-.card{position:relative;isolation:isolate;overflow:hidden;margin:0 0 18px;padding:23px;background:linear-gradient(145deg,rgba(20,20,23,.97),rgba(5,5,7,.98) 60%,rgba(24,5,8,.96));border:1px solid rgba(0,210,255,.23);border-radius:5px;box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 0 0 1px rgba(255,30,39,.07),0 14px 42px rgba(0,0,0,.7),0 0 22px rgba(128,10,13,.12);clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px))}
-.card:before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;border-top:1px solid rgba(255,30,39,.35);background:linear-gradient(110deg,rgba(255,30,39,.055),transparent 28%,transparent 72%,rgba(0,210,255,.035))}
-.brand{text-align:center;padding:20px;border-color:rgba(255,30,39,.5);background:linear-gradient(110deg,#080809,#160709 50%,#08090b)}
-.brand h1{margin:0;font-family:var(--display);font-size:clamp(23px,4vw,34px);font-weight:900;letter-spacing:.17em;text-shadow:0 0 16px rgba(255,30,39,.5)}
-.brand p{margin:9px 0 0;font-size:10px;letter-spacing:.22em}
-.accent{color:var(--red);text-shadow:0 0 12px rgba(255,30,39,.65)}
+
+:root{
+ color-scheme:dark;
+ --black:#000000;
+ --panel:#0c0c0f;
+ --panel2:#160709;
+ --red:#ff1e27;
+ --deep:#800a0d;
+ --cyan:#00d2ff;
+ --blue:#005f87;
+ --silver:#a7a9ac;
+ --muted:#89939e;
+ --mono:"Roboto Mono",monospace;
+ --display:"Orbitron",monospace;
+}
+
+html{
+ min-height:100%;
+ background:#000;
+ scroll-behavior:smooth;
+}
+
+body{
+ margin:0;
+ min-height:100vh;
+ padding:18px 13px 42px;
+ color:#f4f5f7;
+ font-family:var(--mono);
+ letter-spacing:.025em;
+ background:
+  linear-gradient(rgba(0,0,0,.65),rgba(0,0,0,.78)),
+  radial-gradient(ellipse at 50% 0%,rgba(128,10,13,.28),transparent 43%),
+  radial-gradient(ellipse at 92% 70%,rgba(0,95,135,.10),transparent 36%),
+  url("https://images.unsplash.com/photo-1485827404703-89b55fcc595e") center/cover fixed,
+  #000;
+ overflow-x:hidden;
+}
+
+body:before{
+ content:"";
+ position:fixed;
+ inset:0;
+ pointer-events:none;
+ z-index:0;
+ opacity:.025;
+ background-image:
+  linear-gradient(rgba(0,210,255,.8) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(0,210,255,.8) 1px,transparent 1px);
+ background-size:44px 44px;
+}
+
+body:after{
+ content:"";
+ position:fixed;
+ inset:0;
+ pointer-events:none;
+ z-index:0;
+ opacity:.18;
+ background:
+  repeating-linear-gradient(
+   0deg,
+   transparent 0 3px,
+   rgba(255,255,255,.014) 4px
+  );
+}
+
+.container{
+ position:relative;
+ z-index:1;
+ width:100%;
+ max-width:980px;
+ margin:10px auto;
+}
+
+.card{
+ position:relative;
+ isolation:isolate;
+ overflow:hidden;
+ margin:0 0 18px;
+ padding:23px;
+ background:linear-gradient(
+  145deg,
+  rgba(20,20,23,.96),
+  rgba(5,5,7,.97) 60%,
+  rgba(24,5,8,.96)
+ );
+ border:1px solid rgba(0,210,255,.23);
+ border-radius:5px;
+ box-shadow:
+  inset 0 1px 0 rgba(255,255,255,.07),
+  0 0 0 1px rgba(255,30,39,.07),
+  0 14px 42px rgba(0,0,0,.7),
+  0 0 22px rgba(128,10,13,.12);
+ clip-path:polygon(
+  0 0,
+  calc(100% - 14px) 0,
+  100% 14px,
+  100% 100%,
+  14px 100%,
+  0 calc(100% - 14px)
+ );
+}
+
+.card:before{
+ content:"";
+ position:absolute;
+ inset:0;
+ z-index:-1;
+ pointer-events:none;
+ border-top:1px solid rgba(255,30,39,.35);
+ background:linear-gradient(
+  110deg,
+  rgba(255,30,39,.055),
+  transparent 28%,
+  transparent 72%,
+  rgba(0,210,255,.035)
+ );
+}
+
+.brand{
+ text-align:center;
+ padding:20px;
+ border-color:rgba(255,30,39,.5);
+ background:linear-gradient(
+  110deg,
+  rgba(8,8,9,.96),
+  rgba(22,7,9,.96) 50%,
+  rgba(8,9,11,.96)
+ );
+}
+
+.brand h1{
+ margin:0;
+ font-family:var(--display);
+ font-size:clamp(23px,4vw,34px);
+ font-weight:900;
+ letter-spacing:.17em;
+ text-shadow:0 0 16px rgba(255,30,39,.5);
+}
+
+.brand p{
+ margin:9px 0 0;
+ font-size:10px;
+ letter-spacing:.22em;
+}
+
+.accent{
+ color:var(--red);
+ text-shadow:0 0 12px rgba(255,30,39,.65);
+}
+
 .muted{color:var(--muted)}
-h2{margin:0 0 12px;font-family:var(--display);font-size:16px;letter-spacing:.1em;text-transform:uppercase}
-.subtitle,.hero p{color:#aab2bd;line-height:1.7;font-size:13px}
+
+h2{
+ margin:0 0 12px;
+ font-family:var(--display);
+ font-size:16px;
+ letter-spacing:.1em;
+ text-transform:uppercase;
+}
+
+.subtitle,.hero p{
+ color:#aab2bd;
+ line-height:1.7;
+ font-size:13px;
+}
+
 .hero{padding:29px 25px}
-.hero .eyebrow{color:var(--cyan);font-size:10px;font-weight:700;letter-spacing:.25em}
-.hero h2{margin:14px 0;font-size:clamp(24px,5vw,36px);text-shadow:0 0 18px rgba(255,30,39,.2)}
+
+.hero .eyebrow{
+ color:var(--cyan);
+ font-size:10px;
+ font-weight:700;
+ letter-spacing:.25em;
+}
+
+.hero h2{
+ margin:14px 0;
+ font-size:clamp(24px,5vw,36px);
+ text-shadow:0 0 18px rgba(255,30,39,.2);
+}
+
 .hero p{max-width:720px}
-.mode-tabs{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:22px 0}
-.mode{min-height:82px;padding:12px;border:1px solid rgba(0,210,255,.25);border-radius:3px;background:linear-gradient(135deg,#101216,#08090b);color:#f4f5f7;font:700 13px var(--mono);letter-spacing:.08em;transition:.18s}
-.mode small{display:block;margin-top:8px;color:#8c96a2;font-size:10px;font-weight:400}
-.mode:hover,.mode.active{border-color:var(--red);color:#ff646a;box-shadow:inset 0 0 18px rgba(255,30,39,.1),0 0 17px rgba(255,30,39,.2)}
-label{display:block;margin:0 0 10px;color:#c4ccd4;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
-input{width:100%;margin-bottom:14px;padding:14px;border:1px solid rgba(0,210,255,.25);border-radius:3px;outline:none;background:#050608;color:#fff;font:14px var(--mono)}
-input:focus{border-color:var(--red);box-shadow:0 0 14px rgba(255,30,39,.16)}
+
+.mode-tabs{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:12px;
+ margin:22px 0;
+}
+
+.mode{
+ min-height:82px;
+ padding:12px;
+ border:1px solid rgba(0,210,255,.25);
+ border-radius:3px;
+ background:linear-gradient(135deg,#101216,#08090b);
+ color:#f4f5f7;
+ font:700 13px var(--mono);
+ letter-spacing:.08em;
+ transition:.18s;
+}
+
+.mode small{
+ display:block;
+ margin-top:8px;
+ color:#8c96a2;
+ font-size:10px;
+ font-weight:400;
+}
+
+.mode:hover,.mode.active{
+ border-color:var(--red);
+ color:#ff646a;
+ box-shadow:
+  inset 0 0 18px rgba(255,30,39,.1),
+  0 0 17px rgba(255,30,39,.2);
+}
+
+label{
+ display:block;
+ margin:0 0 10px;
+ color:#c4ccd4;
+ font-size:11px;
+ font-weight:700;
+ letter-spacing:.12em;
+ text-transform:uppercase;
+}
+
+input{
+ width:100%;
+ margin-bottom:14px;
+ padding:14px;
+ border:1px solid rgba(0,210,255,.25);
+ border-radius:3px;
+ outline:none;
+ background:#050608;
+ color:#fff;
+ font:14px var(--mono);
+}
+
+input:focus{
+ border-color:var(--red);
+ box-shadow:0 0 14px rgba(255,30,39,.16);
+}
+
 input::placeholder{color:#626b75}
+
 button{font-family:var(--mono);cursor:pointer}
-.primary{width:100%;margin-top:12px;padding:15px 12px;border:1px solid #ff4249;border-radius:3px;background:linear-gradient(100deg,#790b10,#d3131c 58%,#7c080d);box-shadow:inset 0 1px 0 rgba(255,255,255,.16),0 0 18px rgba(255,30,39,.18);color:#fff;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;transition:.18s}
-.primary:hover{filter:brightness(1.18);box-shadow:0 0 22px rgba(255,30,39,.32)}
-.primary:disabled{opacity:.55;cursor:wait}
-.secondary{padding:11px 15px;border:1px solid rgba(0,210,255,.35);border-radius:3px;background:#071116;color:#bcefff;font-weight:700;letter-spacing:.07em}
+
+.primary{
+ width:100%;
+ margin-top:12px;
+ padding:15px 12px;
+ border:1px solid #ff4249;
+ border-radius:3px;
+ background:linear-gradient(
+  100deg,
+  #790b10,
+  #d3131c 58%,
+  #7c080d
+ );
+ box-shadow:
+  inset 0 1px 0 rgba(255,255,255,.16),
+  0 0 18px rgba(255,30,39,.18);
+ color:#fff;
+ font-size:12px;
+ font-weight:700;
+ letter-spacing:.14em;
+ text-transform:uppercase;
+ transition:.18s;
+}
+
+.primary:hover{
+ filter:brightness(1.18);
+ box-shadow:0 0 22px rgba(255,30,39,.32);
+}
+
+.primary:disabled{
+ opacity:.55;
+ cursor:wait;
+}
+
+.secondary{
+ padding:11px 15px;
+ border:1px solid rgba(0,210,255,.35);
+ border-radius:3px;
+ background:#071116;
+ color:#bcefff;
+ font-weight:700;
+ letter-spacing:.07em;
+}
+
 .hidden{display:none!important}
-.message{min-height:23px;margin-top:13px;color:#b8dce5;font-size:11px;line-height:1.6}
-.code-box,.qr-box{margin-top:18px;padding:19px;border:1px solid rgba(0,210,255,.42);border-radius:4px;background:linear-gradient(145deg,rgba(0,25,34,.55),rgba(5,6,8,.92));box-shadow:inset 0 0 22px rgba(0,210,255,.04);text-align:center}
-.code-box strong{display:block;margin:14px 0;color:var(--red);font-size:30px;letter-spacing:6px;text-shadow:0 0 14px rgba(255,30,39,.5);overflow-wrap:anywhere}
-#qrCode{display:flex;justify-content:center;align-items:center;width:fit-content;max-width:100%;min-height:250px;margin:18px auto;padding:12px;border-radius:3px;background:#fff}
-#qrCode img,#qrCode canvas{display:block;max-width:100%;height:auto}
-.note{margin-top:16px;color:#818b97;font-size:10px;line-height:1.7}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.stat{padding:16px 9px;border:1px solid rgba(255,30,39,.22);border-radius:3px;background:linear-gradient(145deg,rgba(22,8,10,.8),rgba(4,7,10,.9));text-align:center}
-.stat strong{display:block;color:var(--red);font-size:25px;text-shadow:0 0 12px rgba(255,30,39,.35)}
-.stat span{color:#9ca6b0;font-size:10px;letter-spacing:.12em;text-transform:uppercase}
+
+.message{
+ min-height:23px;
+ margin-top:13px;
+ color:#b8dce5;
+ font-size:11px;
+ line-height:1.6;
+}
+
+.code-box,.qr-box{
+ margin-top:18px;
+ padding:19px;
+ border:1px solid rgba(0,210,255,.42);
+ border-radius:4px;
+ background:linear-gradient(
+  145deg,
+  rgba(0,25,34,.55),
+  rgba(5,6,8,.92)
+ );
+ box-shadow:inset 0 0 22px rgba(0,210,255,.04);
+ text-align:center;
+}
+
+.code-box strong{
+ display:block;
+ margin:14px 0;
+ color:var(--red);
+ font-size:30px;
+ letter-spacing:6px;
+ text-shadow:0 0 14px rgba(255,30,39,.5);
+ overflow-wrap:anywhere;
+}
+
+#qrCode{
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ width:fit-content;
+ max-width:100%;
+ min-height:250px;
+ margin:18px auto;
+ padding:12px;
+ border-radius:3px;
+ background:#fff;
+}
+
+#qrCode img,#qrCode canvas{
+ display:block;
+ max-width:100%;
+ height:auto;
+}
+
+.note{
+ margin-top:16px;
+ color:#818b97;
+ font-size:10px;
+ line-height:1.7;
+}
+
+.stats{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:10px;
+}
+
+.stat{
+ padding:16px 9px;
+ border:1px solid rgba(255,30,39,.22);
+ border-radius:3px;
+ background:linear-gradient(
+  145deg,
+  rgba(22,8,10,.8),
+  rgba(4,7,10,.9)
+ );
+ text-align:center;
+}
+
+.stat strong{
+ display:block;
+ color:var(--red);
+ font-size:25px;
+ text-shadow:0 0 12px rgba(255,30,39,.35);
+}
+
+.stat span{
+ color:#9ca6b0;
+ font-size:10px;
+ letter-spacing:.12em;
+ text-transform:uppercase;
+}
+
 .table-wrap{overflow-x:auto}
-table{width:100%;min-width:380px;border-collapse:collapse}
-th,td{padding:12px 8px;border-bottom:1px solid rgba(0,210,255,.14);font-size:11px;text-align:left}
-th{color:var(--cyan);letter-spacing:.1em;text-transform:uppercase}
+
+table{
+ width:100%;
+ min-width:380px;
+ border-collapse:collapse;
+}
+
+th,td{
+ padding:12px 8px;
+ border-bottom:1px solid rgba(0,210,255,.14);
+ font-size:11px;
+ text-align:left;
+}
+
+th{
+ color:var(--cyan);
+ letter-spacing:.1em;
+ text-transform:uppercase;
+}
+
 td{color:#c4cbd2}
+
 a{color:var(--cyan)}
-.core-orbit{position:relative;display:grid;place-items:center;width:184px;height:184px;margin:20px auto 4px;border:1px solid rgba(0,210,255,.28);border-radius:50%;background:radial-gradient(circle,rgba(128,10,13,.24),rgba(0,0,0,.85) 62%);box-shadow:0 0 22px rgba(255,30,39,.12),inset 0 0 24px rgba(0,210,255,.08)}
-.core-orbit:before,.core-orbit:after{position:absolute;inset:12px;border:1px dashed rgba(255,30,39,.5);border-radius:50%;content:"";animation:orbit 22s linear infinite}
-.core-orbit:after{inset:28px;border:1px solid rgba(0,210,255,.32);animation-direction:reverse;animation-duration:15s}
-.core-center{z-index:2;display:grid;place-items:center;width:74px;height:74px;border:1px solid var(--red);border-radius:50%;background:radial-gradient(circle,#2b080b,#050506 70%);box-shadow:0 0 24px rgba(255,30,39,.32);color:var(--red);font-family:var(--display);font-size:25px;font-weight:900;text-shadow:0 0 12px var(--red)}
-.core-node{position:absolute;width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 12px var(--cyan)}
-.core-node.n1{top:18px;left:50%}.core-node.n2{top:50%;right:18px;background:var(--red);box-shadow:0 0 12px var(--red)}.core-node.n3{bottom:18px;left:50%}.core-node.n4{top:50%;left:18px;background:var(--red);box-shadow:0 0 12px var(--red)}
-.core-readout{text-align:center;margin-top:12px;color:#8c9aa6;font-size:9px;letter-spacing:.2em}
-.live-dot{display:inline-block;width:6px;height:6px;margin-right:7px;border-radius:50%;background:#ff2730;box-shadow:0 0 9px #ff2730;animation:pulse 1.5s infinite}
-.hud-divider{height:1px;margin:18px 0;background:linear-gradient(90deg,transparent,var(--red),var(--cyan),transparent);opacity:.5}
-@keyframes orbit{to{transform:rotate(360deg)}}@keyframes pulse{50%{opacity:.25;box-shadow:0 0 2px #ff2730}}
-@media(max-width:550px){body{padding:10px 9px 30px}.card{padding:19px 16px}.hero{padding:24px 18px}.mode{font-size:11px}.stats{grid-template-columns:1fr}.core-orbit{width:160px;height:160px}.brand h1{letter-spacing:.11em}}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
+
+.core-orbit{
+ position:relative;
+ display:grid;
+ place-items:center;
+ width:184px;
+ height:184px;
+ margin:20px auto 4px;
+ border:1px solid rgba(0,210,255,.28);
+ border-radius:50%;
+ background:radial-gradient(
+  circle,
+  rgba(128,10,13,.24),
+  rgba(0,0,0,.85) 62%
+ );
+ box-shadow:
+  0 0 22px rgba(255,30,39,.12),
+  inset 0 0 24px rgba(0,210,255,.08);
+}
+
+.core-orbit:before,.core-orbit:after{
+ position:absolute;
+ inset:12px;
+ border:1px dashed rgba(255,30,39,.5);
+ border-radius:50%;
+ content:"";
+ animation:orbit 22s linear infinite;
+}
+
+.core-orbit:after{
+ inset:28px;
+ border:1px solid rgba(0,210,255,.32);
+ animation-direction:reverse;
+ animation-duration:15s;
+}
+
+.core-center{
+ z-index:2;
+ display:grid;
+ place-items:center;
+ width:74px;
+ height:74px;
+ border:1px solid var(--red);
+ border-radius:50%;
+ background:radial-gradient(circle,#2b080b,#050506 70%);
+ box-shadow:0 0 24px rgba(255,30,39,.32);
+ color:var(--red);
+ font-family:var(--display);
+ font-size:25px;
+ font-weight:900;
+ text-shadow:0 0 12px var(--red);
+}
+
+.core-node{
+ position:absolute;
+ width:8px;
+ height:8px;
+ border-radius:50%;
+ background:var(--cyan);
+ box-shadow:0 0 12px var(--cyan);
+}
+
+.core-node.n1{top:18px;left:50%}
+.core-node.n2{
+ top:50%;
+ right:18px;
+ background:var(--red);
+ box-shadow:0 0 12px var(--red);
+}
+.core-node.n3{bottom:18px;left:50%}
+.core-node.n4{
+ top:50%;
+ left:18px;
+ background:var(--red);
+ box-shadow:0 0 12px var(--red);
+}
+
+.core-readout{
+ text-align:center;
+ margin-top:12px;
+ color:#8c9aa6;
+ font-size:9px;
+ letter-spacing:.2em;
+}
+
+.live-dot{
+ display:inline-block;
+ width:6px;
+ height:6px;
+ margin-right:7px;
+ border-radius:50%;
+ background:#ff2730;
+ box-shadow:0 0 9px #ff2730;
+ animation:pulse 1.5s infinite;
+}
+
+.hud-divider{
+ height:1px;
+ margin:18px 0;
+ background:linear-gradient(
+  90deg,
+  transparent,
+  var(--red),
+  var(--cyan),
+  transparent
+ );
+ opacity:.5;
+}
+
+@keyframes orbit{
+ to{transform:rotate(360deg)}
+}
+
+@keyframes pulse{
+ 50%{opacity:.25;box-shadow:0 0 2px #ff2730}
+}
+
+@media(max-width:550px){
+ body{padding:10px 9px 30px}
+ .card{padding:19px 16px}
+ .hero{padding:24px 18px}
+ .mode{font-size:11px}
+ .stats{grid-template-columns:1fr}
+ .core-orbit{width:160px;height:160px}
+ .brand h1{letter-spacing:.11em}
+}
+
+@media(prefers-reduced-motion:reduce){
+ *,*:before,*:after{
+  animation-duration:.01ms!important;
+  animation-iteration-count:1!important;
+  scroll-behavior:auto!important;
+ }
+}
 </style>
 </head>
+
 <body>
 <div class="container">
+
 <header class="card brand">
  <h1>SCANTY <span class="accent">MD BOT</span></h1>
- <p class="muted"><span class="live-dot"></span>TACTICAL WHATSAPP AUTOMATION SYSTEM</p>
+ <p class="muted">
+  <span class="live-dot"></span>
+  TACTICAL WHATSAPP AUTOMATION SYSTEM
+ </p>
+
  <div class="core-orbit" aria-label="SCANTY robotic command core">
-  <span class="core-node n1"></span><span class="core-node n2"></span><span class="core-node n3"></span><span class="core-node n4"></span>
+  <span class="core-node n1"></span>
+  <span class="core-node n2"></span>
+  <span class="core-node n3"></span>
+  <span class="core-node n4"></span>
   <div class="core-center">N</div>
  </div>
- <div class="core-readout">SCANTY CORE // ONYX COMMAND INTERFACE</div>
+
+ <div class="core-readout">
+  SCANTY CORE // ONYX COMMAND INTERFACE
+ </div>
 </header>
 
 <main id="publicPage">
- <section class="card hero">
-  <div class="eyebrow">SYSTEM ACCESS // AUTHORIZED PAIRING</div>
-  <h2>Connect your <span class="accent">WhatsApp</span></h2>
-  <p>Link your WhatsApp account using a QR code or a one-time pairing code. Your private pairing session is isolated from other users.</p>
-  <div class="hud-divider"></div>
-  <div class="core-readout"><span class="live-dot"></span>PAIRING GATEWAY STANDBY</div>
- </section>
 
- <section class="card">
-  <h2>01 // Select connection protocol</h2>
-  <p class="subtitle">Choose your preferred secure pairing method.</p>
-  <div class="mode-tabs">
-   <button id="qrModeButton" class="mode" type="button" onclick="selectMode('qr')">QR CODE<small>Optical device link</small></button>
-   <button id="phoneModeButton" class="mode active" type="button" onclick="selectMode('phone')">PAIRING CODE<small>Phone-number link</small></button>
+<section class="card hero">
+ <div class="eyebrow">
+  SYSTEM ACCESS // AUTHORIZED PAIRING
+ </div>
+
+ <h2>Connect your <span class="accent">WhatsApp</span></h2>
+
+ <p>
+  Link your WhatsApp account using a QR code or a one-time pairing code.
+  Your private pairing session is isolated from other users.
+ </p>
+
+ <div class="hud-divider"></div>
+
+ <div class="core-readout">
+  <span class="live-dot"></span>
+  PAIRING GATEWAY STANDBY
+ </div>
+</section>
+
+<section class="card">
+
+ <h2>01 // Select connection protocol</h2>
+
+ <p class="subtitle">
+  Choose your preferred secure pairing method.
+ </p>
+
+ <div class="mode-tabs">
+  <button
+   id="qrModeButton"
+   class="mode"
+   type="button"
+   onclick="selectMode('qr')">
+   QR CODE
+   <small>Optical device link</small>
+  </button>
+
+  <button
+   id="phoneModeButton"
+   class="mode active"
+   type="button"
+   onclick="selectMode('phone')">
+   PAIRING CODE
+   <small>Phone-number link</small>
+  </button>
+ </div>
+
+ <div id="phonePanel">
+  <label for="phoneNumber">
+   Phone number with country code
+  </label>
+
+  <input
+   id="phoneNumber"
+   type="tel"
+   inputmode="numeric"
+   autocomplete="tel"
+   placeholder="Example: 233XXXXXXXXX"
+   maxlength="15">
+
+  <button
+   id="pairButton"
+   class="primary"
+   onclick="connectWhatsApp()">
+   Generate pairing code
+  </button>
+
+  <p
+   id="pairMessage"
+   class="message"
+   role="status"
+   aria-live="polite">
+  </p>
+
+  <div id="pairCodeBox" class="code-box hidden">
+   <span class="muted">YOUR WHATSAPP PAIRING CODE</span>
+
+   <strong id="pairCode"></strong>
+
+   <button
+    class="secondary"
+    onclick="copyPairingCode()">
+    Copy pairing code
+   </button>
+
+   <p class="note">
+    Open WhatsApp → Linked devices → Link a device →
+    Link with phone number instead. Enter the code above.
+   </p>
   </div>
+ </div>
 
-  <div id="phonePanel">
-   <label for="phoneNumber">Phone number with country code</label>
-   <input id="phoneNumber" type="tel" inputmode="numeric" autocomplete="tel" placeholder="Example: 233XXXXXXXXX" maxlength="15">
-   <button id="pairButton" class="primary" onclick="connectWhatsApp()">Generate pairing code</button>
-   <p id="pairMessage" class="message" role="status" aria-live="polite"></p>
-   <div id="pairCodeBox" class="code-box hidden">
-    <span class="muted">YOUR WHATSAPP PAIRING CODE</span>
-    <strong id="pairCode"></strong>
-    <button class="secondary" onclick="copyPairingCode()">Copy pairing code</button>
-    <p class="note">Open WhatsApp → Linked devices → Link a device → Link with phone number instead. Enter the code above.</p>
-   </div>
+ <div id="qrPanel" class="hidden">
+  <p class="muted">
+   Generate a QR code and scan it using WhatsApp on the phone you want to connect.
+  </p>
+
+  <button
+   id="qrButton"
+   class="primary"
+   onclick="startQrPairing()">
+   Generate WhatsApp QR code
+  </button>
+
+  <p
+   id="qrStatus"
+   class="message"
+   role="status"
+   aria-live="polite">
+   Tap the button to generate your QR code.
+  </p>
+
+  <div id="qrBox" class="qr-box hidden">
+   <span class="muted">SCAN THIS QR CODE WITH WHATSAPP</span>
+
+   <div id="qrCode"></div>
+
+   <p class="note">
+    Open WhatsApp → Settings → Linked devices →
+    Link a device. Scan the QR code.
+   </p>
   </div>
+ </div>
 
-  <div id="qrPanel" class="hidden">
-   <p class="muted">Generate a QR code and scan it using WhatsApp on the phone you want to connect.</p>
-   <button id="qrButton" class="primary" onclick="startQrPairing()">Generate WhatsApp QR code</button>
-   <p id="qrStatus" class="message" role="status" aria-live="polite">Tap the button to generate your QR code.</p>
-   <div id="qrBox" class="qr-box hidden">
-    <span class="muted">SCAN THIS QR CODE WITH WHATSAPP</span>
-    <div id="qrCode"></div>
-    <p class="note">Open WhatsApp → Settings → Linked devices → Link a device. Scan the QR code.</p>
-   </div>
-  </div>
-  <p id="sessionMessage" class="note">Preparing your private pairing session...</p>
-  <p class="note">Only connect a WhatsApp account that you own or are authorized to use. Baileys is an unofficial WhatsApp Web library; WhatsApp may restrict accounts using unofficial clients.</p>
- </section>
+ <p id="sessionMessage" class="note">
+  Preparing your private pairing session...
+ </p>
 
- <footer class="card">
-  <p class="muted">SCANTY MD BOT // ONYX COMMAND SYSTEM</p>
-  <p class="note"><a href="/admin">Administrator login</a></p>
- </footer>
+ <p class="note">
+  Only connect a WhatsApp account that you own or are authorized to use.
+  Baileys is an unofficial WhatsApp Web library; WhatsApp may restrict
+  accounts using unofficial clients.
+ </p>
+
+</section>
+
+<footer class="card">
+ <p class="muted">SCANTY MD BOT // ONYX COMMAND SYSTEM</p>
+ <p class="note"><a href="/admin">Administrator login</a></p>
+</footer>
+
 </main>
 
 <main id="adminPage" class="hidden">
+
  <section id="adminLogin" class="card">
-  <div class="eyebrow">RESTRICTED ACCESS // ADMINISTRATOR</div>
+
+  <div class="eyebrow">
+   RESTRICTED ACCESS // ADMINISTRATOR
+  </div>
+
   <h2>Command authorization</h2>
-  <p class="muted">This control room is reserved for the SCANTY MD BOT administrator.</p>
+
+  <p class="muted">
+   This control room is reserved for the SCANTY MD BOT administrator.
+  </p>
+
   <form id="adminLoginForm">
+
    <label for="adminEmailInput">Administrator email</label>
-   <input id="adminEmailInput" type="email" autocomplete="username" required placeholder="Admin email">
+
+   <input
+    id="adminEmailInput"
+    type="email"
+    autocomplete="username"
+    required
+    placeholder="Admin email">
+
    <label for="adminPasswordInput">Password</label>
-   <input id="adminPasswordInput" type="password" autocomplete="current-password" required placeholder="Administrator password">
-   <button id="adminLoginButton" class="primary" type="submit">Authenticate administrator</button>
+
+   <input
+    id="adminPasswordInput"
+    type="password"
+    autocomplete="current-password"
+    required
+    placeholder="Administrator password">
+
+   <button
+    id="adminLoginButton"
+    class="primary"
+    type="submit">
+    Authenticate administrator
+   </button>
+
   </form>
-  <p id="adminLoginMessage" class="message" role="status"></p>
-  <p class="note"><a href="/">Return to pairing gateway</a></p>
+
+  <p
+   id="adminLoginMessage"
+   class="message"
+   role="status">
+  </p>
+
+  <p class="note">
+   <a href="/">Return to pairing gateway</a>
+  </p>
+
  </section>
 
  <section id="adminDashboard" class="hidden">
+
   <div class="card">
-   <div class="eyebrow">COMMAND CENTRE // LIVE</div>
+
+   <div class="eyebrow">
+    COMMAND CENTRE // LIVE
+   </div>
+
    <h2>Administrator command deck</h2>
+
    <p id="adminIdentity" class="muted"></p>
-   <p><span class="live-dot"></span>ADMINISTRATOR ACCESS GRANTED</p>
-   <button class="secondary" style="width:100%" onclick="loadAdmin()">Refresh telemetry</button>
-   <button class="primary" onclick="adminLogout()">Logout</button>
+
+   <p>
+    <span class="live-dot"></span>
+    ADMINISTRATOR ACCESS GRANTED
+   </p>
+
+   <button
+    class="secondary"
+    style="width:100%"
+    onclick="loadAdmin()">
+    Refresh telemetry
+   </button>
+
+   <button
+    class="primary"
+    onclick="adminLogout()">
+    Logout
+   </button>
+
    <p id="adminMessage" class="message"></p>
+
   </div>
+
   <div class="card">
+
    <h2>Platform telemetry</h2>
+
    <div class="stats">
-    <div class="stat"><strong id="totalUsers">—</strong><span>Total accounts</span></div>
-    <div class="stat"><strong id="totalMembers">—</strong><span>Normal users</span></div>
-    <div class="stat"><strong id="totalAdmins">—</strong><span>Administrators</span></div>
+
+    <div class="stat">
+     <strong id="totalUsers">—</strong>
+     <span>Total accounts</span>
+    </div>
+
+    <div class="stat">
+     <strong id="totalMembers">—</strong>
+     <span>Normal users</span>
+    </div>
+
+    <div class="stat">
+     <strong id="totalAdmins">—</strong>
+     <span>Administrators</span>
+    </div>
+
    </div>
+
   </div>
+
   <div class="card">
+
    <h2>Registered users // database feed</h2>
+
    <div class="table-wrap">
-    <table><thead><tr><th>Email</th><th>Role</th><th>Joined</th></tr></thead>
-     <tbody id="usersTable"><tr><td colspan="3">Awaiting telemetry...</td></tr></tbody>
+
+    <table>
+     <thead>
+      <tr>
+       <th>Email</th>
+       <th>Role</th>
+       <th>Joined</th>
+      </tr>
+     </thead>
+
+     <tbody id="usersTable">
+      <tr>
+       <td colspan="3">Awaiting telemetry...</td>
+      </tr>
+     </tbody>
     </table>
+
    </div>
+
   </div>
+
  </section>
+
 </main>
+
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
 <script>
 'use strict';
-const API = 'https://scanty-md-bot.onrender.com';
-const $ = id => document.getElementById(id);
-const isAdminPage = location.pathname.replace(/\/+$/, '') === '/admin';
 
-let guestToken = sessionStorage.getItem('scanty_guest_token');
-let adminToken = sessionStorage.getItem('scanty_admin_token');
+const API = 'https://scanty-md-bot.onrender.com';
+
+const $ = id => document.getElementById(id);
+
+const isAdminPage =
+ location.pathname.replace(/\/+$/, '') === '/admin';
+
+let guestToken =
+ sessionStorage.getItem('scanty_guest_token');
+
+let adminToken =
+ sessionStorage.getItem('scanty_admin_token');
+
 let qrPollTimer = null;
 let qrStartedAt = 0;
 let lastQrValue = '';
 
 async function request(path, options = {}, authToken = null) {
+
  const response = await fetch(API + path, {
   ...options,
   headers: {
    'Content-Type':'application/json',
-   ...(authToken ? {Authorization:'Bearer ' + authToken} : {}),
+   ...(authToken
+    ? {Authorization:'Bearer ' + authToken}
+    : {}),
    ...(options.headers || {})
   }
  });
+
  const data = await response.json().catch(() => ({}));
+
  if (!response.ok) {
   const error = new Error(data.error || 'Request failed.');
   error.status = response.status;
   throw error;
  }
+
  return data;
 }
 
 async function ensureGuestSession() {
+
  if (guestToken) {
   try {
    await request('/api/whatsapp/qr', {}, guestToken);
-   $('sessionMessage').textContent = 'Private pairing session verified and ready.';
+
+   $('sessionMessage').textContent =
+    'Private pairing session verified and ready.';
+
    return;
+
   } catch {
    sessionStorage.removeItem('scanty_guest_token');
    guestToken = null;
   }
  }
- $('sessionMessage').textContent = 'Creating your private pairing session...';
+
+ $('sessionMessage').textContent =
+  'Creating your private pairing session...';
+
  try {
-  const data = await request('/api/public/session', {method:'POST',body:JSON.stringify({})});
-  if (!data.token) throw new Error('The server did not return a session token.');
+
+  const data = await request(
+   '/api/public/session',
+   {
+    method:'POST',
+    body:JSON.stringify({})
+   }
+  );
+
+  if (!data.token) {
+   throw new Error('The server did not return a session token.');
+  }
+
   guestToken = data.token;
-  sessionStorage.setItem('scanty_guest_token', guestToken);
-  $('sessionMessage').textContent = 'Private session ready. Select a pairing protocol.';
+
+  sessionStorage.setItem(
+   'scanty_guest_token',
+   guestToken
+  );
+
+  $('sessionMessage').textContent =
+   'Private session ready. Select a pairing protocol.';
+
  } catch (error) {
-  $('sessionMessage').textContent = 'Could not prepare your session: ' + error.message;
+
+  $('sessionMessage').textContent =
+   'Could not prepare your session: ' + error.message;
+
   $('pairButton').disabled = true;
   $('qrButton').disabled = true;
  }
 }
 
 function selectMode(mode) {
+
  const qr = mode === 'qr';
+
  $('qrModeButton').classList.toggle('active', qr);
  $('phoneModeButton').classList.toggle('active', !qr);
+
  $('qrPanel').classList.toggle('hidden', !qr);
  $('phonePanel').classList.toggle('hidden', qr);
 }
 
 async function connectWhatsApp() {
+
  if (!guestToken) {
-  $('pairMessage').textContent = 'Your pairing session is not ready. Refresh the page.';
+  $('pairMessage').textContent =
+   'Your pairing session is not ready. Refresh the page.';
   return;
  }
- const phoneNumber = $('phoneNumber').value.replace(/\D/g, '');
+
+ const phoneNumber =
+  $('phoneNumber').value.replace(/\D/g, '');
+
  if (!/^\d{10,15}$/.test(phoneNumber)) {
-  $('pairMessage').textContent = 'Enter your phone number with country code, using 10–15 digits.';
+  $('pairMessage').textContent =
+   'Enter your phone number with country code, using 10–15 digits.';
   return;
  }
+
  const button = $('pairButton');
+
  button.disabled = true;
  button.textContent = 'Generating code...';
+
  $('pairMessage').textContent = 'Contacting WhatsApp...';
+
  $('pairCodeBox').classList.add('hidden');
+
  try {
-  const data = await request('/api/whatsapp/pair', {method:'POST',body:JSON.stringify({phoneNumber})}, guestToken);
-  if (!data.pairingCode) throw new Error('The server did not return a pairing code.');
+
+  const data = await request(
+   '/api/whatsapp/pair',
+   {
+    method:'POST',
+    body:JSON.stringify({phoneNumber})
+   },
+   guestToken
+  );
+
+  if (!data.pairingCode) {
+   throw new Error('The server did not return a pairing code.');
+  }
+
   $('pairCode').textContent = data.pairingCode;
   $('pairCodeBox').classList.remove('hidden');
-  $('pairMessage').textContent = data.message || 'Pairing code generated. Enter it in WhatsApp Linked devices.';
+
+  $('pairMessage').textContent =
+   data.message ||
+   'Pairing code generated. Enter it in WhatsApp Linked devices.';
+
  } catch (error) {
+
   $('pairMessage').textContent = error.message;
+
  } finally {
+
   button.disabled = false;
   button.textContent = 'Generate pairing code';
+
  }
 }
 
 async function copyPairingCode() {
+
  const code = $('pairCode').textContent;
+
  if (!code) return;
+
  try {
+
   await navigator.clipboard.writeText(code);
-  $('pairMessage').textContent = 'Pairing code copied.';
+
+  $('pairMessage').textContent =
+   'Pairing code copied.';
+
  } catch {
-  $('pairMessage').textContent = 'Select the code and copy it manually.';
+
+  $('pairMessage').textContent =
+   'Select the code and copy it manually.';
+
  }
 }
 
 function stopQrPolling() {
+
  if (qrPollTimer) clearTimeout(qrPollTimer);
+
  qrPollTimer = null;
 }
+
 function clearQrDisplay() {
+
  $('qrCode').replaceChildren();
+
  $('qrBox').classList.add('hidden');
+
  lastQrValue = '';
 }
+
 function renderQr(qrValue) {
+
  if (!qrValue || qrValue === lastQrValue) return;
- if (typeof QRCode === 'undefined') throw new Error('QR generator failed to load. Refresh and try again.');
+
+ if (typeof QRCode === 'undefined') {
+  throw new Error('QR generator failed to load. Refresh and try again.');
+ }
+
  $('qrCode').replaceChildren();
+
  new QRCode($('qrCode'), {
-  text:qrValue,width:240,height:240,colorDark:'#000000',colorLight:'#ffffff',
+  text:qrValue,
+  width:240,
+  height:240,
+  colorDark:'#000000',
+  colorLight:'#ffffff',
   correctLevel:QRCode.CorrectLevel.M
  });
+
  lastQrValue = qrValue;
+
  $('qrBox').classList.remove('hidden');
 }
 
 async function startQrPairing() {
+
  if (!guestToken) {
-  $('qrStatus').textContent = 'Your pairing session is not ready. Refresh the page.';
+  $('qrStatus').textContent =
+   'Your pairing session is not ready. Refresh the page.';
   return;
  }
+
  stopQrPolling();
  clearQrDisplay();
+
  qrStartedAt = Date.now();
+
  const button = $('qrButton');
+
  button.disabled = true;
  button.textContent = 'Starting WhatsApp...';
- $('qrStatus').textContent = 'Starting your QR session. Please wait...';
+
+ $('qrStatus').textContent =
+  'Starting your QR session. Please wait...';
+
  try {
-  await request('/api/whatsapp/qr', {method:'POST',body:JSON.stringify({})}, guestToken);
-  $('qrStatus').textContent = 'Waiting for WhatsApp to provide a QR code...';
+
+  await request(
+   '/api/whatsapp/qr',
+   {
+    method:'POST',
+    body:JSON.stringify({})
+   },
+   guestToken
+  );
+
+  $('qrStatus').textContent =
+   'Waiting for WhatsApp to provide a QR code...';
+
   pollQrStatus();
+
  } catch (error) {
-  $('qrStatus').textContent = 'QR pairing error: ' + error.message;
+
+  $('qrStatus').textContent =
+   'QR pairing error: ' + error.message;
+
   button.disabled = false;
   button.textContent = 'Try QR pairing again';
+
  }
 }
 
 async function pollQrStatus() {
+
  try {
-  const data = await request('/api/whatsapp/qr', {}, guestToken);
-  const status = String(data.status || '').toLowerCase();
+
+  const data = await request(
+   '/api/whatsapp/qr',
+   {},
+   guestToken
+  );
+
+  const status =
+   String(data.status || '').toLowerCase();
+
   if (data.qr && status !== 'connected') {
+
    renderQr(data.qr);
-   $('qrStatus').textContent = 'QR code ready. Scan it using WhatsApp → Linked devices → Link a device.';
+
+   $('qrStatus').textContent =
+    'QR code ready. Scan it using WhatsApp → Linked devices → Link a device.';
+
   }
+
   if (status === 'connected') {
+
    stopQrPolling();
    clearQrDisplay();
-   $('qrStatus').textContent = 'WhatsApp connected successfully!';
+
+   $('qrStatus').textContent =
+    'WhatsApp connected successfully!';
+
    $('qrButton').disabled = false;
-   $('qrButton').textContent = 'Generate another QR code';
+   $('qrButton').textContent =
+    'Generate another QR code';
+
    return;
   }
-  if (status === 'disconnected' && Date.now() - qrStartedAt > 15000) {
+
+  if (
+   status === 'disconnected' &&
+   Date.now() - qrStartedAt > 15000
+  ) {
+
    stopQrPolling();
    clearQrDisplay();
-   $('qrStatus').textContent = 'WhatsApp disconnected. Try generating a new QR code.';
+
+   $('qrStatus').textContent =
+    'WhatsApp disconnected. Try generating a new QR code.';
+
    $('qrButton').disabled = false;
-   $('qrButton').textContent = 'Try QR pairing again';
+   $('qrButton').textContent =
+    'Try QR pairing again';
+
    return;
   }
+
   if (Date.now() - qrStartedAt > 120000) {
+
    stopQrPolling();
-   $('qrStatus').textContent = 'QR request timed out. Please try again.';
+
+   $('qrStatus').textContent =
+    'QR request timed out. Please try again.';
+
    $('qrButton').disabled = false;
-   $('qrButton').textContent = 'Try QR pairing again';
+   $('qrButton').textContent =
+    'Try QR pairing again';
+
    return;
   }
+
   qrPollTimer = setTimeout(pollQrStatus, 1500);
+
  } catch (error) {
+
   stopQrPolling();
-  $('qrStatus').textContent = 'QR pairing error: ' + error.message;
+
+  $('qrStatus').textContent =
+   'QR pairing error: ' + error.message;
+
   $('qrButton').disabled = false;
-  $('qrButton').textContent = 'Try QR pairing again';
+  $('qrButton').textContent =
+   'Try QR pairing again';
+
  }
 }
 
 async function adminLogin(event) {
+
  event.preventDefault();
- $('adminLoginMessage').textContent = 'Checking administrator credentials...';
+
+ $('adminLoginMessage').textContent =
+  'Checking administrator credentials...';
+
  $('adminLoginButton').disabled = true;
+
  try {
-  const data = await request('/api/auth/login', {
-   method:'POST',
-   body:JSON.stringify({
-    email:$('adminEmailInput').value.trim(),
-    password:$('adminPasswordInput').value
-   })
-  });
-  if (!data.token) throw new Error('The server did not return an authentication token.');
+
+  const data = await request(
+   '/api/auth/login',
+   {
+    method:'POST',
+    body:JSON.stringify({
+     email:$('adminEmailInput').value.trim(),
+     password:$('adminPasswordInput').value
+    })
+   }
+  );
+
+  if (!data.token) {
+   throw new Error('The server did not return an authentication token.');
+  }
+
   adminToken = data.token;
-  sessionStorage.setItem('scanty_admin_token', adminToken);
+
+  sessionStorage.setItem(
+   'scanty_admin_token',
+   adminToken
+  );
+
   await verifyAdmin();
+
  } catch (error) {
-  $('adminLoginMessage').textContent = error.message;
+
+  $('adminLoginMessage').textContent =
+   error.message;
+
  } finally {
+
   $('adminLoginButton').disabled = false;
+
  }
 }
 
 async function verifyAdmin() {
+
  try {
-  const data = await request('/api/auth/me', {}, adminToken);
-  if (!data.user || data.user.role !== 'admin') throw new Error('Administrator access required.');
+
+  const data = await request(
+   '/api/auth/me',
+   {},
+   adminToken
+  );
+
+  if (!data.user || data.user.role !== 'admin') {
+   throw new Error('Administrator access required.');
+  }
+
   $('adminLogin').classList.add('hidden');
   $('adminDashboard').classList.remove('hidden');
-  $('adminIdentity').textContent = 'Signed in as ' + data.user.email;
+
+  $('adminIdentity').textContent =
+   'Signed in as ' + data.user.email;
+
   await loadAdmin();
+
  } catch (error) {
+
   sessionStorage.removeItem('scanty_admin_token');
+
   adminToken = null;
+
   $('adminLogin').classList.remove('hidden');
   $('adminDashboard').classList.add('hidden');
-  $('adminLoginMessage').textContent = error.message;
+
+  $('adminLoginMessage').textContent =
+   error.message;
+
  }
 }
 
 async function loadAdmin() {
- $('adminMessage').textContent = 'Loading platform telemetry...';
+
+ $('adminMessage').textContent =
+  'Loading platform telemetry...';
+
  try {
+
   const [statsData, usersData] = await Promise.all([
    request('/api/admin/stats', {}, adminToken),
    request('/api/admin/users', {}, adminToken)
   ]);
-  $('totalUsers').textContent = statsData.stats.total_users;
-  $('totalMembers').textContent = statsData.stats.total_members;
-  $('totalAdmins').textContent = statsData.stats.total_admins;
+
+  $('totalUsers').textContent =
+   statsData.stats.total_users;
+
+  $('totalMembers').textContent =
+   statsData.stats.total_members;
+
+  $('totalAdmins').textContent =
+   statsData.stats.total_admins;
+
   const table = $('usersTable');
+
   table.replaceChildren();
+
   if (!usersData.users.length) {
+
    const row = table.insertRow();
    const cell = row.insertCell();
+
    cell.colSpan = 3;
    cell.textContent = 'No users registered yet.';
+
   }
+
   usersData.users.forEach(user => {
+
    const row = table.insertRow();
-   [user.email,user.role,new Date(user.created_at).toLocaleDateString()].forEach(value => {
+
+   [
+    user.email,
+    user.role,
+    new Date(user.created_at).toLocaleDateString()
+   ].forEach(value => {
+
     const cell = row.insertCell();
+
     cell.textContent = value ?? '';
+
    });
+
   });
-  $('adminMessage').textContent = 'Telemetry refreshed successfully.';
+
+  $('adminMessage').textContent =
+   'Telemetry refreshed successfully.';
+
  } catch (error) {
-  $('adminMessage').textContent = error.message;
+
+  $('adminMessage').textContent =
+   error.message;
+
  }
 }
 
 function adminLogout() {
+
  sessionStorage.removeItem('scanty_admin_token');
+
  adminToken = null;
+
  location.reload();
 }
 
 if (isAdminPage) {
+
  $('publicPage').classList.add('hidden');
  $('adminPage').classList.remove('hidden');
- $('adminLoginForm').addEventListener('submit', adminLogin);
+
+ $('adminLoginForm').addEventListener(
+  'submit',
+  adminLogin
+ );
+
  if (adminToken) verifyAdmin();
+
 } else {
+
  $('adminPage').classList.add('hidden');
  $('publicPage').classList.remove('hidden');
+
  ensureGuestSession();
+
 }
 </script>
+
 </body>
 </html>
