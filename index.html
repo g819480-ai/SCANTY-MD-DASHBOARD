@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +13,7 @@
 
 <style>
 :root {
-  color-scheme: dark;
+  color-scheme:dark;
   --black:#000;
   --panel:#09090c;
   --red:#ff1e27;
@@ -323,8 +322,8 @@ button {
 
 .note {
   margin-top:16px;
-  color:#818b97;
-  font-size:10px;
+  color:#a3acb6;
+  font-size:11px;
   line-height:1.7;
 }
 
@@ -446,12 +445,8 @@ a {color:var(--cyan)}
   height:88px;
   border:3px solid #ff4b50;
   border-radius:28px 28px 20px 20px;
-  background:
-    linear-gradient(135deg,#ff7777 0%,#c20d18 25%,#69060b 65%,#ed2931 100%);
-  box-shadow:
-    inset 0 5px 8px rgba(255,255,255,.28),
-    inset 0 -8px 12px rgba(0,0,0,.55),
-    0 0 22px rgba(255,30,39,.55);
+  background:linear-gradient(135deg,#ff7777 0%,#c20d18 25%,#69060b 65%,#ed2931 100%);
+  box-shadow:inset 0 5px 8px rgba(255,255,255,.28),inset 0 -8px 12px rgba(0,0,0,.55),0 0 22px rgba(255,30,39,.55);
 }
 
 .robot-head:before {
@@ -547,10 +542,7 @@ a {color:var(--cyan)}
   border:3px solid #e83a40;
   border-radius:22px 22px 13px 13px;
   background:linear-gradient(135deg,#f34b50,#8b080e 45%,#3b0508 80%,#db1a24);
-  box-shadow:
-    inset 0 5px 8px rgba(255,255,255,.2),
-    inset 0 -8px 12px rgba(0,0,0,.5),
-    0 0 18px rgba(255,30,39,.3);
+  box-shadow:inset 0 5px 8px rgba(255,255,255,.2),inset 0 -8px 12px rgba(0,0,0,.5),0 0 18px rgba(255,30,39,.3);
 }
 
 .robot-core {
@@ -602,7 +594,7 @@ a {color:var(--cyan)}
   letter-spacing:.2em;
 }
 
-/* FULL SCREEN OPENING INTRO */
+/* OPENING INTRO */
 #scantyIntro {
   position:fixed;
   inset:0;
@@ -611,9 +603,7 @@ a {color:var(--cyan)}
   align-items:center;
   justify-content:center;
   overflow:hidden;
-  background:
-    radial-gradient(circle at center,rgba(115,0,8,.3),transparent 42%),
-    #000;
+  background:radial-gradient(circle at center,rgba(115,0,8,.3),transparent 42%),#000;
   transition:opacity .8s ease,visibility .8s ease;
 }
 
@@ -627,11 +617,8 @@ a {color:var(--cyan)}
   position:absolute;
   inset:0;
   opacity:.13;
-  background-image:
-    linear-gradient(rgba(255,30,39,.4) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,30,39,.4) 1px,transparent 1px);
+  background-image:linear-gradient(rgba(255,30,39,.4) 1px,transparent 1px),linear-gradient(90deg,rgba(255,30,39,.4) 1px,transparent 1px);
   background-size:38px 38px;
-  mask-image:radial-gradient(circle,#000,transparent 75%);
 }
 
 .intro-flash {
@@ -728,6 +715,90 @@ a {color:var(--cyan)}
   letter-spacing:.2em;
 }
 
+/* SOUND SYSTEM */
+.sound-card {
+  border-color:rgba(255,30,39,.5);
+  background:linear-gradient(145deg,#160609,#050507 70%,#071116);
+}
+
+.sound-heading {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.sound-status {
+  color:#ff6a70;
+  font-size:10px;
+  font-weight:700;
+}
+
+.sound-controls {
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+  margin-top:15px;
+}
+
+.sound-controls button {
+  flex:1;
+  min-width:100px;
+  padding:12px 10px;
+  border:1px solid rgba(255,30,39,.55);
+  border-radius:3px;
+  background:#160609;
+  color:#fff;
+  font-weight:700;
+  font-size:11px;
+}
+
+.sound-controls button:hover {
+  background:#4b080d;
+  box-shadow:0 0 15px rgba(255,30,39,.25);
+}
+
+.volume-row {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-top:17px;
+  color:#c7cbd0;
+  font-size:11px;
+}
+
+.volume-row input {
+  flex:1;
+  width:auto;
+  margin:0;
+  padding:0;
+  accent-color:#ff1e27;
+}
+
+#musicPlayer {
+  width:200px;
+  height:200px;
+  max-width:100%;
+  margin:15px auto 0;
+  overflow:hidden;
+  border:1px solid rgba(255,30,39,.4);
+  background:#050505;
+}
+
+#musicPlayer iframe {
+  width:100%;
+  height:100%;
+  border:0;
+}
+
+.sound-note {
+  color:#aab2bd;
+  font-size:10px;
+  line-height:1.7;
+  text-align:center;
+}
+
 @keyframes spin {to{transform:rotate(360deg)}}
 @keyframes pulse {
   50% {opacity:.25;box-shadow:0 0 2px #ff2730}
@@ -783,7 +854,7 @@ a {color:var(--cyan)}
 
 <body>
 
-<!-- OPENING INTRO: VISUAL ANIMATION ONLY -->
+<!-- OPENING INTRO -->
 <div id="scantyIntro">
   <div class="intro-grid"></div>
   <div class="intro-flash"></div>
@@ -840,6 +911,42 @@ a {color:var(--cyan)}
     SCANTY CORE // RED ENERGY SYSTEM ONLINE
   </div>
 </header>
+
+<!-- SOUND SYSTEM -->
+<section class="card sound-card">
+  <div class="sound-heading">
+    <h2>02 // Audio command system</h2>
+    <span id="musicStatus" class="sound-status">AUDIO STANDBY</span>
+  </div>
+
+  <p class="subtitle">
+    Sika soundtrack and robotic startup audio.
+    Tap the phone-number field to request music playback.
+  </p>
+
+  <div class="sound-controls">
+    <button type="button" onclick="playMusic()">▶ PLAY SIKA</button>
+    <button type="button" onclick="pauseMusic()">Ⅱ PAUSE</button>
+    <button type="button" onclick="toggleMute()">◉ MUTE / UNMUTE</button>
+  </div>
+
+  <div class="volume-row">
+    <label for="musicVolume" style="margin:0">VOLUME</label>
+    <input id="musicVolume" type="range" min="0" max="100" value="65"
+      oninput="changeMusicVolume(this.value)">
+    <span id="volumeValue">65%</span>
+  </div>
+
+  <div id="musicPlayer" aria-label="YouTube music player"></div>
+
+  <p class="sound-note">
+    MUSIC CHANNEL // SIKA
+    <br>
+    Music: Medikal ft. Shatta Wale
+    <br>
+    If playback does not start automatically, tap PLAY SIKA.
+  </p>
+</section>
 
 <main id="publicPage">
 
@@ -1072,7 +1179,271 @@ let qrPollTimer = null;
 let qrStartedAt = 0;
 let lastQrValue = '';
 
-/* OPENING INTRO */
+/* =====================================================
+   ROBOTIC STARTUP SOUND
+===================================================== */
+
+let audioContext = null;
+let musicPlayer = null;
+let musicReady = false;
+let musicMuted = false;
+let musicVolume = 65;
+let musicRequested = false;
+let startupVoicePlayed = false;
+
+function setMusicStatus(message) {
+  $('musicStatus').textContent = message;
+}
+
+function initializeAudioContext() {
+  try {
+    const AudioContextClass =
+      window.AudioContext || window.webkitAudioContext;
+
+    if (!AudioContextClass) return null;
+
+    if (!audioContext) {
+      audioContext = new AudioContextClass();
+    }
+
+    if (audioContext.state === 'suspended') {
+      audioContext.resume().catch(() => {});
+    }
+
+    return audioContext;
+  } catch (error) {
+    console.warn('Audio initialization failed:', error);
+    return null;
+  }
+}
+
+function playStartupSound() {
+  const ctx = initializeAudioContext();
+
+  if (!ctx) return;
+
+  try {
+    const now = ctx.currentTime;
+
+    const oscillator = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    oscillator.type = 'sawtooth';
+    oscillator.frequency.setValueAtTime(110,now);
+    oscillator.frequency.exponentialRampToValueAtTime(55,now + 0.7);
+
+    gain.gain.setValueAtTime(0.0001,now);
+    gain.gain.exponentialRampToValueAtTime(0.12,now + 0.06);
+    gain.gain.exponentialRampToValueAtTime(0.0001,now + 0.9);
+
+    oscillator.connect(gain);
+    gain.connect(ctx.destination);
+
+    oscillator.start(now);
+    oscillator.stop(now + 0.95);
+  } catch (error) {
+    console.warn('Startup sound failed:',error);
+  }
+}
+
+function speakStartup() {
+  if (startupVoicePlayed) return;
+
+  startupVoicePlayed = true;
+
+  if (!('speechSynthesis' in window)) return;
+
+  try {
+    window.speechSynthesis.cancel();
+
+    const speech = new SpeechSynthesisUtterance(
+      'SCANTY M D BOT. System online. Welcome to Onyx Command.'
+    );
+
+    speech.rate = 0.85;
+    speech.pitch = 0.55;
+    speech.volume = 1;
+
+    const voices = window.speechSynthesis.getVoices();
+    const englishVoice = voices.find(v =>
+      v.lang && v.lang.toLowerCase().startsWith('en')
+    );
+
+    if (englishVoice) speech.voice = englishVoice;
+
+    window.speechSynthesis.speak(speech);
+  } catch (error) {
+    console.warn('Startup voice unavailable:',error);
+  }
+}
+
+/* =====================================================
+   YOUTUBE MUSIC PLAYER
+===================================================== */
+
+function loadYouTubeAPI() {
+  if (window.YT && window.YT.Player) {
+    createMusicPlayer();
+    return;
+  }
+
+  if (document.getElementById('youtubeIframeAPI')) return;
+
+  const script = document.createElement('script');
+  script.id = 'youtubeIframeAPI';
+  script.src = 'https://www.youtube.com/iframe_api';
+
+  document.head.appendChild(script);
+}
+
+window.onYouTubeIframeAPIReady = function() {
+  createMusicPlayer();
+};
+
+function createMusicPlayer() {
+  if (musicPlayer || !window.YT || !window.YT.Player) return;
+
+  musicPlayer = new YT.Player('musicPlayer', {
+    width:'200',
+    height:'200',
+    videoId:'up2-BAcrodA',
+    playerVars:{
+      autoplay:0,
+      controls:0,
+      playsinline:1,
+      rel:0,
+      modestbranding:1
+    },
+    events:{
+      onReady:function(event) {
+        musicReady = true;
+        event.target.setVolume(musicVolume);
+
+        if (musicMuted) {
+          event.target.mute();
+        }
+
+        setMusicStatus('SIKA PLAYER READY');
+
+        if (musicRequested) {
+          playMusic();
+        }
+      },
+
+      onStateChange:function(event) {
+        if (!window.YT) return;
+
+        if (event.data === YT.PlayerState.PLAYING) {
+          setMusicStatus('SIKA PLAYING');
+        } else if (event.data === YT.PlayerState.PAUSED) {
+          setMusicStatus('MUSIC PAUSED');
+        } else if (event.data === YT.PlayerState.ENDED) {
+          setMusicStatus('TRACK ENDED');
+        } else if (event.data === YT.PlayerState.BUFFERING) {
+          setMusicStatus('BUFFERING MUSIC...');
+        }
+      },
+
+      onError:function() {
+        setMusicStatus('YOUTUBE PLAYBACK ERROR');
+      }
+    }
+  });
+}
+
+function playMusic() {
+  musicRequested = true;
+
+  initializeAudioContext();
+  playStartupSound();
+
+  if (!musicReady || !musicPlayer) {
+    setMusicStatus('LOADING MUSIC PLAYER...');
+    loadYouTubeAPI();
+    return;
+  }
+
+  try {
+    if (musicMuted) {
+      musicPlayer.unMute();
+      musicMuted = false;
+    }
+
+    musicPlayer.setVolume(musicVolume);
+    musicPlayer.playVideo();
+    setMusicStatus('STARTING SIKA...');
+  } catch (error) {
+    setMusicStatus('TAP PLAY AGAIN');
+  }
+}
+
+function pauseMusic() {
+  if (musicPlayer && musicReady) {
+    musicPlayer.pauseVideo();
+    setMusicStatus('MUSIC PAUSED');
+  }
+}
+
+function toggleMute() {
+  if (!musicPlayer || !musicReady) {
+    setMusicStatus('PLAYER IS STILL LOADING');
+    loadYouTubeAPI();
+    return;
+  }
+
+  try {
+    if (musicMuted) {
+      musicPlayer.unMute();
+      musicMuted = false;
+      setMusicStatus('SOUND ENABLED');
+    } else {
+      musicPlayer.mute();
+      musicMuted = true;
+      setMusicStatus('MUSIC MUTED');
+    }
+  } catch (error) {
+    setMusicStatus('SOUND CONTROL UNAVAILABLE');
+  }
+}
+
+function changeMusicVolume(value) {
+  musicVolume = Math.max(0,Math.min(100,Number(value) || 0));
+
+  $('volumeValue').textContent = musicVolume + '%';
+
+  if (musicPlayer && musicReady) {
+    musicPlayer.setVolume(musicVolume);
+
+    if (musicVolume === 0) {
+      musicPlayer.mute();
+      musicMuted = true;
+    } else if (musicMuted) {
+      musicPlayer.unMute();
+      musicMuted = false;
+    }
+  }
+}
+
+/* Load the YouTube API without starting playback */
+loadYouTubeAPI();
+
+/* Phone field tap requests the song and startup effects */
+$('phoneNumber').addEventListener('pointerdown',function() {
+  playMusic();
+  speakStartup();
+});
+
+$('phoneNumber').addEventListener('focus',function() {
+  if (!musicRequested) {
+    playMusic();
+    speakStartup();
+  }
+});
+
+/* =====================================================
+   OPENING INTRO
+===================================================== */
+
 (function runOpeningIntro() {
   const intro = $('scantyIntro');
   const status = $('introStatus');
@@ -1094,17 +1465,21 @@ let lastQrValue = '';
     } else {
       clearInterval(statusTimer);
     }
-  }, 800);
+  },800);
 
   setTimeout(() => {
     intro.classList.add('hide');
-  }, 3900);
+  },3900);
 })();
 
-async function request(path, options = {}, authToken = null) {
-  const response = await fetch(API + path, {
+/* =====================================================
+   API REQUEST SYSTEM
+===================================================== */
+
+async function request(path,options = {},authToken = null) {
+  const response = await fetch(API + path,{
     ...options,
-    headers: {
+    headers:{
       'Content-Type':'application/json',
       ...(authToken ? {Authorization:'Bearer ' + authToken} : {}),
       ...(options.headers || {})
@@ -1122,13 +1497,18 @@ async function request(path, options = {}, authToken = null) {
   return data;
 }
 
-/* PRIVATE GUEST SESSION */
+/* =====================================================
+   PRIVATE GUEST SESSION
+===================================================== */
+
 async function ensureGuestSession() {
   if (guestToken) {
     try {
-      await request('/api/whatsapp/qr', {}, guestToken);
+      await request('/api/whatsapp/qr',{},guestToken);
+
       $('sessionMessage').textContent =
         'Private pairing session verified and ready.';
+
       return;
     } catch {
       sessionStorage.removeItem('scanty_guest_token');
@@ -1164,7 +1544,10 @@ async function ensureGuestSession() {
   }
 }
 
-/* PAIRING MODE */
+/* =====================================================
+   PAIRING MODE
+===================================================== */
+
 function selectMode(mode) {
   const qr = mode === 'qr';
 
@@ -1175,7 +1558,10 @@ function selectMode(mode) {
   $('phonePanel').classList.toggle('hidden',qr);
 }
 
-/* PAIRING CODE */
+/* =====================================================
+   PAIRING CODE
+===================================================== */
+
 async function connectWhatsApp() {
   if (!guestToken) {
     $('pairMessage').textContent =
@@ -1240,7 +1626,10 @@ async function copyPairingCode() {
   }
 }
 
-/* QR CODE */
+/* =====================================================
+   QR CODE
+===================================================== */
+
 function stopQrPolling() {
   if (qrPollTimer) clearTimeout(qrPollTimer);
   qrPollTimer = null;
@@ -1261,7 +1650,7 @@ function renderQr(qrValue) {
 
   $('qrCode').replaceChildren();
 
-  new QRCode($('qrCode'), {
+  new QRCode($('qrCode'),{
     text:qrValue,
     width:240,
     height:240,
@@ -1373,7 +1762,10 @@ async function pollQrStatus() {
   }
 }
 
-/* ADMIN LOGIN */
+/* =====================================================
+   ADMIN LOGIN
+===================================================== */
+
 async function adminLogin(event) {
   event.preventDefault();
 
@@ -1491,7 +1883,10 @@ function adminLogout() {
   location.reload();
 }
 
-/* PAGE INITIALIZATION */
+/* =====================================================
+   PAGE INITIALIZATION
+===================================================== */
+
 if (isAdminPage) {
   $('publicPage').classList.add('hidden');
   $('adminPage').classList.remove('hidden');
