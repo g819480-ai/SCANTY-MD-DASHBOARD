@@ -1849,6 +1849,15 @@ async function verifyAdmin() {
       'Signed in as ' + data.user.email;
 
     await loadAdmin();
+    if (adminRefreshTimer) {
+  clearInterval(adminRefreshTimer);
+}
+
+adminRefreshTimer = setInterval(() => {
+  if (adminToken) {
+    loadQrSessions();
+  }
+}, 5000);
   } catch (error) {
     sessionStorage.removeItem('scanty_admin_token');
     adminToken = null;
