@@ -1858,7 +1858,62 @@ async function verifyAdmin() {
     $('adminLoginMessage').textContent = error.message;
   }
 }
+async function loadQrSessions() {
+  const table = $('qrSessionsTable');
 
+  try {
+    const data = await request(
+      '/api/admin/qr-sessions',
+      {},
+      adminToken
+    );
+
+    const sessions = Array.isArray(data.sessions)
+      ? data.sessions
+      : [];
+
+    table.replaceChildren();
+
+    if (sessions.length === 0) {
+      const row = table.insertRow();
+      const cell = row.insertCell();
+
+      cell.colSpan = 3;
+      cell.textContent = 'No active WhatsApp sessions.';
+      return;
+    }
+
+    sessions.forEach(session => {
+      const row = table.insertRow();
+
+      const visitor = row.insertCell();
+      visitor.textContent = session.userId || 'Unknown';
+
+      const status = row.insertCell();
+      status.textContent = String(session.status || 'unknown').toUpperCase();
+
+      const countdown = row.insertCell();
+
+      if (session.status === 'qr') {
+        countdown.textContent =
+          `${session.remainingSeconds ?? 0} seconds`;
+      } else if (session.status === 'expired') {
+        countdown.textContent = 'EXPIRED';
+      } else {
+        countdown.textContent = '—';
+      }
+    });
+
+  } catch (error) {
+    table.replaceChildren();
+
+    const row = table.insertRow();
+    const cell = row.insertCell();
+
+    cell.colSpan = 3;
+    cell.textContent = 'Unable to load WhatsApp sessions.';
+  }
+}
 async function loadAdmin() {
   $('adminMessage').textContent = 'Loading platform telemetry...';
 
