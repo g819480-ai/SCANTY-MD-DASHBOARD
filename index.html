@@ -1774,36 +1774,6 @@ async function pollQrStatus() {
     $('qrButton').textContent = 'Try QR pairing again';
   }
 }
-    if (Date.now() - qrStartedAt > 120000) {
-      stopQrPolling();
-
-      $('qrStatus').textContent =
-        'QR request timed out. Please try again.';
-
-      $('qrButton').disabled = false;
-      $('qrButton').textContent = 'Try QR pairing again';
-      return;
-    }
-
-    qrPollTimer = setTimeout(pollQrStatus,1500);
-  } catch (error) {
-    stopQrPolling();
-
-    $('qrStatus').textContent = 'QR pairing error: ' + error.message;
-    $('qrButton').disabled = false;
-    $('qrButton').textContent = 'Try QR pairing again';
-  }
-}
-
-/* =====================================================
-   ADMIN LOGIN
-===================================================== */
-
-async function adminLogin(event) {
-  event.preventDefault();
-
-  $('adminLoginMessage').textContent =
-    'Checking administrator credentials...';
 
   $('adminLoginButton').disabled = true;
 
