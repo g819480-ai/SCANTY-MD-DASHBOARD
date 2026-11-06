@@ -1775,6 +1775,10 @@ async function pollQrStatus() {
   }
 }
 
+  /* ADMIN LOGIN */
+async function adminLogin(event) {
+  event.preventDefault();
+  $('adminLoginMessage').textContent = 'Checking administrator credentials...';
   $('adminLoginButton').disabled = true;
 
   try {
