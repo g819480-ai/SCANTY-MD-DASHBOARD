@@ -1793,7 +1793,7 @@ async function pollQrStatus() {
 
   } catch (error) {
     stopQrPolling();
-
+    clearQrDisplay();
     $('qrStatus').textContent = 'QR pairing error: ' + error.message;
     $('qrButton').disabled = false;
     $('qrButton').textContent = 'Try QR pairing again';
