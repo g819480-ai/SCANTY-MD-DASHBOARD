@@ -1032,7 +1032,8 @@ a {color:var(--cyan)}
     <div id="qrBox" class="qr-box hidden">
       <span class="muted">SCAN THIS QR CODE WITH WHATSAPP</span>
       <div id="qrCode"></div>
-
+      <p id="qrCountdown" class="note">Waiting for QR code...</p>
+      <p id="qrExpiry" class="message" role="status" aria-live="polite"></p>
       <p class="note">
         Open WhatsApp → Settings → Linked devices →
         Link a device. Scan the QR code.
@@ -1703,18 +1704,10 @@ async function startQrPairing() {
     button.textContent = 'Try QR pairing again';
   }
 }
-
 async function pollQrStatus() {
   try {
-    const data = await request('/api/whatsapp/qr',{},guestToken);
+    const data = await request('/api/whatsapp/qr', {}, guestToken);
     const status = String(data.status || '').toLowerCase();
-
-    if (data.qr && status !== 'connected') {
-      renderQr(data.qr);
-
-      $('qrStatus').textContent =
-        'QR code ready. Scan it using WhatsApp → Linked devices → Link a device.';
-    }
 
     if (status === 'connected') {
       stopQrPolling();
@@ -1726,10 +1719,40 @@ async function pollQrStatus() {
       return;
     }
 
-    if (
-      status === 'disconnected' &&
-      Date.now() - qrStartedAt > 15000
-    ) {
+    if (status === 'expired') {
+      stopQrPolling();
+
+      $('qrCode').replaceChildren();
+      $('qrBox').classList.remove('hidden');
+      $('qrCountdown').textContent = '00:00';
+      $('qrExpiry').textContent = 'EXPIRED';
+
+      $('qrStatus').textContent =
+        'This QR code has expired. Generate a new one to try again.';
+
+      lastQrValue = '';
+      $('qrButton').disabled = false;
+      $('qrButton').textContent = 'Generate a new QR code';
+      return;
+    }
+
+    if (data.qr && status === 'qr') {
+      renderQr(data.qr);
+
+      const remaining = Number(data.remainingSeconds);
+
+      $('qrCountdown').textContent =
+        Number.isFinite(remaining)
+          ? `QR code expires in ${remaining} seconds`
+          : 'QR code ready';
+
+      $('qrExpiry').textContent = '';
+
+      $('qrStatus').textContent =
+        'Scan using WhatsApp → Linked devices → Link a device.';
+    }
+
+    if (status === 'disconnected') {
       stopQrPolling();
       clearQrDisplay();
 
@@ -1741,6 +1764,16 @@ async function pollQrStatus() {
       return;
     }
 
+    qrPollTimer = setTimeout(pollQrStatus, 1000);
+
+  } catch (error) {
+    stopQrPolling();
+
+    $('qrStatus').textContent = 'QR pairing error: ' + error.message;
+    $('qrButton').disabled = false;
+    $('qrButton').textContent = 'Try QR pairing again';
+  }
+}
     if (Date.now() - qrStartedAt > 120000) {
       stopQrPolling();
 
