@@ -1955,7 +1955,7 @@ async function loadAdmin() {
         cell.textContent = value ?? '';
       });
     });
-
+await loadQrSessions();
     $('adminMessage').textContent =
       'Telemetry refreshed successfully.';
   } catch (error) {
