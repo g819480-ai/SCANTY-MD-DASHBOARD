@@ -19,6 +19,95 @@
   cronitor('config', { clientKey: 'e7ab2d7f28c838e1a3b076245d1e6373' });
 </script>
 
+/* ==========================================
+   SCANTY MD BOT — ONYX API INTEGRATION
+   ========================================== */
+
+const ONYX_API = {
+    baseUrl: "https://scanty-md-bot.onrender.com",
+
+    token() {
+        return (
+            sessionStorage.getItem("scanty_token") ||
+            localStorage.getItem("scanty_token") ||
+            ""
+        );
+    },
+
+    async request(path, options = {}) {
+        const token = this.token();
+
+        const headers = {
+            "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+            ...(options.headers || {})
+        };
+
+        const response = await fetch(
+            `${this.baseUrl}${path}`,
+            {
+                ...options,
+                headers
+            }
+        );
+
+        const data = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+            throw new Error(
+                data.message || `Request failed (${response.status})`
+            );
+        }
+
+        return data;
+    },
+
+    async getSettings() {
+        return this.request("/api/visitor/settings");
+    },
+
+    async saveSettings(settings) {
+        return this.request("/api/visitor/settings", {
+            method: "POST",
+            body: JSON.stringify(settings)
+        });
+    },
+
+    async requestPairingCode(phone) {
+        return this.request(
+            `/api/visitor/pairing?phone=${encodeURIComponent(phone)}`
+        );
+    },
+
+    async getQrPayload() {
+        return this.request("/api/visitor/qr-payload");
+    },
+
+    async adminMetrics() {
+        return this.request("/api/admin/metrics");
+    },
+
+    async unbanUser(userId) {
+        return this.request(
+            `/api/admin/unban/${encodeURIComponent(userId)}`,
+            { method: "POST" }
+        );
+    }
+};
+
+/* Display API errors without crashing the dashboard */
+function onyxError(error) {
+    console.error("ONYX API:", error);
+
+    const message = error?.message || "Something went wrong.";
+
+    if (typeof showToast === "function") {
+        showToast(message, "error");
+    } else {
+        alert(message);
+    }
+}
+
 <style>
 :root {
   --muted: #b2c4d8;
