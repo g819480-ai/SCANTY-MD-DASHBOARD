@@ -1,358 +1,1108 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ULTRA GURU MD | Premium WhatsApp Bot</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#a90018">
+<title>SCANTY MD BOT | Command Bridge</title>
+<meta name="description" content="SCANTY MD BOT WhatsApp connection dashboard">
 
-    <!-- Metadata for SEO -->
-    <meta name="description" content="SCANTY MD BOT - Premium WhatsApp Bot by GURUTECH LAB">
-    <meta property="og:title" content="SCANTY MD BOT| Premium WhatsApp Bot">
-    <meta property="og:description" content="SCANTY MD BOT is Active & Running | Deploy Your Own Bot Now">
-    <meta property="og:image" content="https://res.cloudinary.com/dqxlb29uz/image/upload/v1780267810/bwm_uploads/media-1780267810008.jpg">
-    <meta property="og:url" content="https://github.com/GuruhTech/ULTRA-GURU">
-    <link rel="icon" href="https://res.cloudinary.com/dqxlb29uz/image/upload/v1780267810/bwm_uploads/media-1780267810008.jpg">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<style>
+:root {
+  --red:#c90024;
+  --red2:#ff193f;
+  --red3:#780014;
+  --white:#fff;
+  --soft:#ffe9ed;
+  --ink:#16070a;
+  --glass:rgba(35,5,12,.82);
+  --line:rgba(255,70,95,.38);
+  --muted:#e4bfc5;
+  --green:#21d58a;
+}
 
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #0a0a0a 0%, #0a1a2a 50%, #0a0f1e 100%);
-            font-family: 'Poppins', 'Segoe UI', system-ui, sans-serif;
-            flex-direction: column;
-            position: relative;
-            overflow: hidden;
-        }
+* {box-sizing:border-box;margin:0;padding:0}
+html {scroll-behavior:smooth}
+body {
+  min-height:100vh;
+  color:var(--white);
+  font-family:Arial,Helvetica,sans-serif;
+  background:
+    radial-gradient(ellipse at 50% 5%,rgba(255,25,63,.35),transparent 38%),
+    radial-gradient(ellipse at 85% 75%,rgba(170,0,25,.25),transparent 40%),
+    linear-gradient(145deg,#3b0711 0%,#17070b 48%,#080406 100%);
+  overflow-x:hidden;
+}
 
-        /* Animated background particles */
-        body::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-image: url('https://res.cloudinary.com/dqxlb29uz/image/upload/v1780267810/bwm_uploads/media-1780267810008.jpg');
-            background-size: cover;
-            background-position: center;
-            opacity: 0.05;
-            z-index: 0;
-            pointer-events: none;
-        }
+/* SPACE ENVIRONMENT */
+.space {
+  position:fixed;inset:0;pointer-events:none;z-index:-2;
+  background:
+    radial-gradient(circle at 12% 20%,#fff 0 1px,transparent 2px),
+    radial-gradient(circle at 75% 15%,#ffb5c0 0 1px,transparent 2px),
+    radial-gradient(circle at 43% 70%,#fff 0 1px,transparent 2px),
+    radial-gradient(circle at 90% 55%,#ff536c 0 1px,transparent 2px),
+    radial-gradient(circle at 20% 82%,#fff 0 1px,transparent 2px);
+  background-size:240px 220px,300px 270px,190px 230px,270px 210px,330px 290px;
+  animation:starDrift 50s linear infinite;
+}
+@keyframes starDrift {to{background-position:500px 400px,-400px 500px,350px -300px,-300px -400px,500px 200px}}
 
-        body::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 50% 50%, rgba(0,184,255,0.03) 0%, transparent 80%);
-            z-index: 0;
-            pointer-events: none;
-        }
+.planet {
+  position:fixed;right:-160px;top:18%;width:380px;height:380px;
+  border-radius:50%;z-index:-1;pointer-events:none;
+  background:
+    linear-gradient(120deg,rgba(255,255,255,.2),transparent 35%),
+    radial-gradient(circle at 35% 35%,#ff687d,#a50022 55%,#30000c 80%);
+  box-shadow:inset -35px -25px 70px #170006,0 0 90px rgba(255,0,45,.22);
+  opacity:.45;
+}
+.planet:after {
+  content:"";position:absolute;inset:42% -15%;height:18%;
+  border:8px solid rgba(255,120,140,.35);border-radius:50%;
+  transform:rotate(-22deg);
+}
 
-        .container {
-            position: relative;
-            z-index: 1;
-            text-align: center;
-            padding: 40px;
-            background: rgba(10, 20, 30, 0.75);
-            backdrop-filter: blur(15px);
-            border-radius: 40px;
-            border: 1px solid rgba(0, 184, 255, 0.3);
-            box-shadow: 0 0 50px rgba(0, 184, 255, 0.1);
-            animation: borderPulse 3s ease-in-out infinite;
-            max-width: 90%;
-            width: 550px;
-        }
+.ship-grid {
+  position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.13;
+  background-image:
+    linear-gradient(rgba(255,50,80,.15) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,50,80,.15) 1px,transparent 1px);
+  background-size:55px 55px;
+  mask-image:linear-gradient(transparent,black 30%,black 75%,transparent);
+}
+.beam {
+  position:fixed;top:-30%;left:50%;width:2px;height:150%;
+  background:linear-gradient(transparent,rgba(255,30,60,.55),transparent);
+  transform:rotate(24deg);filter:blur(2px);pointer-events:none;z-index:-1;
+  animation:beamMove 9s ease-in-out infinite alternate;
+}
+@keyframes beamMove {from{left:25%;opacity:.15}to{left:80%;opacity:.7}}
 
-        @keyframes borderPulse {
-            0%, 100% {
-                border-color: rgba(0, 184, 255, 0.3);
-                box-shadow: 0 0 30px rgba(0, 184, 255, 0.1);
-            }
-            50% {
-                border-color: rgba(0, 184, 255, 0.8);
-                box-shadow: 0 0 60px rgba(0, 184, 255, 0.3);
-            }
-        }
+/* INTRO */
+#intro {
+  position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;
+  justify-content:center;align-items:center;text-align:center;
+  background:radial-gradient(circle,#640014 0%,#210008 48%,#080406 100%);
+  transition:opacity 1s ease,visibility 1s ease;
+}
+#intro.hide {opacity:0;visibility:hidden}
+.intro-orbit {
+  width:145px;height:145px;border:2px solid rgba(255,60,90,.55);
+  border-top-color:white;border-radius:50%;position:relative;
+  animation:spin 3s linear infinite;
+  box-shadow:0 0 35px rgba(255,0,45,.4),inset 0 0 30px rgba(255,0,45,.2);
+}
+.intro-orbit:before,.intro-orbit:after {
+  content:"";position:absolute;border:1px solid rgba(255,255,255,.5);
+  border-radius:50%;inset:15px;transform:rotateX(65deg);
+}
+.intro-orbit:after {inset:-14px;transform:rotateY(65deg)}
+.intro-core {
+  position:absolute;font-size:45px;color:white;text-shadow:0 0 25px #ff163d;
+  animation:corePulse 1.5s ease-in-out infinite;
+}
+.intro-title {
+  margin-top:35px;font-size:clamp(25px,6vw,48px);font-weight:900;
+  letter-spacing:5px;color:white;text-shadow:0 0 25px #ff123c;
+  animation:titleReveal 1.7s ease both;
+}
+.intro-sub {margin-top:12px;color:#ff9aa9;letter-spacing:4px;font-size:11px}
+.intro-bar {width:min(280px,70vw);height:4px;background:#4c1420;margin-top:28px;overflow:hidden}
+.intro-bar span {display:block;width:0;height:100%;background:white;box-shadow:0 0 15px #ff2449;animation:load 3.5s ease forwards}
+.intro-status {margin-top:12px;color:#ffccd3;font-size:10px;letter-spacing:3px}
+@keyframes spin {to{transform:rotate(360deg)}}
+@keyframes corePulse {50%{transform:scale(1.2);text-shadow:0 0 40px white}}
+@keyframes titleReveal {from{opacity:0;letter-spacing:15px;filter:blur(10px)}to{opacity:1;letter-spacing:5px;filter:blur(0)}}
+@keyframes load {to{width:100%}}
 
-        .glow {
-            font-size: 2.2em;
-            font-weight: 800;
-            color: #fff;
-            text-align: center;
-            animation: textGlow 3s ease-in-out infinite;
-            margin-bottom: 20px;
-            letter-spacing: 1px;
-        }
+/* MAIN LAYOUT */
+.page {width:min(1250px,94%);margin:auto;padding:24px 0 45px}
+.topbar {
+  display:flex;justify-content:space-between;align-items:center;gap:15px;
+  padding:13px 17px;border:1px solid var(--line);
+  background:rgba(35,4,12,.72);backdrop-filter:blur(15px);
+  border-radius:15px;box-shadow:0 0 25px rgba(180,0,30,.12);
+}
+.brand {display:flex;align-items:center;gap:12px}
+.brand-mark {
+  width:43px;height:43px;border-radius:12px;display:grid;place-items:center;
+  background:linear-gradient(145deg,#ff3154,#850018);
+  color:white;font-size:23px;font-weight:900;
+  box-shadow:0 0 22px rgba(255,0,50,.45);
+}
+.brand h1 {font-size:17px;letter-spacing:1.5px}
+.brand small {display:block;color:#ff9ba9;font-size:9px;letter-spacing:2px;margin-top:4px}
+.top-right {display:flex;align-items:center;gap:12px}
+.clock {text-align:right;font-family:monospace;color:#ffe4e8;font-size:12px;line-height:1.6}
+.menu-wrap {position:relative}
+.menu-button {
+  width:40px;height:40px;border:1px solid var(--line);border-radius:10px;
+  color:white;background:#3b0a14;font-size:23px;cursor:pointer;
+}
+.menu-pop {
+  display:none;position:absolute;right:0;top:48px;width:190px;z-index:30;
+  background:#23070e;border:1px solid var(--line);border-radius:12px;padding:8px;
+  box-shadow:0 15px 40px #000;
+}
+.menu-pop.show {display:block}
+.menu-pop button {
+  display:block;width:100%;padding:12px;text-align:left;color:white;
+  background:transparent;border:0;border-radius:7px;cursor:pointer;
+}
+.menu-pop button:hover {background:#650d20}
 
-        @keyframes textGlow {
-            0%, 100% {
-                text-shadow: 0 0 10px #00b8ff, 0 0 20px #00b8ff, 0 0 30px #00b8ff;
-                color: #ffffff;
-            }
-            50% {
-                text-shadow: 0 0 20px #1E90FF, 0 0 40px #1E90FF, 0 0 60px #1E90FF;
-                color: #00b8ff;
-            }
-        }
+.hero {
+  text-align:center;padding:36px 12px 25px;
+}
+.hero-tag {color:#ff9dab;font-size:10px;letter-spacing:5px;margin-bottom:12px}
+.hero h2 {
+  font-size:clamp(28px,6vw,54px);font-weight:900;letter-spacing:2px;
+  text-shadow:0 0 25px rgba(255,0,45,.65);
+}
+.hero h2 span {color:#ff4968}
+.hero p {color:#f0cbd1;font-size:13px;margin-top:12px;line-height:1.7}
+.system-line {
+  display:flex;justify-content:center;align-items:center;gap:9px;
+  margin:18px auto 0;color:#ffdce2;font-size:11px;letter-spacing:1px;
+}
+.dot {width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green)}
+.dot.off {background:#ff405e;box-shadow:0 0 12px #ff405e}
+.dot.wait {background:#ffc247;box-shadow:0 0 12px #ffc247}
 
-        .bot-name {
-            font-size: 2.8em;
-            font-weight: 900;
-            background: linear-gradient(135deg, #00b8ff, #1E90FF, #00b8ff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 15px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            animation: gradientShift 3s ease-in-out infinite;
-        }
+/* PANELS */
+.panel {
+  background:linear-gradient(145deg,rgba(67,8,22,.88),rgba(19,5,9,.88));
+  border:1px solid var(--line);border-radius:18px;padding:21px;
+  box-shadow:0 15px 45px rgba(0,0,0,.28),inset 0 1px rgba(255,255,255,.05);
+  backdrop-filter:blur(14px);position:relative;overflow:hidden;
+}
+.panel:before {
+  content:"";position:absolute;top:0;left:10%;width:80%;height:1px;
+  background:linear-gradient(90deg,transparent,#ff6c83,transparent);
+}
+.panel-head {display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:17px}
+.panel-head h3 {font-size:15px;letter-spacing:1px}
+.panel-head small {font-size:9px;color:#ff9aa9;letter-spacing:2px}
+.connect-grid {display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.qr-area {
+  min-height:220px;background:#fff;border-radius:13px;padding:12px;
+  display:flex;justify-content:center;align-items:center;margin:12px auto;
+  width:min(230px,100%);
+}
+#qrcode {min-height:190px;display:grid;place-items:center}
+#qrcode img,#qrcode canvas {max-width:100%;height:auto!important}
+.qr-placeholder {color:#7a172a;font-size:12px;text-align:center;line-height:1.7}
+.qr-placeholder strong {display:block;font-size:38px;margin-bottom:8px}
+.help {color:#f0cbd1;font-size:11px;line-height:1.7;text-align:center;margin:10px 0}
+.action {
+  border:0;border-radius:10px;padding:13px 16px;cursor:pointer;
+  font-weight:800;letter-spacing:.5px;transition:.2s;
+}
+.action:hover {transform:translateY(-2px);filter:brightness(1.12)}
+.action:disabled {opacity:.45;cursor:not-allowed;transform:none}
+.primary {background:linear-gradient(110deg,#ff3155,#a90024);color:white;box-shadow:0 7px 20px rgba(255,0,50,.22)}
+.secondary {background:#fff;color:#9e0020}
+.outline {background:transparent;border:1px solid #ff7188;color:white}
+.full {width:100%}
+.field {
+  width:100%;padding:14px;border-radius:9px;border:1px solid #8b2639;
+  color:white;background:rgba(10,0,4,.65);outline:none;font-size:14px;
+}
+.field:focus {border-color:#ff526f;box-shadow:0 0 0 3px rgba(255,30,65,.12)}
+.field::placeholder {color:#b98b94}
+.pair-code {
+  min-height:92px;display:grid;place-items:center;text-align:center;
+  margin:15px 0;padding:15px;background:rgba(5,0,2,.55);
+  border:1px dashed #ff536f;border-radius:12px;
+  color:#fff;font-size:27px;font-weight:900;letter-spacing:5px;
+  word-break:break-word;
+}
+.pair-code small {display:block;font-size:10px;color:#ff9eac;letter-spacing:2px;margin-bottom:8px}
+.pair-instructions {font-size:11px;line-height:1.8;color:#f3d4d9;margin:12px 0}
+.pair-instructions b {color:white}
+.notice {
+  display:none;padding:11px 13px;border-radius:9px;margin-top:12px;
+  font-size:12px;line-height:1.6;background:rgba(255,255,255,.08);
+  border:1px solid var(--line);color:white;
+}
+.notice.show {display:block}
+.notice.error {border-color:#ff405e;color:#ffd1d8}
+.notice.good {border-color:#20c985;color:#baffdf}
+.session-note {
+  margin-top:16px;padding:12px;border-radius:10px;
+  background:rgba(255,255,255,.045);color:#f1cbd2;
+  font-size:11px;line-height:1.7;text-align:center;
+}
 
-        @keyframes gradientShift {
-            0%, 100% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-        }
+/* MUSIC */
+.music-panel {margin-top:18px}
+.music-content {display:flex;align-items:center;gap:18px}
+.album {
+  width:85px;height:85px;flex-shrink:0;border-radius:15px;
+  display:grid;place-items:center;font-size:34px;
+  background:radial-gradient(circle,#ff8295,#8b001a 65%,#27000a);
+  box-shadow:0 0 25px rgba(255,0,45,.3);
+  animation:albumPulse 3s ease-in-out infinite;
+}
+@keyframes albumPulse {50%{box-shadow:0 0 40px rgba(255,0,45,.6)}}
+.music-info {flex:1;min-width:0}
+.music-info h3 {font-size:15px}
+.music-info p {font-size:11px;color:#e4bfc5;margin-top:6px}
+.music-controls {display:flex;gap:9px;margin-top:12px;flex-wrap:wrap}
+.music-controls button {min-width:44px}
+.volume {width:100%;accent-color:#ff3155;margin-top:12px}
 
-        .status-card {
-            background: rgba(0, 184, 255, 0.08);
-            border-radius: 20px;
-            padding: 20px;
-            margin: 20px 0;
-            border: 1px solid rgba(0, 184, 255, 0.2);
-        }
+/* LOWER AREA */
+.lower-grid {display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+.info-row {display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,100,125,.13);font-size:12px}
+.info-row span:first-child {color:#e5b9c1}
+.info-row strong {text-align:right;word-break:break-word}
+.pill {padding:5px 9px;border-radius:30px;font-size:9px;letter-spacing:1px;background:rgba(255,255,255,.1);color:#ffe5e9}
+.footer {text-align:center;color:#c998a2;font-size:10px;letter-spacing:2px;margin-top:28px;line-height:2}
 
-        .current-info {
-            font-size: 1.1em;
-            color: #00b8ff;
-            font-family: monospace;
-            letter-spacing: 1px;
-            margin: 15px 0;
-            padding: 12px;
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 15px;
-            word-break: break-word;
-        }
+/* ADMIN */
+#adminSection {display:none;margin-top:22px}
+.admin-grid {display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:15px 0}
+.stat {
+  padding:15px;border:1px solid var(--line);border-radius:12px;
+  background:rgba(10,0,4,.4);
+}
+.stat small {display:block;color:#e3b6bf;font-size:10px}
+.stat strong {display:block;font-size:25px;margin-top:8px}
+.admin-table-wrap {overflow-x:auto;margin-top:12px}
+table {width:100%;border-collapse:collapse;min-width:520px;font-size:11px}
+th,td {padding:11px 9px;text-align:left;border-bottom:1px solid rgba(255,100,125,.17)}
+th {color:#ff9eac;letter-spacing:1px}
+td {color:#ffe8ec}
+.mini-btn {
+  border:1px solid var(--line);background:#570d20;color:white;
+  border-radius:7px;padding:7px 9px;cursor:pointer;font-size:10px;
+}
+.admin-tools {display:flex;gap:9px;flex-wrap:wrap;margin:10px 0}
+#loginModal {
+  display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.8);
+  justify-content:center;align-items:center;padding:18px;
+}
+.login-box {
+  width:min(400px,100%);padding:25px;border-radius:18px;
+  background:#250710;border:1px solid #ff526f;box-shadow:0 0 50px rgba(255,0,45,.2);
+}
+.login-box h3 {margin-bottom:8px}
+.login-box p {font-size:11px;color:#e9c2c9;margin-bottom:18px;line-height:1.6}
+.login-box .field {margin-bottom:12px}
+.login-actions {display:flex;gap:9px}
+.login-actions button {flex:1}
 
-        .badge-container {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin: 20px 0;
-        }
-
-        .badge {
-            background: rgba(0, 184, 255, 0.12);
-            border: 1px solid rgba(0, 184, 255, 0.3);
-            border-radius: 50px;
-            padding: 8px 18px;
-            font-size: 0.85em;
-            color: #00b8ff;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .badge:hover {
-            background: rgba(0, 184, 255, 0.25);
-            transform: scale(1.05);
-        }
-
-        .btn-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            justify-content: center;
-            margin-top: 22px;
-        }
-
-        .icon-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 9px;
-            padding: 11px 22px;
-            border-radius: 8px;
-            font-size: 0.95em;
-            font-weight: 600;
-            text-decoration: none;
-            cursor: pointer;
-            transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
-            letter-spacing: 0.3px;
-            border: none;
-            white-space: nowrap;
-        }
-
-        .icon-btn svg {
-            width: 18px;
-            height: 18px;
-            flex-shrink: 0;
-            fill: currentColor;
-        }
-
-        .icon-btn.gh-dark {
-            background: #24292e;
-            color: #ffffff;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-        }
-        .icon-btn.gh-dark:hover {
-            background: #393f45;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 14px rgba(0,0,0,0.5);
-        }
-
-        .icon-btn.gh-green {
-            background: #2ea44f;
-            color: #ffffff;
-            box-shadow: 0 2px 8px rgba(46,164,79,0.35);
-        }
-        .icon-btn.gh-green:hover {
-            background: #2c974b;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 14px rgba(46,164,79,0.5);
-        }
-
-        .icon-btn.gh-outline {
-            background: transparent;
-            color: #c9d1d9;
-            border: 1px solid rgba(201,209,217,0.25);
-            box-shadow: none;
-        }
-        .icon-btn.gh-outline:hover {
-            background: rgba(201,209,217,0.08);
-            border-color: rgba(201,209,217,0.5);
-            transform: translateY(-2px);
-        }
-
-        .developer {
-            margin-top: 20px;
-            font-size: 0.9em;
-            color: #6c757d;
-            text-align: center;
-        }
-
-        .developer a {
-            color: #00b8ff;
-            text-decoration: none;
-        }
-
-        .pulse {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            background-color: #00ff00;
-            border-radius: 50%;
-            animation: pulse 1.5s ease-in-out infinite;
-            margin-right: 8px;
-            vertical-align: middle;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-                transform: scale(1);
-                box-shadow: 0 0 0 0 rgba(0, 255, 0, 0.7);
-            }
-            50% {
-                opacity: 0.7;
-                transform: scale(1.1);
-                box-shadow: 0 0 0 10px rgba(0, 255, 0, 0);
-            }
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                padding: 25px;
-                width: 95%;
-            }
-            .bot-name {
-                font-size: 1.8em;
-            }
-            .glow {
-                font-size: 1.5em;
-            }
-            .current-info {
-                font-size: 0.85em;
-            }
-        }
-    </style>
+/* RESPONSIVE */
+@media(max-width:760px) {
+  .connect-grid,.lower-grid {grid-template-columns:1fr}
+  .admin-grid {grid-template-columns:1fr 1fr}
+  .page {width:94%;padding-top:12px}
+  .hero {padding-top:29px}
+  .panel {padding:17px}
+  .planet {width:260px;height:260px;right:-160px}
+}
+@media(max-width:420px) {
+  .brand h1 {font-size:13px}
+  .clock {font-size:10px}
+  .topbar {padding:10px}
+  .brand-mark {width:37px;height:37px}
+  .music-content {align-items:flex-start}
+  .album {width:65px;height:65px;font-size:26px}
+}
+</style>
 </head>
+
 <body>
-    <div class="container">
-        <div class="bot-name">
-            🎖️ SCANTY MD BOT 🎖️
-        </div>
-        
-        <div class="glow">
-            ✅ DEPLOYMENT SUCCESSFUL!<br>
-            BOT IS NOW ACTIVE & RUNNING
-        </div>
-        
-        <div class="status-card">
-            <div style="margin-bottom: 10px;">
-                <span class="pulse"></span>
-                <span style="font-weight: bold; color: #00b8ff;">LIVE STATUS</span>
-            </div>
-            <div class="current-info" id="Info">Loading...</div>
-        </div>
+<div class="space"></div>
+<div class="planet"></div>
+<div class="ship-grid"></div>
+<div class="beam"></div>
 
-        <div class="badge-container">
-            <span class="badge">⚡ Premium Bot</span>
-            <span class="badge">🤖 Multi-Device</span>
-            <span class="badge">🚀 24/7 Online</span>
-            <span class="badge">🔒 Secure</span>
-        </div>
+<!-- OPENING ANIMATION -->
+<div id="intro">
+  <div style="position:relative;display:grid;place-items:center">
+    <div class="intro-orbit"></div>
+    <div class="intro-core">✦</div>
+  </div>
+  <div class="intro-title">SCANTY MD BOT</div>
+  <div class="intro-sub">SPACESHIP COMMAND BRIDGE</div>
+  <div class="intro-bar"><span></span></div>
+  <div class="intro-status">INITIALIZING SYSTEM...</div>
+</div>
 
-        <div class="btn-row">
-            <a href="https://github.com/GuruhTech/ULTRA-GURU" target="_blank" class="icon-btn gh-dark">
-                <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-                View on GitHub
-            </a>
-            <a href="https://github.com/GuruhTech/ULTRA-GURU/fork" target="_blank" class="icon-btn gh-green">
-                <svg viewBox="0 0 16 16"><path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"/></svg>
-                Fork Repo
-            </a>
-            <a href="https://github.com/GuruhTech/ULTRA-GURU" target="_blank" class="icon-btn gh-outline">
-                <svg viewBox="0 0 16 16"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/></svg>
-                Star
-            </a>
-        </div>
+<div class="page">
 
-        <div class="developer">
-            Developed with 💙 by <a href="https://github.com/GuruhTech" target="_blank">GURUTECH</a>
-        </div>
+  <!-- HEADER -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">S</div>
+      <div>
+        <h1>SCANTY MD BOT</h1>
+        <small>COMMAND BRIDGE • WHATSAPP</small>
+      </div>
     </div>
-</body>
+
+    <div class="top-right">
+      <div class="clock">
+        <div id="clockTime">--:--:--</div>
+        <div id="clockDate">Loading date...</div>
+      </div>
+      <div class="menu-wrap">
+        <button class="menu-button" id="menuButton" aria-label="Open menu">⋮</button>
+        <div class="menu-pop" id="menuPop">
+          <button id="adminLoginOpen">Administrator login</button>
+          <button id="refreshButton">Refresh dashboard</button>
+          <button id="musicMenuButton">Music player</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-tag">WELCOME ABOARD</div>
+    <h2>YOUR BOT. <span>YOUR CONTROL.</span></h2>
+    <p>
+      Connect your WhatsApp account using QR Code or Pairing Code.<br>
+      Choose one connection method to begin.
+    </p>
+    <div class="system-line">
+      <span class="dot wait" id="statusDot"></span>
+      <span id="connectionStatus">CHECKING CONNECTION...</span>
+    </div>
+  </section>
+
+  <!-- CONNECTION METHODS -->
+  <section class="connect-grid">
+
+    <!-- QR CODE -->
+    <div class="panel" id="qrPanel">
+      <div class="panel-head">
+        <div>
+          <h3>▣ QR CODE CONNECTION</h3>
+          <small>SCAN WITH WHATSAPP</small>
+        </div>
+        <span class="pill">METHOD 01</span>
+      </div>
+
+      <div class="qr-area">
+        <div id="qrcode">
+          <div class="qr-placeholder">
+            <strong>▦</strong>
+            Your QR code will appear here
+          </div>
+        </div>
+      </div>
+
+      <p class="help">
+        Open WhatsApp → Linked Devices → Link a Device.
+        Scan the QR code displayed above.
+      </p>
+
+      <button class="action primary full" id="qrButton">
+        GENERATE QR CODE
+      </button>
+      <div class="notice" id="qrNotice"></div>
+    </div>
+
+    <!-- PAIRING CODE -->
+    <div class="panel" id="pairPanel">
+      <div class="panel-head">
+        <div>
+          <h3>⌗ PAIRING CODE</h3>
+          <small>CONNECT USING YOUR PHONE NUMBER</small>
+        </div>
+        <span class="pill">METHOD 02</span>
+      </div>
+
+      <label for="phoneNumber" class="help" style="display:block;text-align:left">
+        Phone number with country code. Example: 233XXXXXXXXX
+      </label>
+      <input
+        class="field"
+        id="phoneNumber"
+        type="tel"
+        inputmode="numeric"
+        placeholder="233XXXXXXXXX"
+        autocomplete="tel"
+      >
+
+      <div class="pair-code" id="pairCode">
+        <div><small>YOUR PAIRING CODE</small>--------</div>
+      </div>
+
+      <button class="action primary full" id="pairButton">
+        GENERATE PAIRING CODE
+      </button>
+
+      <div class="pair-instructions">
+        <b>How to connect:</b><br>
+        1. Enter your number above with country code.<br>
+        2. Generate your pairing code.<br>
+        3. Open WhatsApp → Linked Devices.<br>
+        4. Choose <b>Link with phone number instead</b>.<br>
+        5. Enter the code shown here.
+      </div>
+      <div class="notice" id="pairNotice"></div>
+    </div>
+  </section>
+
+  <div class="session-note">
+    <b>Connection note:</b> QR and Pairing Code are both available here.
+    Start only one method per visitor session. If you need to switch methods
+    after starting one, refresh the page to create a fresh session.
+  </div>
+
+  <!-- MUSIC PLAYER -->
+  <section class="panel music-panel" id="musicPanel">
+    <div class="panel-head">
+      <div>
+        <h3>♫ COMMAND BRIDGE MUSIC</h3>
+        <small>AMBIENT SPACE SOUND</small>
+      </div>
+      <span class="pill" id="musicStatus">PLAYER READY</span>
+    </div>
+
+    <div class="music-content">
+      <div class="album">♫</div>
+      <div class="music-info">
+        <h3>Deep Space Atmosphere</h3>
+        <p>Original synthesized ambient sound • No external music stream</p>
+        <div class="music-controls">
+          <button class="action primary" id="playMusic">▶ PLAY</button>
+          <button class="action outline" id="stopMusic">■ STOP</button>
+        </div>
+        <input class="volume" id="volume" type="range" min="0" max="100" value="25">
+      </div>
+    </div>
+  </section>
+
+  <!-- SYSTEM INFORMATION -->
+  <section class="lower-grid">
+    <div class="panel">
+      <div class="panel-head">
+        <div>
+          <h3>◈ CONNECTION TERMINAL</h3>
+          <small>SESSION INFORMATION</small>
+        </div>
+      </div>
+      <div class="info-row"><span>Bot identity</span><strong>SCANTY MD BOT</strong></div>
+      <div class="info-row"><span>API server</span><strong>Render</strong></div>
+      <div class="info-row"><span>Session type</span><strong>Private visitor</strong></div>
+      <div class="info-row"><span>WhatsApp</span><strong id="waInfo">Not connected</strong></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <div>
+          <h3>✧ SHIP SYSTEMS</h3>
+          <small>COMMAND BRIDGE STATUS</small>
+        </div>
+      </div>
+      <div class="info-row"><span>Dashboard</span><strong>ONLINE</strong></div>
+      <div class="info-row"><span>Connection service</span><strong id="apiInfo">Checking...</strong></div>
+      <div class="info-row"><span>Pairing session</span><strong id="sessionInfo">Preparing...</strong></div>
+      <div class="info-row"><span>Local time</span><strong>Ghana time</strong></div>
+    </div>
+  </section>
+
+  <!-- ADMINISTRATOR AREA -->
+  <section id="adminSection">
+    <div class="panel">
+      <div class="panel-head">
+        <div>
+          <h3>⚙ ADMIN COMMAND CENTRE</h3>
+          <small>PRIVATE ADMINISTRATOR AREA</small>
+        </div>
+        <button class="mini-btn" id="adminLogout">LOG OUT</button>
+      </div>
+
+      <div class="admin-grid">
+        <div class="stat"><small>Total accounts</small><strong id="statUsers">0</strong></div>
+        <div class="stat"><small>Administrators</small><strong id="statAdmins">0</strong></div>
+        <div class="stat"><small>Members</small><strong id="statMembers">0</strong></div>
+        <div class="stat"><small>Visitors</small><strong id="statVisitors">0</strong></div>
+      </div>
+
+      <div class="admin-tools">
+        <button class="mini-btn" id="loadAdmin">REFRESH ADMIN DATA</button>
+      </div>
+
+      <h3 style="font-size:13px;margin:18px 0 8px">REGISTERED ACCOUNTS</h3>
+      <div class="admin-table-wrap">
+        <table>
+          <thead><tr><th>Email</th><th>Role</th><th>Created</th></tr></thead>
+          <tbody id="usersTable"><tr><td colspan="3">No data loaded.</td></tr></tbody>
+        </table>
+      </div>
+
+      <h3 style="font-size:13px;margin:22px 0 8px">VISITOR SESSIONS</h3>
+      <div class="admin-table-wrap">
+        <table>
+          <thead><tr><th>Visitor ID</th><th>Status</th><th>Created</th><th>Manage</th></tr></thead>
+          <tbody id="visitorsTable"><tr><td colspan="4">No data loaded.</td></tr></tbody>
+        </table>
+      </div>
+      <div class="notice" id="adminNotice"></div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    SCANTY MD BOT • COMMAND BRIDGE<br>
+    BUILT FOR YOUR WHATSAPP EXPERIENCE
+  </footer>
+</div>
+
+<!-- ADMIN LOGIN MODAL -->
+<div id="loginModal">
+  <div class="login-box">
+    <h3>Administrator Access</h3>
+    <p>Sign in with your administrator email and password configured on the backend.</p>
+    <input class="field" id="adminEmail" type="email" placeholder="Administrator email" autocomplete="username">
+    <input class="field" id="adminPassword" type="password" placeholder="Administrator password" autocomplete="current-password">
+    <div class="login-actions">
+      <button class="action primary" id="adminLoginButton">SIGN IN</button>
+      <button class="action outline" id="closeLogin">CANCEL</button>
+    </div>
+    <div class="notice" id="loginNotice"></div>
+  </div>
+</div>
+
 <script>
-    function updateInfo() {
-        const now = new Date();
-        const hours = String(now.getHours()).padStart(2, '0');
-        const minutes = String(now.getMinutes()).padStart(2, '0');
-        const seconds = String(now.getSeconds()).padStart(2, '0');
-        
-        const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-        const dayName = dayNames[now.getDay()];
-        
-        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        const date = `${monthNames[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
-        
-        const timeString = `${hours}:${minutes}:${seconds}`;
-        const infoString = `🕐 ${timeString} • 📅 ${date} • 📆 ${dayName}`;
-        
-        document.getElementById('Info').textContent = infoString;
+/* =========================================================
+   SCANTY MD BOT DASHBOARD
+   API routes matched to the current SCANTY MD BOT backend.
+========================================================= */
+
+const API = "https://scanty-md-bot.onrender.com";
+const VISITOR_KEY = "scanty_visitor_token";
+const ADMIN_KEY = "scanty_admin_token";
+
+let visitorToken = localStorage.getItem(VISITOR_KEY) || "";
+let adminToken = localStorage.getItem(ADMIN_KEY) || "";
+let activeMethod = "";
+let qrTimer = null;
+let visitorId = "";
+let audioContext = null;
+let masterGain = null;
+let oscillators = [];
+let musicPlaying = false;
+
+/* BASIC HELPERS */
+const $ = id => document.getElementById(id);
+
+function showNotice(id, message, type = "") {
+  const el = $(id);
+  el.textContent = message;
+  el.className = "notice show " + type;
+}
+
+function hideNotice(id) {
+  const el = $(id);
+  el.textContent = "";
+  el.className = "notice";
+}
+
+async function api(path, options = {}, token = visitorToken) {
+  const headers = {"Content-Type":"application/json"};
+  if (token) headers.Authorization = "Bearer " + token;
+
+  const response = await fetch(API + path, {
+    ...options,
+    headers:{...headers,...(options.headers || {})},
+    cache:"no-store"
+  });
+
+  let data = {};
+  try { data = await response.json(); }
+  catch { data = {}; }
+
+  if (!response.ok) {
+    throw new Error(data.error || data.message || "Request failed.");
+  }
+  return data;
+}
+
+/* GHANA CLOCK */
+function updateClock() {
+  const now = new Date();
+  $("clockTime").textContent = new Intl.DateTimeFormat("en-GB", {
+    timeZone:"Africa/Accra",
+    hour:"2-digit",minute:"2-digit",second:"2-digit",
+    hour12:false
+  }).format(now);
+
+  $("clockDate").textContent = new Intl.DateTimeFormat("en-GB", {
+    timeZone:"Africa/Accra",
+    weekday:"short",day:"2-digit",month:"short",year:"numeric"
+  }).format(now);
+}
+updateClock();
+setInterval(updateClock,1000);
+
+/* INTRO ANIMATION */
+window.addEventListener("load", () => {
+  setTimeout(() => $("intro").classList.add("hide"), 3900);
+});
+
+/* MENU */
+$("menuButton").addEventListener("click", () => {
+  $("menuPop").classList.toggle("show");
+});
+document.addEventListener("click", event => {
+  if (!event.target.closest(".menu-wrap")) $("menuPop").classList.remove("show");
+});
+$("adminLoginOpen").addEventListener("click", () => {
+  $("loginModal").style.display = "flex";
+  $("menuPop").classList.remove("show");
+});
+$("closeLogin").addEventListener("click", () => {
+  $("loginModal").style.display = "none";
+});
+$("refreshButton").addEventListener("click", () => location.reload());
+$("musicMenuButton").addEventListener("click", () => {
+  $("musicPanel").scrollIntoView({behavior:"smooth",block:"center"});
+  $("menuPop").classList.remove("show");
+});
+
+/* VISITOR SESSION */
+async function createVisitorSession() {
+  const data = await api("/api/public/session", {method:"POST"}, "");
+  if (!data.token) throw new Error("The server did not return a visitor token.");
+  visitorToken = data.token;
+  localStorage.setItem(VISITOR_KEY, visitorToken);
+}
+
+async function prepareVisitorSession() {
+  try {
+    if (!visitorToken) await createVisitorSession();
+
+    const me = await api("/api/visitor/me", {method:"GET"});
+    visitorId = me.visitor?.id || "";
+    $("sessionInfo").textContent = visitorId ? "Active" : "Ready";
+    updateConnection(me.visitor?.connectionStatus || "not_connected");
+  } catch (error) {
+    // Expired or invalid visitor token: create a new private session.
+    localStorage.removeItem(VISITOR_KEY);
+    visitorToken = "";
+    visitorId = "";
+    try {
+      await createVisitorSession();
+      const me = await api("/api/visitor/me", {method:"GET"});
+      visitorId = me.visitor?.id || "";
+      $("sessionInfo").textContent = "New session ready";
+      updateConnection(me.visitor?.connectionStatus || "not_connected");
+    } catch (secondError) {
+      $("sessionInfo").textContent = "Unavailable";
+      showNotice("qrNotice",secondError.message,"error");
+    }
+  }
+}
+
+/* CONNECTION STATUS */
+function updateConnection(status) {
+  const normalized = String(status || "").toLowerCase();
+  let label = "NOT CONNECTED";
+  let className = "off";
+
+  if (normalized === "connected" || normalized === "open") {
+    label = "WHATSAPP CONNECTED";
+    className = "";
+  } else if (
+    normalized === "connecting" ||
+    normalized === "reconnecting" ||
+    normalized === "qr"
+  ) {
+    label = "CONNECTING...";
+    className = "wait";
+  } else if (normalized === "not_connected") {
+    label = "READY TO CONNECT";
+    className = "wait";
+  }
+
+  $("connectionStatus").textContent = label;
+  $("statusDot").className = "dot " + className;
+  $("waInfo").textContent = label;
+}
+
+async function checkBackend() {
+  try {
+    const data = await api("/health",{method:"GET"},"");
+    $("apiInfo").textContent = data.status === "online" ? "ONLINE" : "Available";
+  } catch {
+    $("apiInfo").textContent = "Unavailable";
+  }
+}
+
+/* QR CODE */
+function clearQr() {
+  $("qrcode").innerHTML =
+    '<div class="qr-placeholder"><strong>▦</strong>Waiting for QR code...</div>';
+}
+
+function renderQr(value) {
+  if (!value) return;
+  $("qrcode").innerHTML = "";
+  if (typeof QRCode === "undefined") {
+    $("qrcode").textContent = "QR library could not load. Check your internet connection.";
+    return;
+  }
+  new QRCode($("qrcode"), {
+    text:value,
+    width:190,
+    height:190,
+    colorDark:"#190008",
+    colorLight:"#ffffff",
+    correctLevel:QRCode.CorrectLevel.M
+  });
+}
+
+async function pollQr() {
+  try {
+    const data = await api("/api/whatsapp/qr",{method:"GET"});
+    const status = data.status || "connecting";
+
+    if (data.qr) {
+      renderQr(data.qr);
+      showNotice("qrNotice","QR code ready. Scan it using WhatsApp Linked Devices.","good");
     }
 
-    setInterval(updateInfo, 1000);
-    updateInfo();
+    updateConnection(status);
+
+    if (status === "connected") {
+      clearInterval(qrTimer);
+      qrTimer = null;
+      showNotice("qrNotice","WhatsApp connected successfully.","good");
+      $("qrButton").disabled = true;
+      $("pairButton").disabled = true;
+    }
+  } catch (error) {
+    showNotice("qrNotice",error.message,"error");
+    clearInterval(qrTimer);
+    qrTimer = null;
+  }
+}
+
+$("qrButton").addEventListener("click", async () => {
+  if (!visitorToken) {
+    showNotice("qrNotice","Visitor session is not ready. Refresh the page.","error");
+    return;
+  }
+  if (activeMethod === "pair") {
+    showNotice("qrNotice","Pairing Code has already been started in this session. Refresh the page to start a new QR session.","error");
+    return;
+  }
+
+  $("qrButton").disabled = true;
+  $("qrButton").textContent = "STARTING QR...";
+  hideNotice("qrNotice");
+  activeMethod = "qr";
+  clearQr();
+
+  try {
+    const data = await api("/api/whatsapp/qr",{method:"POST",body:JSON.stringify({})});
+    updateConnection(data.status || "connecting");
+    showNotice("qrNotice",data.message || "Waiting for WhatsApp QR code...","good");
+
+    if (data.qr) renderQr(data.qr);
+    if (qrTimer) clearInterval(qrTimer);
+    qrTimer = setInterval(pollQr,2500);
+    await pollQr();
+  } catch (error) {
+    activeMethod = "";
+    $("qrButton").disabled = false;
+    showNotice("qrNotice",error.message,"error");
+  } finally {
+    $("qrButton").textContent = "GENERATE QR CODE";
+  }
+});
+
+/* PAIRING CODE */
+$("pairButton").addEventListener("click", async () => {
+  if (!visitorToken) {
+    showNotice("pairNotice","Visitor session is not ready. Refresh the page.","error");
+    return;
+  }
+  if (activeMethod === "qr") {
+    showNotice("pairNotice","QR connection has already been started in this session. Refresh the page to start a new pairing session.","error");
+    return;
+  }
+
+  const phoneNumber = $("phoneNumber").value.trim().replace(/[\s+()-]/g,"");
+  if (!/^\d{10,15}$/.test(phoneNumber)) {
+    showNotice("pairNotice","Enter your full phone number with country code. Example: 233XXXXXXXXX.","error");
+    return;
+  }
+
+  $("pairButton").disabled = true;
+  $("pairButton").textContent = "REQUESTING CODE...";
+  hideNotice("pairNotice");
+  activeMethod = "pair";
+
+  try {
+    const data = await api("/api/whatsapp/pair",{
+      method:"POST",
+      body:JSON.stringify({phoneNumber})
+    });
+
+    if (!data.pairingCode) throw new Error("The server did not return a pairing code.");
+
+    $("pairCode").innerHTML =
+      "<div><small>YOUR PAIRING CODE</small>" +
+      escapeHtml(data.pairingCode) + "</div>";
+
+    showNotice("pairNotice",data.message || "Pairing code generated. Enter it in WhatsApp Linked Devices.","good");
+    updateConnection("connecting");
+    $("qrButton").disabled = true;
+  } catch (error) {
+    activeMethod = "";
+    showNotice("pairNotice",error.message,"error");
+    $("pairButton").disabled = false;
+  } finally {
+    $("pairButton").textContent = "GENERATE PAIRING CODE";
+  }
+});
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[char]));
+}
+
+/* CONNECTION REFRESH */
+async function refreshVisitorStatus() {
+  if (!visitorToken) return;
+  try {
+    const me = await api("/api/visitor/me",{method:"GET"});
+    const status = me.visitor?.connectionStatus || "not_connected";
+    updateConnection(status);
+
+    if (status === "connected") {
+      $("qrButton").disabled = true;
+      $("pairButton").disabled = true;
+    }
+  } catch {}
+}
+setInterval(refreshVisitorStatus,12000);
+
+/* ORIGINAL AMBIENT MUSIC PLAYER */
+function setMusicStatus(text) {
+  $("musicStatus").textContent = text;
+}
+
+async function startMusic() {
+  try {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) throw new Error("Audio is not supported by this browser.");
+
+    if (!audioContext) {
+      audioContext = new AudioCtx();
+      masterGain = audioContext.createGain();
+      masterGain.gain.value = Number($("volume").value) / 100 * 0.12;
+      masterGain.connect(audioContext.destination);
+
+      const frequencies = [55,82.4,110,164.8];
+      frequencies.forEach((frequency,index) => {
+        const oscillator = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+        oscillator.type = index === 0 ? "sine" : "triangle";
+        oscillator.frequency.value = frequency;
+        gain.gain.value = index === 0 ? 0.32 : 0.055;
+        oscillator.connect(gain);
+        gain.connect(masterGain);
+        oscillator.start();
+        oscillators.push(oscillator);
+      });
+    }
+
+    await audioContext.resume();
+    musicPlaying = true;
+    $("playMusic").textContent = "♫ PLAYING";
+    setMusicStatus("AMBIENT SOUND ON");
+  } catch (error) {
+    setMusicStatus("AUDIO UNAVAILABLE");
+    alert(error.message);
+  }
+}
+
+function stopMusic() {
+  if (audioContext) audioContext.suspend();
+  musicPlaying = false;
+  $("playMusic").textContent = "▶ PLAY";
+  setMusicStatus("PLAYER PAUSED");
+}
+
+$("playMusic").addEventListener("click",startMusic);
+$("stopMusic").addEventListener("click",stopMusic);
+$("volume").addEventListener("input",() => {
+  if (masterGain) masterGain.gain.value = Number($("volume").value) / 100 * 0.12;
+});
+
+/* ADMIN LOGIN */
+$("adminLoginButton").addEventListener("click",async () => {
+  const email = $("adminEmail").value.trim();
+  const password = $("adminPassword").value;
+
+  if (!email || !password) {
+    showNotice("loginNotice","Enter your administrator email and password.","error");
+    return;
+  }
+
+  $("adminLoginButton").disabled = true;
+  $("adminLoginButton").textContent = "SIGNING IN...";
+
+  try {
+    const data = await api("/api/auth/login",{
+      method:"POST",
+      body:JSON.stringify({email,password})
+    },"");
+
+    if (!data.token) throw new Error("Login token was not returned.");
+    adminToken = data.token;
+    localStorage.setItem(ADMIN_KEY,adminToken);
+    $("loginModal").style.display = "none";
+    $("adminPassword").value = "";
+    $("adminSection").style.display = "block";
+    await loadAdminData();
+    $("adminSection").scrollIntoView({behavior:"smooth"});
+  } catch (error) {
+    showNotice("loginNotice",error.message,"error");
+  } finally {
+    $("adminLoginButton").disabled = false;
+    $("adminLoginButton").textContent = "SIGN IN";
+  }
+});
+
+$("adminLogout").addEventListener("click",() => {
+  adminToken = "";
+  localStorage.removeItem(ADMIN_KEY);
+  $("adminSection").style.display = "none";
+});
+
+/* ADMIN DATA */
+async function loadAdminData() {
+  if (!adminToken) return;
+
+  try {
+    const [statsData,usersData,visitorsData] = await Promise.all([
+      api("/api/admin/stats",{method:"GET"},adminToken),
+      api("/api/admin/users",{method:"GET"},adminToken),
+      api("/api/admin/visitors",{method:"GET"},adminToken)
+    ]);
+
+    const stats = statsData.stats || {};
+    $("statUsers").textContent = stats.total_users ?? 0;
+    $("statAdmins").textContent = stats.total_admins ?? 0;
+    $("statMembers").textContent = stats.total_members ?? 0;
+    $("statVisitors").textContent = stats.total_visitors ?? 0;
+
+    const users = usersData.users || [];
+    $("usersTable").innerHTML = users.length ? users.map(user => `
+      <tr>
+        <td>${escapeHtml(user.email || "—")}</td>
+        <td>${escapeHtml(user.role || "user")}</td>
+        <td>${escapeHtml(formatDate(user.created_at))}</td>
+      </tr>
+    `).join("") : '<tr><td colspan="3">No registered accounts found.</td></tr>';
+
+    const visitors = visitorsData.visitors || [];
+    $("visitorsTable").innerHTML = visitors.length ? visitors.map(visitor => `
+      <tr>
+        <td>${escapeHtml(visitor.id || "")}</td>
+        <td>${escapeHtml(visitor.connectionStatus || "unknown")}</td>
+        <td>${escapeHtml(formatDate(visitor.createdAt))}</td>
+        <td><button class="mini-btn" data-visitor="${escapeHtml(visitor.id || "")}">MANAGE</button></td>
+      </tr>
+    `).join("") : '<tr><td colspan="4">No visitor sessions found.</td></tr>';
+
+    document.querySelectorAll("[data-visitor]").forEach(button => {
+      button.addEventListener("click",() => manageVisitor(button.dataset.visitor));
+    });
+
+    showNotice("adminNotice","Administrator data refreshed.","good");
+  } catch (error) {
+    showNotice("adminNotice",error.message,"error");
+    if (/token|administrator|access/i.test(error.message)) {
+      adminToken = "";
+      localStorage.removeItem(ADMIN_KEY);
+    }
+  }
+}
+
+function formatDate(value) {
+  if (!value) return "—";
+  const date = new Date(value);
+  return isNaN(date.getTime()) ? "—" : date.toLocaleDateString("en-GB");
+}
+
+$("loadAdmin").addEventListener("click",loadAdminData);
+
+/* VISITOR BAN / UNBAN MANAGEMENT */
+async function manageVisitor(id) {
+  if (!id) return;
+
+  const number = prompt(
+    "Enter the WhatsApp phone number to manage for this visitor (include country code):"
+  );
+  if (!number) return;
+
+  const phoneNumber = number.replace(/[\s+()-]/g,"");
+  if (!/^\d{7,15}$/.test(phoneNumber)) {
+    showNotice("adminNotice","Enter a valid phone number with country code.","error");
+    return;
+  }
+
+  const action = prompt(
+    "Type BAN to block this number, or UNBAN to remove its ban."
+  );
+  if (!action) return;
+
+  const normalized = action.trim().toLowerCase();
+  if (normalized !== "ban" && normalized !== "unban") {
+    showNotice("adminNotice","Action cancelled. Type BAN or UNBAN.","error");
+    return;
+  }
+
+  try {
+    const result = await api(
+      "/api/admin/visitors/" + encodeURIComponent(id) + "/" + normalized,
+      {
+        method:"POST",
+        body:JSON.stringify({phoneNumber})
+      },
+      adminToken
+    );
+    showNotice("adminNotice",result.message || "Visitor number updated.","good");
+  } catch (error) {
+    showNotice("adminNotice",error.message,"error");
+  }
+}
+
+/* RESTORE ADMIN SESSION */
+async function restoreAdmin() {
+  if (!adminToken) return;
+  try {
+    await api("/api/auth/me",{method:"GET"},adminToken);
+    $("adminSection").style.display = "block";
+    await loadAdminData();
+  } catch {
+    adminToken = "";
+    localStorage.removeItem(ADMIN_KEY);
+  }
+}
+
+/* START */
+async function initializeDashboard() {
+  await checkBackend();
+  await prepareVisitorSession();
+  await restoreAdmin();
+}
+initializeDashboard();
 </script>
+</body>
 </html>
