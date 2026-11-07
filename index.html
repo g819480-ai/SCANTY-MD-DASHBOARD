@@ -14,20 +14,119 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
     
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            red: '#00f0ff',
-                            crimson: '#0072ff',
-                            darkred: '#041c32',
-                            obsidian: '#030303',
-                            charcoal: '#0a0a0e',
-                            card: '#101016'
-                        }
-                    },
-                    fontFamily: {
+    <script>
+const API_BASE = "https://scanty-md-bot.onrender.com";
+// Generate a private visitor session automatically.
+// No registration or manual ID required.
+let userId = localStorage.getItem("scanty_visitor_id");
+if (!userId) {
+    userId = crypto.randomUUID();
+    localStorage.setItem("scanty_visitor_id", userId);
+}
+let sessionStarted = false;
+async function apiRequest(url, options = {}) {
+    const response = await fetch(API_BASE + url, options);
+    const text = await response.text();
+    let data;
+    try {
+        data = JSON.parse(text);
+    } catch {
+        throw new Error("Backend returned invalid JSON: " + text.slice(0, 150));
+    }
+    if (!response.ok) {
+        throw new Error(data.error || "Request failed: " + response.status);
+    }
+    return data;
+}
+async function checkStatus() {
+    const statusEl = document.getElementById("status-text");
+    try {
+        const data = await apiRequest("/api/status");
+        statusEl.textContent = "Database: " + data.dbStatus;
+        statusEl.className =
+            data.dbStatus === "connected"
+                ? "text-emerald-400 font-bold"
+                : "text-red-400 font-bold";
+    } catch (error) {
+        statusEl.textContent = "API Offline";
+        statusEl.className = "text-red-400 font-bold";
+        console.error("Status error:", error);
+    }
+}
+async function startSession() {
+    if (sessionStarted) return;
+    await apiRequest("/api/start", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId })
+    });
+    sessionStarted = true;
+}
+async function requestPairingCode(event) {
+    const phone = document.getElementById("phone-input").value.trim();
+    if (!phone || !/^[0-9+\s()-]+$/.test(phone)) {
+        alert("Enter a valid phone number with country code.");
+        return;
+    }
+    const btn = event.currentTarget;
+    const originalText = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = "Generating...";
+    try {
+        const data = await apiRequest("/api/pair", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                userId,
+                phoneNumber: phone
+            })
+        });
+        if (!data.success || !data.code) {
+            throw new Error(data.error || "Pairing code unavailable.");
+        }
+        document.getElementById("pairing-result").classList.remove("hidden");
+        document.getElementById("pairing-code-display").textContent = data.code;
+    } catch (error) {
+        alert(error.message);
+        console.error("Pairing error:", error);
+    } finally {
+        btn.disabled = false;
+        btn.textContent = originalText;
+    }
+}
+async function fetchQRCode() {
+    const qrContainer = document.getElementById("qrcode");
+    try {
+        qrContainer.textContent = "Starting WhatsApp session...";
+        await startSession();
+        const data = await apiRequest(
+            "/api/qr?userId=" + encodeURIComponent(userId)
+        );
+        qrContainer.innerHTML = "";
+        if (data.qr && data.status === "qr") {
+            new QRCode(qrContainer, {
+                text: data.qr,
+                width: 170,
+                height: 170,
+                correctLevel: QRCode.CorrectLevel.M
+            });
+        } else if (data.status === "connected") {
+            qrContainer.textContent = "WhatsApp connected!";
+        } else {
+            qrContainer.textContent = "QR not ready yet. Reload shortly.";
+        }
+    } catch (error) {
+        qrContainer.textContent = "QR error: " + error.message;
+        console.error("QR error:", error);
+    }
+}
+checkStatus();
+fetchQRCode();
+setInterval(checkStatus, 10000);
+setInterval(() => {
+    if (sessionStarted) fetchQRCode();
+}, 5000);
+</script>                fontFamily: {
                         cyber: ['Orbitron', 'sans-serif'],
                         rajdhani: ['Rajdhani', 'sans-serif']
                     }
