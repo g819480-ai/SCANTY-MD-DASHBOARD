@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCANTY MD BOT - Onyx Command</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- QRCode.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Orbitron & Rajdhani -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            red: '#ff003c',
+                            crimson: '#dc2626',
+                            darkred: '#3b0707',
+                            obsidian: '#030303',
+                            charcoal: '#0a0a0e',
+                            card: '#101016'
+                        }
+                    },
+                    fontFamily: {
+                        cyber: ['Orbitron', 'sans-serif'],
+                        rajdhani: ['Rajdhani', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #030303;
+            color: #f3f4f6;
+            font-family: 'Rajdhani', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Sci-Fi Grid Effect matching image */
+        .cyber-grid-red {
+            background-image: 
+                linear-gradient(to right, rgba(255, 0, 60, 0.08) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 0, 60, 0.08) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .crt-overlay {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.35) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+        }
+
+        /* Neon Glow Utilities */
+        .glow-red-ring {
+            box-shadow: 0 0 35px rgba(255, 0, 60, 0.8), inset 0 0 25px rgba(255, 0, 60, 0.4);
+        }
+        .glow-red-logo {
+            filter: drop-shadow(0 0 15px rgba(255, 0, 60, 0.9));
+        }
+        .text-glow-red {
+            text-shadow: 0 0 12px rgba(255, 0, 60, 0.9), 0 0 25px rgba(255, 0, 60, 0.5);
+        }
+
+        /* Glassmorphism Sci-Fi Panels */
+        .glass-panel {
+            background: rgba(10, 10, 14, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 0, 60, 0.25);
+            box-shadow: inset 0 0 15px rgba(255, 0, 60, 0.05);
+        }
+        .glass-panel:hover {
+            border-color: rgba(255, 0, 60, 0.5);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #030303;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ff003c;
+            border-radius: 3px;
+        }
+
+        /* Scanner Laser Animation */
+        @keyframes laser-sweep {
+            0% { top: 0%; opacity: 0.8; }
+            50% { opacity: 1; }
+            100% { top: 100%; opacity: 0.8; }
+        }
+        .laser-line {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ff003c, transparent);
+            box-shadow: 0 0 15px #ff003c;
+            animation: laser-sweep 2.5s infinite linear;
+        }
+
+        /* Pulse Animation */
+        @keyframes pulse-fast {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(0.98); }
+        }
+        .pulse-red {
+            animation: pulse-fast 1.5s infinite ease-in-out;
+        }
+
+        /* Concentric Ring Rotation */
+        @keyframes spin-cw {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes spin-ccw {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(-360deg); }
+        }
+        .animate-spin-slow {
+            animation: spin-cw 12s linear infinite;
+        }
+        .animate-spin-reverse {
+            animation: spin-ccw 16s linear infinite;
+        }
+    </style>
+</head>
+<body class="bg-brand-obsidian text-slate-100 min-h-screen flex flex-col relative selection:bg-brand-red selection:text-white">
+
+    <!-- CRT Overlay FX -->
+    <div class="crt-overlay fixed inset-0 z-50 pointer-events-none"></div>
+
+    <!-- ========================================== -->
+    <!-- EXACT MATCH STARTING BOOT SCREEN OVERLAY -->
+    <!-- ========================================== -->
+    <div id="intro-overlay" class="fixed inset-0 bg-black z-50 flex flex-col items-center justify-center p-6 cyber-grid-red overflow-hidden transition-opacity duration-1000">
+        <div class="relative z-10 max-w-md w-full text-center space-y-8">
+            
+            <!-- Exact Match Concentric Rings HUD & Glowing Red 'S' Logo -->
+            <div class="relative w-64 h-64 mx-auto flex items-center justify-center">
+                <!-- Outer Neon Red Circle -->
+                <div class="absolute inset-0 rounded-full border-2 border-brand-red glow-red-ring"></div>
+                
+                <!-- Outer Dashed Red Ring (Rotating CW) -->
+                <div class="absolute inset-2 rounded-full border border-dashed border-brand-red/80 animate-spin-slow"></div>
+                
+                <!-- Inner Cyan Ring (Rotating CCW) -->
+                <div class="absolute inset-7 rounded-full border border-cyan-400/70 animate-spin-reverse"></div>
+                
+                <!-- Central Glowing Red 'S' Logo -->
+                <div class="z-10 text-brand-red font-cyber font-black text-7xl italic tracking-tighter glow-red-logo pulse-red transform -skew-x-6 select-none">
+                    S
+                </div>
+            </div>
+
+            <!-- Title & Subtitle Matching Image -->
+            <div class="space-y-2">
+                <h1 class="text-3xl md:text-4xl font-cyber font-extrabold tracking-wider text-white">
+                    SCANTY <span class="text-brand-red text-glow-red">MD BOT</span>
+                </h1>
+                <p class="text-slate-400 font-mono text-xs tracking-widest uppercase">
+                    ONYX COMMAND <span class="text-brand-red font-bold">//</span> ROBOTIC SYSTEM
+                </p>
+            </div>
+
+            <!-- Glowing Red Progress Bar & Status Text -->
+            <div class="space-y-3 pt-2">
+                <div class="w-full bg-black h-1.5 rounded-full overflow-hidden border border-brand-red/40 p-0.5">
+                    <div id="boot-progress-bar" class="bg-gradient-to-r from-red-900 via-brand-red to-red-400 h-full rounded-full w-0 transition-all duration-300"></div>
+                </div>
+                
+                <p id="boot-status-text" class="text-brand-red font-mono text-xs font-semibold tracking-widest uppercase animate-pulse">
+                    CALIBRATING ROBOTIC SYSTEM...
+                </p>
+            </div>
+
+            <!-- Override / Enter Command Center Button -->
+            <div class="pt-2">
+                <button onclick="skipIntro()" class="px-6 py-2.5 bg-brand-red/10 hover:bg-brand-red border border-brand-red text-brand-red hover:text-white text-xs font-cyber font-bold tracking-widest rounded-xl transition-all duration-300 glow-red uppercase">
+                    ENTER COMMAND CENTER <i class="fa-solid fa-angle-right ml-1"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- MAIN ADMIN DASHBOARD INTERFACE -->
+    <!-- ========================================== -->
+    <div id="main-dashboard-app" class="flex flex-col min-h-screen cyber-grid-red opacity-0 transition-opacity duration-1000">
+
+        <!-- Top Admin Header -->
+        <header class="h-16 border-b border-brand-red/30 bg-brand-obsidian/90 backdrop-blur px-4 md:px-6 flex items-center justify-between z-30 sticky top-0 shadow-lg shadow-red-950/20">
+            <div class="flex items-center space-x-3">
+                <button onclick="toggleMobileSidebar()" class="lg:hidden text-slate-300 hover:text-brand-red text-xl">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <div class="w-10 h-10 rounded-xl bg-brand-red/10 border border-brand-red/40 flex items-center justify-center text-brand-red text-xl glow-red">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </div>
+                <div>
+                    <span class="font-cyber font-black tracking-wider text-base md:text-lg text-white">SCANTY <span class="text-brand-red text-glow-red">MD BOT</span></span>
+                    <span class="block text-[9px] text-slate-400 tracking-widest uppercase font-mono">Neural Interface v2.1.0</span>
+                </div>
+            </div>
+
+            <!-- Top Controls & Admin Profile -->
+            <div class="flex items-center space-x-4">
+                <!-- Sound FX Toggle -->
+                <button onclick="toggleSound()" id="sound-btn" class="w-9 h-9 rounded-xl bg-slate-900 border border-slate-800 hover:border-brand-red text-slate-400 hover:text-brand-red flex items-center justify-center text-sm transition">
+                    <i class="fa-solid fa-volume-high"></i>
+                </button>
+
+                <!-- Notifications Pill -->
+                <div class="relative cursor-pointer text-slate-300 hover:text-brand-red transition">
+                    <i class="fa-solid fa-bell text-lg"></i>
+                    <span class="absolute -top-1.5 -right-1.5 bg-brand-red text-white text-[10px] font-bold px-1.5 py-0.2 rounded-full glow-red">3</span>
+                </div>
+
+                <!-- Admin Profile Card -->
+                <div class="flex items-center space-x-3 bg-slate-900/90 border border-brand-red/30 px-3 py-1.5 rounded-xl shadow-inner">
+                    <div class="w-8 h-8 rounded-lg bg-brand-red/20 border border-brand-red flex items-center justify-center text-brand-red font-bold text-sm">
+                        SA
+                    </div>
+                    <div class="hidden sm:block text-left">
+                        <p class="text-xs font-bold text-white font-cyber">Scanty Ads</p>
+                        <p class="text-[10px] text-brand-red flex items-center gap-1 font-mono"><span class="w-1.5 h-1.5 rounded-full bg-brand-red animate-pulse"></span> Administrator</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="flex flex-1 relative">
+            <!-- Sidebar Navigation -->
+            <aside id="sidebar-nav" class="fixed lg:static inset-y-0 left-0 w-64 border-r border-brand-red/20 bg-brand-obsidian/95 lg:bg-brand-obsidian/60 backdrop-blur z-40 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 flex flex-col justify-between p-4">
+                <nav class="space-y-1.5 mt-16 lg:mt-0">
+                    <a href="#" onclick="switchTab('dashboard')" id="nav-dashboard" class="flex items-center space-x-3 px-4 py-3 rounded-xl bg-brand-red/20 border border-brand-red/60 text-brand-red font-cyber font-semibold text-xs tracking-wider transition glow-red">
+                        <i class="fa-solid fa-table-columns w-5"></i><span>DASHBOARD</span>
+                    </a>
+                    <a href="#" onclick="switchTab('pairing')" id="nav-pairing" class="flex items-center space-x-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900/80 hover:border hover:border-brand-red/30 transition text-xs font-cyber tracking-wider">
+                        <i class="fa-solid fa-key w-5"></i><span>PAIRING CODE</span>
+                    </a>
+                    <a href="#" onclick="switchTab('qrcode')" id="nav-qrcode" class="flex items-center space-x-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900/80 hover:border hover:border-brand-red/30 transition text-xs font-cyber tracking-wider">
+                        <i class="fa-solid fa-qrcode w-5"></i><span>QR CODE</span>
+                    </a>
+                    <a href="#" onclick="switchTab('sessions')" id="nav-sessions" class="flex items-center space-x-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900/80 hover:border hover:border-brand-red/30 transition text-xs font-cyber tracking-wider">
+                        <i class="fa-solid fa-database w-5"></i><span>SESSIONS</span>
+                    </a>
+                    <a href="#" onclick="switchTab('settings')" id="nav-settings" class="flex items-center space-x-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900/80 hover:border hover:border-brand-red/30 transition text-xs font-cyber tracking-wider">
+                        <i class="fa-solid fa-sliders w-5"></i><span>SETTINGS</span>
+                    </a>
+                    <a href="#" onclick="switchTab('features')" id="nav-features" class="flex items-center space-x-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900/80 hover:border hover:border-brand-red/30 transition text-xs font-cyber tracking-wider">
+                        <i class="fa-solid fa-microchip w-5"></i><span>BOT FEATURES</span>
+                    </a>
+                    <a href="#" onclick="switchTab('users')" id="nav-users" class="flex items-center space-x-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900/80 hover:border hover:border-brand-red/30 transition text-xs font-cyber tracking-wider">
+                        <i class="fa-solid fa-users-viewfinder w-5"></i><span>VISITOR ACTIVITY</span>
+                    </a>
+                    <a href="#" onclick="switchTab('logs')" id="nav-logs" class="flex items-center space-x-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900/80 hover:border hover:border-brand-red/30 transition text-xs font-cyber tracking-wider">
+                        <i class="fa-solid fa-terminal w-5"></i><span>TERMINAL LOGS</span>
+                    </a>
+                </nav>
+
+                <!-- Sidebar Footer Action -->
+                <div class="pt-4 border-t border-slate-800">
+                    <button onclick="wipeSessionAction()" class="w-full flex items-center justify-center space-x-2 bg-brand-red/10 hover:bg-brand-red/30 border border-brand-red/40 text-brand-red py-2.5 rounded-xl transition text-xs font-cyber font-bold tracking-wider glow-red">
+                        <i class="fa-solid fa-power-off"></i><span>FLUSH SESSION</span>
+                    </button>
+                </div>
+            </aside>
+
+            <!-- Main Content Viewport -->
+            <main class="flex-1 p-4 md:p-8 overflow-y-auto max-w-7xl mx-auto space-y-6">
+
+                <!-- TAB 1: ADMIN DASHBOARD OVERVIEW -->
+                <div id="tab-dashboard" class="space-y-6">
+                    <!-- Crimson Cyber Hero Banner -->
+                    <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-brand-darkred/60 via-brand-obsidian to-slate-950 border border-brand-red/40 p-6 md:p-8 shadow-2xl glass-panel">
+                        <div class="laser-line"></div>
+                        <div class="relative z-10 flex flex-col md:flex-row justify-between items-center gap-6">
+                            <div class="space-y-3 text-center md:text-left">
+                                <div class="inline-flex items-center space-x-2 bg-brand-red/20 border border-brand-red/40 px-3 py-1 rounded-full text-brand-red text-xs font-cyber">
+                                    <span class="w-2 h-2 rounded-full bg-brand-red animate-pulse"></span>
+                                    <span>SCANTY MD BOT • CORE ENGAGED</span>
+                                </div>
+                                <h1 class="text-3xl md:text-5xl font-cyber font-black tracking-wider text-white">
+                                    WELCOME TO <span class="text-brand-red text-glow-red">SCANTY MD</span>
+                                </h1>
+                                <p class="text-slate-400 text-xs md:text-sm max-w-xl">
+                                    High-performance multi-device automation bot framework connected to MongoDB Atlas. Select your desired authentication protocol below.
+                                </p>
+                            </div>
+                            <!-- Core Pulsing Reactor Icon -->
+                            <div class="w-24 h-24 md:w-32 md:h-32 rounded-2xl bg-gradient-to-br from-brand-red/20 to-black border-2 border-brand-red/60 flex items-center justify-center text-brand-red text-5xl md:text-6xl glow-red pulse-red">
+                                <i class="fa-solid fa-shield-halved"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4 Sci-Fi Stat Cards Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="glass-panel p-5 rounded-2xl flex items-center justify-between border-l-4 border-l-brand-red glow-red">
+                            <div>
+                                <p class="text-[10px] text-slate-400 font-cyber uppercase tracking-widest">Total Accounts</p>
+                                <h3 class="text-3xl font-cyber font-black text-white mt-1">1</h3>
+                            </div>
+                            <div class="w-12 h-12 rounded-xl bg-brand-red/10 border border-brand-red/30 flex items-center justify-center text-brand-red text-2xl">
+                                <i class="fa-solid fa-user-shield"></i>
+                            </div>
+                        </div>
+
+                        <div class="glass-panel p-5 rounded-2xl flex items-center justify-between border-l-4 border-l-red-600">
+                            <div>
+                                <p class="text-[10px] text-slate-400 font-cyber uppercase tracking-widest">Normal Users</p>
+                                <h3 class="text-3xl font-cyber font-black text-white mt-1">1</h3>
+                            </div>
+                            <div class="w-12 h-12 rounded-xl bg-red-600/10 border border-red-600/30 flex items-center justify-center text-red-500 text-2xl">
+                                <i class="fa-solid fa-user-large"></i>
+                            </div>
+                        </div>
+
+                        <div class="glass-panel p-5 rounded-2xl flex items-center justify-between border-l-4 border-l-rose-700">
+                            <div>
+                                <p class="text-[10px] text-slate-400 font-cyber uppercase tracking-widest">Administrators</p>
+                                <h3 class="text-3xl font-cyber font-black text-white mt-1">1</h3>
+                            </div>
+                            <div class="w-12 h-12 rounded-xl bg-rose-700/10 border border-rose-700/30 flex items-center justify-center text-rose-500 text-2xl">
+                                <i class="fa-solid fa-crown"></i>
+                            </div>
+                        </div>
+
+                        <div class="glass-panel p-5 rounded-2xl flex items-center justify-between border-l-4 border-l-emerald-500">
+                            <div>
+                                <p class="text-[10px] text-slate-400 font-cyber uppercase tracking-widest">Bot Status</p>
+                                <h3 id="dashboard-status-text" class="text-xl font-cyber font-bold text-emerald-400 mt-1 flex items-center gap-2">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span> ONLINE
+                                </h3>
+                            </div>
+                            <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-2xl">
+                                <i class="fa-solid fa-wifi"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bot Overview & Quick Controls Grid -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Overview Status Card -->
+                        <div class="glass-panel p-6 rounded-2xl space-y-4">
+                            <div class="flex items-center justify-between border-b border-brand-red/20 pb-3">
+                                <h3 class="font-cyber font-bold text-base text-brand-red flex items-center gap-2">
+                                    <i class="fa-solid fa-chart-line"></i> BOT HARDWARE DIAGNOSTICS
+                                </h3>
+                                <button onclick="checkBotStatus()" class="text-xs bg-slate-900 hover:bg-brand-red/20 text-slate-300 border border-slate-800 px-3 py-1 rounded-lg transition font-mono">
+                                    <i class="fa-solid fa-arrows-rotate mr-1"></i> Sync
+                                </button>
+                            </div>
+                            
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center p-3 bg-black/50 rounded-xl border border-slate-800">
+                                    <span class="text-slate-400 text-xs font-cyber">WhatsApp Socket</span>
+                                    <span id="overview-wa-status" class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-mono font-bold">CONNECTED</span>
+                                </div>
+                                <div class="flex justify-between items-center p-3 bg-black/50 rounded-xl border border-slate-800">
+                                    <span class="text-slate-400 text-xs font-cyber">MongoDB Atlas Storage</span>
+                                    <span class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-mono font-bold">ACTIVE (mongodb://)</span>
+                                </div>
+                                <div class="flex justify-between items-center p-3 bg-black/50 rounded-xl border border-slate-800">
+                                    <span class="text-slate-400 text-xs font-cyber">System Uptime</span>
+                                    <span id="uptime-clock" class="text-brand-red font-mono text-xs font-bold">00:14:28</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Actions Grid -->
+                        <div class="glass-panel p-6 rounded-2xl space-y-4">
+                            <div class="border-b border-brand-red/20 pb-3">
+                                <h3 class="font-cyber font-bold text-base text-white flex items-center gap-2">
+                                    <i class="fa-solid fa-bolt text-brand-red"></i> QUICK PROTOCOLS
+                                </h3>
+                            </div>
+                            <div class="space-y-3">
+                                <button onclick="switchTab('pairing')" class="w-full flex items-center justify-between bg-gradient-to-r from-brand-red to-red-700 hover:from-red-600 hover:to-red-800 text-white font-cyber font-bold p-3.5 rounded-xl transition shadow-lg glow-red text-xs tracking-wider">
+                                    <span class="flex items-center gap-3"><i class="fa-solid fa-key"></i> REQUEST 8-DIGIT PAIRING CODE</span>
+                                    <i class="fa-solid fa-chevron-right text-xs"></i>
+                                </button>
+                                <button onclick="switchTab('qrcode')" class="w-full flex items-center justify-between bg-slate-900 hover:bg-slate-800 border border-brand-red/40 text-slate-100 font-cyber font-bold p-3.5 rounded-xl transition text-xs tracking-wider">
+                                    <span class="flex items-center gap-3"><i class="fa-solid fa-qrcode text-brand-red"></i> RENDER LIVE QR SCANNER</span>
+                                    <i class="fa-solid fa-chevron-right text-xs"></i>
+                                </button>
+                                <button onclick="wipeSessionAction()" class="w-full flex items-center justify-between bg-black hover:bg-red-950/40 border border-red-900/60 text-red-400 font-cyber font-bold p-3.5 rounded-xl transition text-xs tracking-wider">
+                                    <span class="flex items-center gap-3"><i class="fa-solid fa-trash-can"></i> PURGE STALE AUTH KEYS</span>
+                                    <i class="fa-solid fa-chevron-right text-xs"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: PAIRING CODE GENERATOR -->
+                <div id="tab-pairing" class="hidden space-y-6 max-w-2xl mx-auto">
+                    <div class="glass-panel p-6 md:p-8 rounded-2xl space-y-6 border border-brand-red/40">
+                        <div class="text-center space-y-2">
+                            <div class="w-16 h-16 mx-auto rounded-2xl bg-brand-red/10 border border-brand-red/40 flex items-center justify-center text-brand-red text-3xl glow-red">
+                                <i class="fa-solid fa-mobile-screen-button"></i>
+                            </div>
+                            <h2 class="text-2xl font-cyber font-bold text-white">PHONE PAIRING AUTHENTICATION</h2>
+                            <p class="text-slate-400 text-xs">Enter your registered WhatsApp phone number with international country code (no + sign).</p>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-cyber text-slate-300 mb-2">WhatsApp Phone Number</label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-brand-red text-sm"><i class="fa-solid fa-phone"></i></span>
+                                    <input type="text" id="pairing-phone-input" placeholder="e.g. 233500000000" class="w-full bg-black border border-slate-800 focus:border-brand-red rounded-xl pl-10 pr-4 py-3.5 text-white font-mono text-sm focus:outline-none focus:ring-1 focus:ring-brand-red transition">
+                                </div>
+                            </div>
+                            <button onclick="requestPairingCodeAction(event)" class="w-full bg-gradient-to-r from-brand-red to-red-700 hover:from-red-600 hover:to-red-800 text-white font-cyber font-bold py-3.5 rounded-xl transition shadow-lg glow-red text-xs tracking-widest">
+                                GENERATE PAIRING CODE
+                            </button>
+                        </div>
+
+                        <!-- Pairing Code Result Box -->
+                        <div id="pairing-output-box" class="hidden text-center p-6 bg-black/90 border-2 border-brand-red rounded-2xl space-y-3 glow-red">
+                            <p class="text-xs font-cyber text-brand-red uppercase tracking-widest">Your 8-Digit Pairing Code</p>
+                            <div id="pairing-code-display" class="text-4xl md:text-5xl font-mono font-black text-white tracking-widest py-2 select-all">--------</div>
+                            <button onclick="copyPairingCode()" class="px-4 py-1.5 bg-brand-red/20 hover:bg-brand-red text-white border border-brand-red rounded-lg text-xs font-cyber transition">
+                                <i class="fa-solid fa-copy mr-1"></i> Copy Code
+                            </button>
+                            <p class="text-[11px] text-slate-400 font-mono mt-2">Open WhatsApp > Linked Devices > Link with phone number instead and enter this code.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 3: QR CODE SCANNER -->
+                <div id="tab-qrcode" class="hidden space-y-6 max-w-2xl mx-auto">
+                    <div class="glass-panel p-6 md:p-8 rounded-2xl space-y-6 text-center border border-brand-red/40">
+                        <div class="space-y-2">
+                            <div class="w-16 h-16 mx-auto rounded-2xl bg-brand-red/10 border border-brand-red/40 flex items-center justify-center text-brand-red text-3xl glow-red">
+                                <i class="fa-solid fa-qrcode"></i>
+                            </div>
+                            <h2 class="text-2xl font-cyber font-bold text-white">LIVE QR CODE SCANNER</h2>
+                            <p class="text-slate-400 text-xs">Scan the code below using WhatsApp (Linked Devices > Link a Device).</p>
+                        </div>
+
+                        <div class="flex justify-center my-4">
+                            <div id="qrcode-container" class="bg-white p-4 rounded-2xl shadow-2xl min-h-[220px] min-w-[220px] flex items-center justify-center text-slate-900 text-xs font-mono">
+                                Loading QR Payload...
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3">
+                            <button onclick="fetchQRCodeAction()" class="flex-1 bg-brand-red hover:bg-red-600 text-white font-cyber font-bold py-3 rounded-xl transition text-xs tracking-wider glow-red">
+                                <i class="fa-solid fa-arrows-rotate mr-1"></i> REFRESH QR CODE
+                            </button>
+                            <button onclick="switchTab('dashboard')" class="bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 px-6 py-3 rounded-xl transition text-xs font-cyber">
+                                BACK
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 4: SESSIONS MANAGEMENT -->
+                <div id="tab-sessions" class="hidden space-y-6">
+                    <div class="glass-panel p-6 rounded-2xl space-y-4">
+                        <h2 class="font-cyber font-bold text-xl text-brand-red">ACTIVE MONGODB SESSIONS</h2>
+                        <p class="text-xs text-slate-400">Manage multi-device credential states stored inside your MongoDB database.</p>
+                        
+                        <div class="p-4 bg-black/60 rounded-xl border border-brand-red/30 flex flex-col sm:flex-row items-center justify-between gap-4">
+                            <div>
+                                <p class="text-sm font-bold text-white font-mono">Session Key: scanty_bot_main</p>
+                                <p class="text-xs text-emerald-400 mt-1 flex items-center gap-1 font-mono"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Active Multi-File Auth State</p>
+                            </div>
+                            <button onclick="wipeSessionAction()" class="w-full sm:w-auto bg-brand-red/10 hover:bg-brand-red border border-brand-red text-brand-red hover:text-white px-5 py-2.5 rounded-xl text-xs font-cyber font-bold transition glow-red">
+                                WIPE SESSION FROM MONGODB
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 5: SETTINGS -->
+                <div id="tab-settings" class="hidden space-y-6 max-w-2xl mx-auto">
+                    <div class="glass-panel p-8 rounded-2xl space-y-6">
+                        <h2 class="font-cyber font-bold text-xl text-brand-red">SYSTEM CONFIGURATION</h2>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-cyber text-slate-300 mb-2">Command Prefix</label>
+                                <input type="text" value="." class="w-full bg-black border border-slate-800 rounded-xl p-3 text-white text-sm focus:outline-none focus:border-brand-red font-mono">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-cyber text-slate-300 mb-2">Bot Owner Number</label>
+                                <input type="text" value="233500000000" class="w-full bg-black border border-slate-800 rounded-xl p-3 text-white text-sm focus:outline-none focus:border-brand-red font-mono">
+                            </div>
+                            <button onclick="alert('Configuration updated successfully!')" class="w-full bg-brand-red hover:bg-red-600 text-white font-cyber font-bold py-3 rounded-xl transition glow-red text-xs tracking-wider">
+                                SAVE SETTINGS
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 6: BOT FEATURES -->
+                <div id="tab-features" class="hidden space-y-6">
+                    <div class="glass-panel p-6 rounded-2xl space-y-4">
+                        <h2 class="font-cyber font-bold text-xl text-brand-red">AUTOMATION MODULES</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                            <div class="p-4 rounded-xl bg-black/60 border border-brand-red/30 space-y-2">
+                                <div class="text-brand-red text-2xl"><i class="fa-solid fa-shield-virus"></i></div>
+                                <h3 class="font-bold text-white text-sm font-cyber">Anti-Delete Module</h3>
+                                <p class="text-xs text-slate-400">Captures deleted chat messages and media instantly.</p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-black/60 border border-brand-red/30 space-y-2">
+                                <div class="text-brand-red text-2xl"><i class="fa-solid fa-eye"></i></div>
+                                <h3 class="font-bold text-white text-sm font-cyber">Auto Status Viewer</h3>
+                                <p class="text-xs text-slate-400">Automatically views and reacts to contact status updates.</p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-black/60 border border-brand-red/30 space-y-2">
+                                <div class="text-brand-red text-2xl"><i class="fa-solid fa-brain"></i></div>
+                                <h3 class="font-bold text-white text-sm font-cyber">AI Conversational Engine</h3>
+                                <p class="text-xs text-slate-400">Smart automatic response dispatching system.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 7: VISITOR ACTIVITY -->
+                <div id="tab-users" class="hidden space-y-6">
+                    <div class="glass-panel p-6 rounded-2xl space-y-4">
+                        <h2 class="font-cyber font-bold text-xl text-brand-red">VISITOR LOGS & USER METRICS</h2>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm text-slate-300 font-mono">
+                                <thead class="bg-black text-xs uppercase text-brand-red border-b border-brand-red/30 font-cyber">
+                                    <tr>
+                                        <th class="p-3">User / Identity</th>
+                                        <th class="p-3">Endpoint Call</th>
+                                        <th class="p-3">Origin IP</th>
+                                        <th class="p-3">Timestamp</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-800/60">
+                                    <tr>
+                                        <td class="p-3 font-semibold text-white">Scanty Ads (Admin)</td>
+                                        <td class="p-3 text-emerald-400">GET /api/status</td>
+                                        <td class="p-3 text-slate-400">Ejisu, GH</td>
+                                        <td class="p-3 text-slate-400 text-xs">Just now</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-semibold text-white">Visitor Device</td>
+                                        <td class="p-3 text-brand-red">GET /api/visitor/pairing</td>
+                                        <td class="p-3 text-slate-400">102.176.x.x</td>
+                                        <td class="p-3 text-slate-400 text-xs">3 mins ago</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 8: TERMINAL LOGS -->
+                <div id="tab-logs" class="hidden space-y-6">
+                    <div class="glass-panel p-6 rounded-2xl space-y-4">
+                        <div class="flex justify-between items-center">
+                            <h2 class="font-cyber font-bold text-xl text-brand-red">SYSTEM TERMINAL STREAM</h2>
+                            <span class="text-xs font-mono text-emerald-400 animate-pulse">● LIVE STREAMING</span>
+                        </div>
+                        <div id="terminal-stream-box" class="bg-black p-4 rounded-xl font-mono text-xs text-brand-red border border-brand-red/30 h-72 overflow-y-auto space-y-1.5 shadow-inner">
+                            <p class="text-slate-500">[SYSTEM INIT]: SCANTY MD BOT Core Bootloader v2.1.0 engaged.</p>
+                            <p class="text-emerald-400">[DB CONNECT]: Successfully authenticated MongoDB standard URI connection.</p>
+                            <p class="text-slate-300">[SOCKET]: Baileys Web Socket engine listener attached to port 3000.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+
+        <!-- Footer -->
+        <footer class="h-12 border-t border-brand-red/20 bg-brand-obsidian px-6 flex items-center justify-between text-xs text-slate-400 z-30 font-mono">
+            <div class="flex items-center space-x-2 text-brand-red font-cyber font-bold">
+                <i class="fa-solid fa-crown text-amber-500"></i>
+                <span>SCANTY MD BOT v2.1.0 Powered by Innovation</span>
+            </div>
+            <div class="hidden sm:block">
+                <span>© 2026 SCANTY MD BOT. All rights reserved.</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- INTERACTIVE JAVASCRIPT CONTROLLER -->
+    <!-- ========================================== -->
+    <script>
+        const API_BASE = ""; 
+        let soundEnabled = true;
+
+        function playSciFiSound(freq = 440, type = 'sine', duration = 0.1) {
+            if (!soundEnabled) return;
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch (e) {}
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            const btn = document.getElementById('sound-btn');
+            btn.innerHTML = soundEnabled ? '<i class="fa-solid fa-volume-high"></i>' : '<i class="fa-solid fa-volume-xmark text-red-500"></i>';
+        }
+
+        // BOOT SEQUENCE CONTROLLER (MATCHING CALIBRATION FLOW)
+        window.addEventListener('DOMContentLoaded', () => {
+            runBootSequence();
+        });
+
+        function runBootSequence() {
+            const statusText = document.getElementById('boot-status-text');
+            const progress = document.getElementById('boot-progress-bar');
+            
+            const steps = [
+                { pct: 20, msg: "CALIBRATING ROBOTIC SYSTEM..." },
+                { pct: 45, msg: "AUTHENTICATING ONYX COMMAND PROTOCOLS..." },
+                { pct: 70, msg: "CONNECTING TO MONGODB ATLAS CORE..." },
+                { pct: 90, msg: "INITIALIZING BAILEYS SOCKET TRANSPORT..." },
+                { pct: 100, msg: "SYSTEM READY. ACCESS GRANTED." }
+            ];
+
+            let step = 0;
+            const interval = setInterval(() => {
+                if (step < steps.length) {
+                    progress.style.width = `${steps[step].pct}%`;
+                    statusText.textContent = steps[step].msg;
+                    playSciFiSound(350 + (step * 120), 'sawtooth', 0.08);
+                    step++;
+                } else {
+                    clearInterval(interval);
+                    setTimeout(skipIntro, 700);
+                }
+            }, 700);
+        }
+
+        function skipIntro() {
+            playSciFiSound(850, 'square', 0.2);
+            const overlay = document.getElementById('intro-overlay');
+            const app = document.getElementById('main-dashboard-app');
+            
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                app.style.opacity = '1';
+                checkBotStatus();
+            }, 800);
+        }
+
+        // MATRIX BACKGROUND CANVAS EFFECT
+        function initMatrixBackground() {
+            const canvas = document.getElementById('matrix-canvas');
+            const ctx = canvas.getContext('2d');
+            
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            const chars = 'SCANTY01MDBOT987654321';
+            const fontSize = 14;
+            const columns = Math.floor(canvas.width / fontSize);
+            const drops = Array(columns).fill(1);
+
+            function draw() {
+                ctx.fillStyle = 'rgba(5, 5, 5, 0.1)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#ff003c';
+                ctx.font = `${fontSize}px Orbitron`;
+
+                for (let i = 0; i < drops.length; i++) {
+                    const text = chars.charAt(Math.floor(Math.random() * chars.length));
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
+                }
+            }
+            setInterval(draw, 33);
+        }
+
+        // NAVIGATION & TAB CONTROLLER
+        function switchTab(tabId) {
+            playSciFiSound(500, 'sine', 0.05);
+            const tabs = ['dashboard', 'pairing', 'qrcode', 'sessions', 'settings', 'features', 'users', 'logs'];
+            tabs.forEach(t => {
+                const el = document.getElementById(`tab-${t}`);
+                if (el) el.classList.add('hidden');
+                const nav = document.getElementById(`nav-${t}`);
+                if (nav) {
+                    nav.className = "flex items-center space-x-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900/80 hover:border hover:border-brand-red/30 transition text-xs font-cyber tracking-wider";
+                }
+            });
+
+            const activeTab = document.getElementById(`tab-${tabId}`);
+            if (activeTab) activeTab.classList.remove('hidden');
+
+            const activeNav = document.getElementById(`nav-${tabId}`);
+            if (activeNav) {
+                activeNav.className = "flex items-center space-x-3 px-4 py-3 rounded-xl bg-brand-red/20 border border-brand-red/60 text-brand-red font-cyber font-semibold text-xs tracking-wider transition glow-red";
+            }
+
+            if (tabId === 'qrcode') fetchQRCodeAction();
+            closeMobileSidebar();
+        }
+
+        function toggleMobileSidebar() {
+            const sidebar = document.getElementById('sidebar-nav');
+            sidebar.classList.toggle('-translate-x-full');
+        }
+
+        function closeMobileSidebar() {
+            const sidebar = document.getElementById('sidebar-nav');
+            sidebar.classList.add('-translate-x-full');
+        }
+
+        // BACKEND API CONNECTORS
+        async function checkBotStatus() {
+            try {
+                const res = await fetch(`${API_BASE}/api/status`);
+                const data = await res.json();
+                
+                const label = document.getElementById('dashboard-status-text');
+                const overviewLabel = document.getElementById('overview-wa-status');
+
+                if (data.connectionStatus === 'connected') {
+                    label.innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span> CONNECTED`;
+                    label.className = "text-xl font-cyber font-bold text-emerald-400 mt-1 flex items-center gap-2";
+                    overviewLabel.textContent = "ACTIVE";
+                    overviewLabel.className = "px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-mono font-bold";
+                } else {
+                    label.innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-brand-red animate-ping"></span> ${data.connectionStatus.toUpperCase()}`;
+                    label.className = "text-xl font-cyber font-bold text-brand-red mt-1 flex items-center gap-2";
+                    overviewLabel.textContent = data.connectionStatus.toUpperCase();
+                    overviewLabel.className = "px-3 py-1 rounded-full bg-brand-red/20 text-brand-red text-xs font-mono font-bold";
+                }
+            } catch (e) {
+                console.log("Status API unavailable");
+            }
+        }
+
+        async function requestPairingCodeAction(event) {
+            const phone = document.getElementById('pairing-phone-input').value.trim();
+            if (!phone) {
+                alert('Please enter a valid phone number with country code.');
+                return;
+            }
+            playSciFiSound(600, 'triangle', 0.1);
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = 'GENERATING PAIRING CODE...';
+            btn.disabled = true;
+
+            try {
+                const res = await fetch(`${API_BASE}/api/visitor/pairing?phone=${phone}`);
+                const data = await res.json();
+                if (data.success) {
+                    document.getElementById('pairing-output-box').classList.remove('hidden');
+                    document.getElementById('pairing-code-display').textContent = data.pairingCode;
+                    playSciFiSound(900, 'square', 0.3);
+                } else {
+                    alert(data.error || 'Failed to generate code.');
+                }
+            } catch (e) {
+                alert('Backend endpoint unreachable.');
+            } finally {
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        function copyPairingCode() {
+            const code = document.getElementById('pairing-code-display').textContent;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(code);
+            } else {
+                const textarea = document.createElement('textarea');
+                textarea.value = code;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+            }
+            alert(`Pairing Code ${code} copied to clipboard!`);
+        }
+
+        async function fetchQRCodeAction() {
+            try {
+                const res = await fetch(`${API_BASE}/api/visitor/qr-payload`);
+                const data = await res.json();
+                const container = document.getElementById('qrcode-container');
+                container.innerHTML = '';
+
+                if (data.success && data.qrPayload) {
+                    new QRCode(container, {
+                        text: data.qrPayload,
+                        width: 190,
+                        height: 190,
+                        colorDark: "#ff003c",
+                        colorLight: "#ffffff"
+                    });
+                } else {
+                    container.innerHTML = '<span class="text-slate-400 font-mono">QR Payload loading...<br>Click refresh in 3 seconds.</span>';
+                }
+            } catch (e) {
+                document.getElementById('qrcode-container').innerHTML = '<span class="text-brand-red font-mono">Failed to load QR stream.</span>';
+            }
+        }
+
+        async function wipeSessionAction() {
+            if (!confirm('Are you sure you want to wipe the session? This will force clear MongoDB tokens.')) return;
+            try {
+                const res = await fetch(`${API_BASE}/api/admin/wipe-session`);
+                const data = await res.json();
+                alert(data.message || 'Session wiped successfully.');
+            } catch (e) {
+                alert('Session wipe endpoint execution failed.');
+            }
+        }
+
+        // Simulated Uptime Clock
+        let seconds = 868;
+        setInterval(() => {
+            seconds++;
+            const hrs = String(Math.floor(seconds / 3600)).padStart(2, '0');
+            const mins = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+            const secs = String(seconds % 60).padStart(2, '0');
+            const clock = document.getElementById('uptime-clock');
+            if (clock) clock.textContent = `${hrs}:${mins}:${secs}`;
+        }, 1000);
+    </script>
+</body>
+</html>
