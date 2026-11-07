@@ -1930,19 +1930,6 @@ function wireNavigation() {
     });
   }
 
-  const overviewRefresh = node('overviewRefresh');
-  if (overviewRefresh) {
-    overviewRefresh.addEventListener('click', async () => {
-      setBusy(overviewRefresh, true, 'Refreshing…');
-      await Promise.all([
-        refreshConnection({ quiet: false }),
-        probeHealth(),
-        loadLatency()
-      ]);
-      setBusy(overviewRefresh, false);
-    });
-  }
-
   const connectRefresh = node('connectRefresh');
   if (connectRefresh) {
     connectRefresh.addEventListener('click', async () => {
@@ -1965,35 +1952,8 @@ function wireNavigation() {
       setBusy(overviewRefresh, false);
     });
   }
-
-  const connectRefresh = node('connectRefresh');
-  if (connectRefresh) {
-    connectRefresh.addEventListener('click', async () => {
-      setBusy(connectRefresh, true, 'Checking…');
-      await refreshConnection({ quiet: false });
-      setBusy(connectRefresh, false);
-    });
-  }
-}
-  const overviewRefresh = node('overviewRefresh');
-  if (overviewRefresh) {
-    overviewRefresh.addEventListener('click', async () => {
-      setBusy(overviewRefresh, true, 'Refreshing…');
-      await Promise.all([refreshConnection({ quiet: false }), probeHealth(), loadLatency()]);
-      setBusy(overviewRefresh, false);
-    });
-  }
-
-  const connectRefresh = node('connectRefresh');
-  if (connectRefresh) {
-    connectRefresh.addEventListener('click', async () => {
-      setBusy(connectRefresh, true, 'Checking…');
-      await refreshConnection({ quiet: false });
-      setBusy(connectRefresh, false);
-    });
-  }
-}
-
+  
+  
 /* ------------------------------------------------------------
    Visitor session
 ------------------------------------------------------------ */
