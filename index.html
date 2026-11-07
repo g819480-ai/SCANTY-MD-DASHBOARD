@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCANTY MD BOT - Onyx Command</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- QRCode.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Orbitron & Rajdhani -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            red: '#00f0ff',
+                            crimson: '#0072ff',
+                            darkred: '#041c32',
+                            obsidian: '#030303',
+                            charcoal: '#0a0a0e',
+                            card: '#101016'
+                        }
+                    },
+                    fontFamily: {
+                        cyber: ['Orbitron', 'sans-serif'],
+                        rajdhani: ['Rajdhani', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #030303;
+            color: #ffffff;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Sci-Fi Grid Effect - Electric Blue */
+        .cyber-grid-red {
+            background-image: 
+                linear-gradient(to right, rgba(0, 240, 255, 0.15) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 240, 255, 0.15) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .crt-overlay {
+            background: linear-gradient(rgba(16, 16, 18, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+        }
+
+        /* Neon Glow Utilities - Intensified Electric Blue & Cyan Shadows */
+        .glow-red-ring {
+            box-shadow: 0 0 50px rgba(0, 240, 255, 0.95), inset 0 0 35px rgba(0, 240, 255, 0.6), 0 0 100px rgba(0, 114, 255, 0.5);
+        }
+        .glow-red-logo {
+            filter: drop-shadow(0 0 25px rgba(0, 240, 255, 1)) drop-shadow(0 0 50px rgba(0, 114, 255, 0.8));
+        }
+        .text-glow-red {
+            text-shadow: 0 0 15px rgba(0, 240, 255, 1), 0 0 30px rgba(0, 240, 255, 0.8), 0 0 50px rgba(0, 114, 255, 0.6);
+        }
+        .glow-red {
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.6), 0 0 45px rgba(0, 114, 255, 0.35);
+        }
+
+        /* Glassmorphism Sci-Fi Panels */
+        .glass-panel {
+            background: rgba(8, 12, 20, 0.92);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 240, 255, 0.45);
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.18), inset 0 0 20px rgba(0, 240, 255, 0.08);
+        }
+        .glass-panel:hover {
+            border-color: rgba(0, 240, 255, 0.8);
+            box-shadow: 0 0 40px rgba(0, 240, 255, 0.35), inset 0 0 25px rgba(0, 240, 255, 0.15);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #030303;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #00f0ff;
+            border-radius: 3px;
+        }
+
+        /* Scanner Laser Animation */
+        @keyframes laser-sweep {
+            0% { top: 0%; opacity: 0.8; }
+            50% { opacity: 1; }
+            100% { top: 100%; opacity: 0.8; }
+        }
+        .laser-line {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00f0ff, transparent);
+            box-shadow: 0 0 15px #00f0ff;
+            animation: laser-sweep 2.5s infinite linear;
+        }
+
+        /* Pulse Animation */
+        @keyframes pulse-fast {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(0.98); }
+        }
+        .pulse-red {
+            animation: pulse-fast 1.5s infinite ease-in-out;
+        }
+
+        /* Concentric Ring Rotation */
+        @keyframes spin-cw {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes spin-ccw {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(-360deg); }
+        }
+        .animate-spin-slow {
+            animation: spin-cw 12s linear infinite;
+        }
+        .animate-spin-reverse {
+            animation: spin-ccw 16s linear infinite;
+        }
+
+        /* Sci-Fi Hologram Pulse */
+        @keyframes hologram-glow {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(0, 240, 255, 0.9)) drop-shadow(0 0 40px rgba(0, 114, 255, 0.6)); }
+            50% { filter: drop-shadow(0 0 35px rgba(0, 240, 255, 1)) drop-shadow(0 0 60px rgba(0, 240, 255, 0.8)); }
+        }
+        .hologram-effect {
+            animation: hologram-glow 2s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-brand-obsidian text-slate-100 min-h-screen flex flex-col relative selection:bg-brand-red selection:text-white">
+
+    <!-- Matrix Background Rain Canvas -->
+    <canvas id="matrix-canvas" class="fixed inset-0 z-0 opacity-25 pointer-events-none"></canvas>
+
+    <!-- CRT Overlay FX -->
+    <div class="crt-overlay fixed inset-0 z-50 pointer-events-none"></div>
+
+    <!-- ========================================== -->
+    <!-- INITIAL BOOT ANIMATION OVERLAY (FULL SCREEN) -->
+    <!-- ========================================== -->
+    <div id="boot-screen" class="fixed inset-0 z-50 bg-black cyber-grid-red flex flex-col items-center justify-center p-4 transition-opacity duration-700">
+        <div class="laser-line"></div>
+        <div class="relative flex flex-col items-center justify-center space-y-8 max-w-lg w-full text-center">
+            
+            <!-- Concentric HUD Rings & Glowing 'S' Logo -->
+            <div class="relative w-64 h-64 md:w-80 md:h-80 flex items-center justify-center">
+                <!-- Outer Red Ring -->
+                <div class="absolute inset-0 rounded-full border-2 border-brand-red/90 glow-red-ring animate-spin-slow"></div>
+                
+                <!-- Inner Cyan Dashed Ring -->
+                <div class="absolute inset-4 rounded-full border border-dashed border-cyan-400/80 animate-spin-reverse"></div>
+                
+                <!-- Secondary Concentric Circle -->
+                <div class="absolute inset-8 rounded-full border border-brand-crimson/50"></div>
+                
+                <!-- Center Glowing Holographic 'S' -->
+                <div class="z-10 font-cyber font-black text-7xl md:text-8xl text-brand-red text-glow-red hologram-effect transform -rotate-12 select-none">
+                    S
+                </div>
+            </div>
+
+            <!-- Title & Subtitle Matching Intro Spec -->
+            <div class="space-y-2">
+                <h1 class="text-3xl md:text-4xl font-cyber font-black tracking-widest text-white text-glow-red">
+                    SCANTY <span class="text-brand-red">MD BOT</span>
+                </h1>
+                <p class="text-xs md:text-sm font-mono tracking-widest text-slate-400 uppercase">
+                    ONYX COMMAND // ROBOTIC SYSTEM
+                </p>
+            </div>
+
+            <!-- Progress Bar & Calibration Text -->
+            <div class="w-full space-y-3 px-6">
+                <div class="h-1.5 w-full bg-slate-900 rounded-full overflow-hidden border border-brand-red/40 p-0.5">
+                    <div id="boot-progress-bar" class="h-full bg-gradient-to-r from-cyan-400 to-brand-red rounded-full w-0 transition-all duration-300 shadow-[0_0_15px_#00f0ff]"></div>
+                </div>
+                <div class="flex justify-between items-center text-xs font-mono">
+                    <span id="boot-status-text" class="text-brand-red animate-pulse tracking-widest font-bold">CALIBRATING ROBOTIC SYSTEM...</span>
+                    <span id="boot-percentage" class="text-cyan-300 font-bold">0%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- ADMIN LOGIN AUTHENTICATION MODAL (Triggered on demand) -->
+    <!-- ========================================== -->
+<!-- ... existing code -->
+    <!-- ========================================== -->
+    <!-- INTERACTIVE JAVASCRIPT CONTROLLER -->
+    <!-- ========================================== -->
+    <script>
+        const API_BASE = ""; 
+        let soundEnabled = true;
+        let isAdminAuthenticated = false;
+
+        const ADMIN_EMAIL = "admin@scanty.bot";
+        const ADMIN_PASS = "scanty2026";
+
+        // Initial Opening Boot Animation Sequence
+        function runBootSequence() {
+            const progressBar = document.getElementById('boot-progress-bar');
+            const percentText = document.getElementById('boot-percentage');
+            const statusText = document.getElementById('boot-status-text');
+            const bootScreen = document.getElementById('boot-screen');
+
+            const statuses = [
+                "CALIBRATING ROBOTIC SYSTEM...",
+                "INITIALIZING ONYX CORE COMMAND...",
+                "LOADING BAILEYS MULTI-DEVICE SOCKET...",
+                "ESTABLISHING SECURE WEB INTERACTION...",
+                "SYSTEM READY."
+            ];
+
+            let progress = 0;
+            let statusIdx = 0;
+
+            const interval = setInterval(() => {
+                progress += Math.floor(Math.random() * 12) + 5;
+                if (progress > 100) progress = 100;
+
+                progressBar.style.width = `${progress}%`;
+                percentText.textContent = `${progress}%`;
+
+                if (progress > 25 && statusIdx === 0) { statusIdx = 1; playSciFiSound(400, 'sine', 0.05); }
+                if (progress > 50 && statusIdx === 1) { statusIdx = 2; playSciFiSound(550, 'square', 0.05); }
+                if (progress > 75 && statusIdx === 2) { statusIdx = 3; playSciFiSound(700, 'triangle', 0.05); }
+                if (progress === 100 && statusIdx === 3) { statusIdx = 4; playSciFiSound(850, 'sine', 0.1); }
+
+                statusText.textContent = statuses[statusIdx];
+
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        bootScreen.classList.add('opacity-0');
+                        setTimeout(() => {
+                            bootScreen.classList.add('hidden');
+                        }, 700);
+                    }, 400);
+                }
+            }, 150);
+        }
+
+        // Web Audio Synthesizer Sound Engine
+        function playSciFiSound(freq = 440, type = 'sine', duration = 0.1) {
+            if (!soundEnabled) return;
+            try {
+                const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                if (!AudioCtx) return;
+                const ctx = new AudioCtx();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, ctx.currentTime);
+                gain.gain.setValueAtTime(0.08, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
+
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                osc.start();
+                osc.stop(ctx.currentTime + duration);
+            } catch (e) {}
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            const btn = document.getElementById('sound-btn');
+            btn.innerHTML = soundEnabled ? '<i class="fa-solid fa-volume-high"></i>' : '<i class="fa-solid fa-volume-xmark text-brand-red"></i>';
+        }
+
+        function openAdminLoginModal() {
+            if (isAdminAuthenticated) {
+                switchTab('dashboard');
+            } else {
+                document.getElementById('admin-login-modal').classList.remove('hidden');
+            }
+        }
+
+        function closeAdminLoginModal() {
+            document.getElementById('admin-login-modal').classList.add('hidden');
+        }
+
+        function handleAdminLogin(event) {
+            event.preventDefault();
+            const emailInput = document.getElementById('admin-email').value.trim();
+            const passInput = document.getElementById('admin-password').value.trim();
+            const errorMsg = document.getElementById('login-error-msg');
+
+            if (emailInput === ADMIN_EMAIL && passInput === ADMIN_PASS) {
+                isAdminAuthenticated = true;
+                errorMsg.classList.add('hidden');
+                
+                closeAdminLoginModal();
+                
+                // Show admin elements
+                document.getElementById('admin-access-btn').classList.add('hidden');
+                document.getElementById('admin-profile-badge').classList.remove('hidden');
+                document.getElementById('admin-flush-wrapper').classList.remove('hidden');
+                
+                // Unlock admin icons
+                document.querySelectorAll('.admin-lock-icon').forEach(icon => icon.classList.add('hidden'));
+
+                playSciFiSound(700, 'square', 0.2);
+                switchTab('dashboard');
+            } else {
+                errorMsg.classList.remove('hidden');
+                playSciFiSound(200, 'sawtooth', 0.3);
+            }
+        }
+
+        function adminLogout() {
+            isAdminAuthenticated = false;
+            document.getElementById('admin-access-btn').classList.remove('hidden');
+            document.getElementById('admin-profile-badge').classList.add('hidden');
+            document.getElementById('admin-flush-wrapper').classList.add('hidden');
+            document.querySelectorAll('.admin-lock-icon').forEach(icon => icon.classList.remove('hidden'));
+            
+            switchTab('pairing-hub');
+            playSciFiSound(300, 'sine', 0.2);
+        }
+
+        function switchConnectMode(mode) {
+            playSciFiSound(550, 'sine', 0.05);
+            const pairingView = document.getElementById('connect-mode-pairing');
+            const qrView = document.getElementById('connect-mode-qr');
+            const btnPairing = document.getElementById('btn-mode-pairing');
+            const btnQr = document.getElementById('btn-mode-qr');
+
+            if (mode === 'pairing') {
+                pairingView.classList.remove('hidden');
+                qrView.classList.add('hidden');
+                btnPairing.className = "flex items-center justify-center space-x-2 py-3 px-4 rounded-lg font-cyber text-xs font-black transition bg-brand-red text-white glow-red";
+                btnQr.className = "flex items-center justify-center space-x-2 py-3 px-4 rounded-lg font-cyber text-xs font-black transition text-slate-300 hover:text-white hover:bg-slate-900";
+            } else {
+                qrView.classList.remove('hidden');
+                pairingView.classList.add('hidden');
+                btnQr.className = "flex items-center justify-center space-x-2 py-3 px-4 rounded-lg font-cyber text-xs font-black transition bg-brand-red text-white glow-red";
+                btnPairing.className = "flex items-center justify-center space-x-2 py-3 px-4 rounded-lg font-cyber text-xs font-black transition text-slate-300 hover:text-white hover:bg-slate-900";
+                fetchQRCodeAction();
+            }
+        }
+
+        function switchTab(tabId) {
+            // Guard admin tabs
+            const adminOnlyTabs = ['dashboard', 'sessions', 'settings', 'users', 'logs'];
+            if (adminOnlyTabs.includes(tabId) && !isAdminAuthenticated) {
+                openAdminLoginModal();
+                return;
+            }
+
+            playSciFiSound(500, 'sine', 0.05);
+            const tabs = ['pairing-hub', 'dashboard', 'sessions', 'settings', 'users', 'logs'];
+            tabs.forEach(t => {
+                const el = document.getElementById(`tab-${t}`);
+                if (el) el.classList.add('hidden');
+                const nav = document.getElementById(`nav-${t}`);
+                if (nav) {
+                    nav.className = "flex items-center space-x-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900/80 hover:border hover:border-brand-red/30 transition text-xs font-cyber tracking-wider";
+                }
+            });
+
+            const activeTab = document.getElementById(`tab-${tabId}`);
+            if (activeTab) activeTab.classList.remove('hidden');
+
+            const activeNav = document.getElementById(`nav-${tabId}`);
+            if (activeNav) {
+                activeNav.className = "flex items-center space-x-3 px-4 py-3 rounded-xl bg-brand-red/20 border border-brand-red/60 text-brand-red font-cyber font-semibold text-xs tracking-wider transition glow-red";
+            }
+
+            closeMobileSidebar();
+        }
+
+        // Initialize Boot animation on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            runBootSequence();
+        });
+    </script>
+</body>
+</html>
