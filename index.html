@@ -678,45 +678,115 @@ loadYouTubeAPI();
    QR CODE CONNECTION
 ================================ */
 
-function showQRCode(qrValue) {
+
+/* ================================
+   QR CODE CONNECTION - FIXED
+================================ */
+
+let qrLibraryLoading = null;
+
+function ensureQRCodeLibrary() {
+  if (window.QRCode) return Promise.resolve(true);
+
+  if (qrLibraryLoading) return qrLibraryLoading;
+
+  qrLibraryLoading = new Promise(resolve => {
+    const sources = [
+      "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js",
+      "https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js",
+      "https://unpkg.com/qrcodejs@1.0.0/qrcode.min.js"
+    ];
+
+    let index = 0;
+
+    function loadNext() {
+      if (window.QRCode) {
+        resolve(true);
+        return;
+      }
+
+      if (index >= sources.length) {
+        qrLibraryLoading = null;
+        resolve(false);
+        return;
+      }
+
+      const script = document.createElement("script");
+      script.src = sources[index++];
+      script.async = true;
+
+      script.onload = () => {
+        if (window.QRCode) {
+          resolve(true);
+        } else {
+          loadNext();
+        }
+      };
+
+      script.onerror = loadNext;
+      document.head.appendChild(script);
+    }
+
+    loadNext();
+  });
+
+  return qrLibraryLoading;
+}
+
+async function showQRCode(qrValue) {
   const container = $("qrcode");
   container.innerHTML = "";
 
-  if (!qrValue) {
-    container.textContent = "QR code was not received from the server.";
-    return;
+  if (!qrValue || typeof qrValue !== "string") {
+    container.textContent = "Waiting for WhatsApp QR code...";
+    return false;
   }
 
-  if (qrValue.startsWith("data:image/")) {
+  qrValue = qrValue.trim();
+
+  if (qrValue.startsWith("data:image/") ||
+      qrValue.startsWith("https://") ||
+      qrValue.startsWith("http://")) {
+
     const image = document.createElement("img");
     image.src = qrValue;
     image.alt = "WhatsApp QR Code";
-    image.style.maxWidth = "260px";
-    image.style.borderRadius = "8px";
+    image.style.width = "240px";
+    image.style.maxWidth = "100%";
+    image.style.height = "auto";
+    image.style.background = "#ffffff";
+    image.style.padding = "8px";
+    image.style.borderRadius = "10px";
+
     container.appendChild(image);
-    return;
+    return true;
   }
 
-  if (qrValue.startsWith("http://") || qrValue.startsWith("https://")) {
-    const image = document.createElement("img");
-    image.src = qrValue;
-    image.alt = "WhatsApp QR Code";
-    image.style.maxWidth = "260px";
-    container.appendChild(image);
-    return;
+  const libraryReady = await ensureQRCodeLibrary();
+
+  if (!libraryReady) {
+    container.textContent =
+      "QR image library could not load. Check your internet connection and refresh.";
+    return false;
   }
 
-  if (window.QRCode) {
+  try {
+    container.innerHTML = "";
+
     new QRCode(container, {
       text: qrValue,
       width: 240,
       height: 240,
-      colorDark: "#250510",
-      colorLight: "#ffe4e9",
+      colorDark: "#160509",
+      colorLight: "#ffffff",
       correctLevel: QRCode.CorrectLevel.H
     });
-  } else {
-    container.textContent = qrValue;
+
+    return true;
+  } catch (error) {
+    console.error("QR rendering error:", error);
+    container.textContent = "Could not display QR code. Please try again.";
+    return false;
   }
 }
 
@@ -725,13 +795,18 @@ async function requestQRCode() {
 
   button.disabled = true;
   button.textContent = "REQUESTING QR...";
-  setNotice("qrNotice", "Contacting WhatsApp server...");
+  clearInterval(qrRefreshTimer);
+
+  $("qrcode").textContent = "Connecting to WhatsApp server...";
+  setNotice("qrNotice", "Requesting a new QR code...");
 
   try {
     const token = await initializeVisitor();
 
     if (!token) {
-      throw new Error("Could not create a visitor session. Refresh and try again.");
+      throw new Error(
+        "Could not create visitor session. Please refresh and try again."
+      );
     }
 
     const result = await apiRequest(
@@ -751,25 +826,28 @@ async function requestQRCode() {
       result.data?.qrCode;
 
     if (qrValue) {
-      showQRCode(qrValue);
-      setNotice(
-        "qrNotice",
-        "QR code received. Scan it using WhatsApp Linked Devices.",
-        "success"
-      );
+      const displayed = await showQRCode(qrValue);
+
+      if (displayed) {
+        setNotice(
+          "qrNotice",
+          "QR code ready. Scan it using WhatsApp Linked Devices.",
+          "success"
+        );
+      } else {
+        throw new Error("The QR code was received but could not be displayed.");
+      }
     } else {
       setNotice(
         "qrNotice",
-        result.message || "QR request sent. Waiting for the QR code..."
+        result.message || "Waiting for WhatsApp to generate your QR code..."
       );
-
-      await checkQRCode();
     }
 
-    clearInterval(qrRefreshTimer);
     qrRefreshTimer = setInterval(checkQRCode, 4000);
 
   } catch (error) {
+    $("qrcode").textContent = "QR code unavailable.";
     setNotice("qrNotice", error.message, "error");
   } finally {
     button.disabled = false;
@@ -796,32 +874,44 @@ async function checkQRCode() {
       result.data?.qrCode;
 
     if (qrValue) {
-      showQRCode(qrValue);
-      setNotice(
-        "qrNotice",
-        "QR code ready. Scan it with WhatsApp.",
-        "success"
-      );
+      const displayed = await showQRCode(qrValue);
+
+      if (displayed) {
+        setNotice(
+          "qrNotice",
+          "QR code ready. Scan it with WhatsApp.",
+          "success"
+        );
+      }
     }
+
+    const status =
+      result.status ||
+      result.data?.status ||
+      "";
 
     if (
       result.connected === true ||
-      result.status === "connected"
+      result.data?.connected === true ||
+      status === "connected"
     ) {
       clearInterval(qrRefreshTimer);
+      $("qrcode").textContent = "WhatsApp connected successfully.";
+
       setNotice(
         "qrNotice",
         "WhatsApp connected successfully.",
         "success"
       );
     }
+
   } catch (error) {
-    console.error("QR refresh:", error);
+    console.error("QR refresh error:", error);
   }
 }
 
 $("qrButton").addEventListener("click", requestQRCode);
-
+ 
 /* ================================
    PAIRING CODE CONNECTION
 ================================ */
