@@ -11,7 +11,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<!-- Cronitor RUM (preserved from the existing dashboard) -->
 <script async src="https://rum.cronitor.io/script.js"></script>
 <script>
   window.cronitor = window.cronitor || function() {
@@ -21,280 +20,78 @@
 </script>
 
 <style>
-
-/* ==========================================
-   SCANTY MD BOT — TEXT READABILITY UPGRADE
-   ========================================== */
-
 :root {
   --muted: #b2c4d8;
   --line: rgba(140, 190, 235, .22);
   --line-strong: rgba(80, 210, 255, .55);
 }
 
-/* GLOBAL TEXT */
 body {
   font-size: 15px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
-/* BRAND */
-.brand-text strong {
-  font-size: 15px;
-}
+.brand-text strong { font-size: 15px; }
+.brand-text small { font-size: 11px; color: #b2c9df; }
+.nav-group { font-size: 11px; color: #b0c4da; }
+.nav-link { font-size: 14px; min-height: 44px; color: #e0edfa; }
+.nav-link .nav-badge { font-size: 10px; }
+.mini-status { font-size: 12px; color: #c0d2e5; }
+.eyebrow { font-size: 11px; }
+.topbar h1 { font-size: clamp(20px, 2.4vw, 25px); }
+.pill { font-size: 12px; }
+.avatar { font-size: 13px; }
+.btn { font-size: 13px; min-height: 40px; }
+.btn.sm { font-size: 12px; }
+.view-head h2 { font-size: clamp(18px, 2vw, 22px); }
+.view-head p { font-size: 14px; color: #c0d2e5; line-height: 1.7; }
+.card-title { font-size: 15px; }
+.card-sub { font-size: 14px; color: #bdcfe2; line-height: 1.7; }
+.head-right { font-size: 12px; color: #bdcfe2; }
+.hero-copy .lead { font-size: 15px; color: #e0edfa; line-height: 1.8; }
+.hero-meta span { font-size: 11px; color: #b2c9df; }
+.hero-meta strong { font-size: 13px; }
+.readout { font-size: 11px; color: #b2c9df; }
+.stat-label { font-size: 11px; color: #c0d2e5; letter-spacing: .10em; }
+.stat-value { font-size: clamp(21px, 2.4vw, 28px); }
+.stat-meta { font-size: 12px; color: #b2c9df; }
+.status-row .label { font-size: 14px; color: #e0edfa; }
+.status-row .sub { font-size: 12px; color: #b2c4d8; }
+.chip { font-size: 11px; }
+.kv { font-size: 13px; color: #cbd9e8; }
+.kv strong { color: #ffffff; }
+.kv code { font-size: 12px; }
+.field > span:first-child { font-size: 12px; color: #d0e0f0; }
+.input, select.input, textarea.input { font-size: 15px; min-height: 44px; }
+.input::placeholder { color: #a0b4cb; opacity: 1; }
+.message { font-size: 13px; line-height: 1.7; }
+.table th { font-size: 12px; color: #8beaff; }
+.table td { font-size: 13px; color: #e0edfa; }
+.table .mono { font-size: 12px; }
+.badge-role { font-size: 11px; }
+.gate p { font-size: 14px; color: #d0deed; }
 
-.brand-text small {
-  font-size: 11px;
-  color: #b2c9df;
-}
-
-/* SIDEBAR */
-.nav-group {
-  font-size: 11px;
-  color: #b0c4da;
-}
-
-.nav-link {
-  font-size: 14px;
-  min-height: 44px;
-  color: #e0edfa;
-}
-
-.nav-link .nav-badge {
-  font-size: 10px;
-}
-
-.mini-status {
-  font-size: 12px;
-  color: #c0d2e5;
-}
-
-/* TOPBAR */
-.eyebrow {
-  font-size: 11px;
-}
-
-.topbar h1 {
-  font-size: clamp(20px, 2.4vw, 25px);
-}
-
-.pill {
-  font-size: 12px;
-}
-
-.avatar {
-  font-size: 13px;
-}
-
-/* BUTTONS */
-.btn {
-  font-size: 13px;
-  min-height: 40px;
-}
-
-.btn.sm {
-  font-size: 12px;
-}
-
-/* PAGE HEADINGS */
-.view-head h2 {
-  font-size: clamp(18px, 2vw, 22px);
-}
-
-.view-head p {
-  font-size: 14px;
-  color: #c0d2e5;
-  line-height: 1.7;
-}
-
-/* CARDS */
-.card-title {
-  font-size: 15px;
-}
-
-.card-sub {
-  font-size: 14px;
-  color: #bdcfe2;
-  line-height: 1.7;
-}
-
-.head-right {
-  font-size: 12px;
-  color: #bdcfe2;
-}
-
-/* ROBOT HERO */
-.hero-copy .lead {
-  font-size: 15px;
-  color: #e0edfa;
-  line-height: 1.8;
-}
-
-.hero-meta span {
-  font-size: 11px;
-  color: #b2c9df;
-}
-
-.hero-meta strong {
-  font-size: 13px;
-}
-
-.readout {
-  font-size: 11px;
-  color: #b2c9df;
-}
-
-/* STATISTICS */
-.stat-label {
-  font-size: 11px;
-  color: #c0d2e5;
-  letter-spacing: .10em;
-}
-
-.stat-value {
-  font-size: clamp(21px, 2.4vw, 28px);
-}
-
-.stat-meta {
-  font-size: 12px;
-  color: #b2c9df;
-}
-
-/* STATUS INFORMATION */
-.status-row .label {
-  font-size: 14px;
-  color: #e0edfa;
-}
-
-.status-row .sub {
-  font-size: 12px;
-  color: #b2c4d8;
-}
-
-.chip {
-  font-size: 11px;
-}
-
-/* DETAILS */
-.kv {
-  font-size: 13px;
-  color: #cbd9e8;
-}
-
-.kv strong {
-  color: #ffffff;
-}
-
-.kv code {
-  font-size: 12px;
-}
-
-/* INPUT FIELDS */
-.field > span:first-child {
-  font-size: 12px;
-  color: #d0e0f0;
-}
-
-.input,
-select.input,
-textarea.input {
-  font-size: 15px;
-  min-height: 44px;
-}
-
-.input::placeholder {
-  color: #a0b4cb;
-  opacity: 1;
-}
-
-/* MESSAGES */
-.message {
-  font-size: 13px;
-  line-height: 1.7;
-}
-
-/* TABLES */
-.table th {
-  font-size: 12px;
-  color: #8beaff;
-}
-
-.table td {
-  font-size: 13px;
-  color: #e0edfa;
-}
-
-.table .mono {
-  font-size: 12px;
-}
-
-/* ADMIN PANEL */
-.badge-role {
-  font-size: 11px;
-}
-
-.gate p {
-  font-size: 14px;
-  color: #d0deed;
-}
-
-/* MOBILE READABILITY */
 @media (max-width: 760px) {
-  body {
-    font-size: 15px;
-  }
-
-  .nav-link {
-    font-size: 14px;
-  }
-
-  .main {
-    padding-left: 14px;
-    padding-right: 14px;
-  }
-
-  .card {
-    padding: 16px;
-  }
-
-  .hero-copy .lead,
-  .view-head p,
-  .card-sub {
-    font-size: 14px;
-  }
-
-  .stat-label {
-    font-size: 11px;
-  }
-
-  .table th,
-  .table td {
-    font-size: 12px;
-  }
-
-  .btn {
-    min-height: 44px;
-  }
+  body { font-size: 15px; }
+  .nav-link { font-size: 14px; }
+  .main { padding-left: 14px; padding-right: 14px; }
+  .card { padding: 16px; }
+  .hero-copy .lead, .view-head p, .card-sub { font-size: 14px; }
+  .stat-label { font-size: 11px; }
+  .table th, .table td { font-size: 12px; }
+  .btn { min-height: 44px; }
 }
 
-/* ACCESSIBILITY */
-:focus-visible {
-  outline: 2px solid #69eaff;
-  outline-offset: 3px;
-}
+:focus-visible { outline: 2px solid #69eaff; outline-offset: 3px; }
 
-/* REDUCE MOTION WHEN REQUESTED */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: .01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: .01ms !important;
   }
 }
-
 
 *{box-sizing:border-box}
 html,body{margin:0;min-height:100%}
@@ -337,7 +134,6 @@ a:hover{text-decoration:underline}
 .mono{font-family:var(--mono)}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 
-/* ---------- ambient background ---------- */
 .ambient{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
 .ambient .blob{position:absolute;border-radius:50%;filter:blur(80px);opacity:.5}
 .blob.b1{width:46vw;height:46vw;left:-12vw;top:-14vw;background:radial-gradient(circle,rgba(0,190,255,.55),transparent 62%);animation:drift 22s ease-in-out infinite}
@@ -349,7 +145,6 @@ a:hover{text-decoration:underline}
   background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(140,220,255,.028) 4px);
 }
 
-/* ---------- shell ---------- */
 .shell{
   position:relative;z-index:1;
   display:grid;
@@ -358,7 +153,6 @@ a:hover{text-decoration:underline}
   min-height:100dvh;
 }
 
-/* ---------- sidebar ---------- */
 .sidebar{
   position:sticky;top:0;
   display:flex;flex-direction:column;
@@ -418,7 +212,27 @@ a:hover{text-decoration:underline}
   background:linear-gradient(100deg,rgba(0,190,255,.18),rgba(120,80,255,.16));
   box-shadow:0 0 18px rgba(0,200,255,.16),inset 0 0 14px rgba(0,220,255,.08);
 }
-.nav-link.is-active .icon{color:var(--cyan)}
+  @keyframes lensPulse{0%,100%{opacity:.7;filter:drop-shadow(0 0 5px #22e8ff)}50%{opacity:1;filter:drop-shadow(0 0 16px #22e8ff)}}
+@keyframes blink{0%,100%{opacity:.45}50%{opacity:1}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
+@keyframes toastIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes bootSlide{0%{transform:translateX(-120%)}100%{transform:translateX(280%)}}
+            <div class="grid-2" style="margin-top:0">
+            <div>
+              <div class="kv"><span>Account</span><strong id="snapshotAccount">—</strong></div>
+              <div class="kv"><span>Phone number</span><strong id="snapshotPhone">Not linked</strong></div>
+              <div class="kv"><span>Session type</span><strong>Private visitor</strong></div>
+            </div>
+            <div>
+              <div class="kv"><span>Bot name</span><strong>SCANTY MD BOT</strong></div>
+              <div class="kv"><span>Dashboard</span><strong>Onyx command center</strong></div>
+              <div class="kv"><span>Connection mode</span><strong id="snapshotMode">Not selected</strong></div>
+            </div>
+          </div>
+        </section>
+      </section>
+  .nav-link.is-active .icon{color:var(--cyan)}
 .nav-link .nav-badge{
   margin-left:auto;
   padding:2px 7px;
@@ -838,7 +652,7 @@ details.audio[open] summary::before{transform:rotate(90deg)}
 
 /* ---------- animations ---------- */
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
-@keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes lensPulse{0%,100%{opacity:.62}50%{opacity:1}}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
@@ -1258,7 +1072,7 @@ details.audio[open] summary::before{transform:rotate(90deg)}
         <section class="card">
           <h2 class="card-title"><svg class="icon"><use href="#i-eye"/></svg>Session snapshot</h2>
           <div class="grid-2" style="margin-top:0">
-            <div>
+                        <div>
               <div class="kv"><span>Visitor ID</span><strong id="snapVisitor" class="mono">—</strong></div>
               <div class="kv"><span>Created</span><strong id="snapCreated">—</strong></div>
             </div>
@@ -1678,7 +1492,7 @@ details.audio[open] summary::before{transform:rotate(90deg)}
                   <span>AI personality</span>
                   <input class="input" id="adminPersonality" type="text" maxlength="40" value="friendly">
                 </label>
-                <label class="field" for="adminEmojis">
+                                <label class="field" for="adminEmojis">
                   <span>Status emojis (comma separated)</span>
                   <input class="input" id="adminEmojis" type="text" value="❤️, 🔥, 😍, 😂, 🥰, 👏, 👍, 💯, 😘">
                 </label>
@@ -2097,8 +1911,7 @@ function wireNavigation() {
       const mode = link.getAttribute('data-connect-mode');
       showView(name);
       if (mode) setMode(mode);
-    });
-  });
+        });
 
   window.addEventListener('popstate', () => {
     const name = viewFromLocation();
@@ -2518,7 +2331,7 @@ async function pollQr() {
       toast('WhatsApp is connected.', 'ok');
       setBusy(button, false);
       return;
-    }
+          }
 
     if (status === 'restore_failed' || status === 'failed' || status === 'error') {
       setMessage('qrStatus', 'WhatsApp reported a failure. Try a new QR session.', 'bad');
@@ -2759,8 +2572,7 @@ async function probeHealth(options) {
   chip('ovDbChip', dbOk ? 'Connected' : 'Unavailable', dbOk ? 'ok' : 'bad');
   chip('healthApiChip', apiOk ? 'Online' : 'Unreachable', apiOk ? 'ok' : 'bad');
   chip('healthDbChip', dbOk ? 'Connected' : 'Unavailable', dbOk ? 'ok' : 'bad');
-  chip('adminApiChip', apiOk ? 'Online' : 'Unreachable', apiOk ? 'ok' : 'bad');
-  chip('adminDbChip', dbOk ? 'Connected' : 'Unavailable', dbOk ? 'ok' : 'bad');
+  chip('adminApiChip', apiOk ? 'Online' : 'Unreachable', apiOk ? 'Connected' : 'Unreachable', apiOk ? 'ok' : 'bad');
 
   const healthChecked = node('healthChecked');
   if (healthChecked) healthChecked.textContent = 'Probed ' + new Date().toLocaleTimeString();
@@ -2937,8 +2749,7 @@ function wireAudio() {
   const pause = node('audioPause');
   const mute = node('audioMute');
   const volume = node('audioVolume');
-
-  if (play) play.addEventListener('click', playAudio);
+    if (play) play.addEventListener('click', playAudio);
 
   if (pause) {
     pause.addEventListener('click', () => {
@@ -3358,7 +3169,7 @@ async function saveAdminSettings(event) {
     autoReact: Boolean(node('adminSwAutoReact').checked),
     antiLink: Boolean(node('adminSwAntiLink').checked),
     aiChatEnabled: Boolean(node('adminSwAiChat').checked),
-    welcome: Boolean(node('adminSwWelcome').checked),
+        welcome: Boolean(node('adminSwWelcome').checked),
     goodbye: Boolean(node('adminSwGoodbye').checked)
   };
 
